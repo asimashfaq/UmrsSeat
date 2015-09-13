@@ -448,7 +448,7 @@ namespace UmarSeat.Controllers
                     st.ListPNR = new List<SelectListItem>();
                     if (string.IsNullOrEmpty(Session["branchName"].ToString()))
                     {
-                        //   Seatconfirmations = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubcription && x.newPnrNumber == null && x.pnrStatus == "Avaliable" ).OrderBy(x => x.id_SeatConfirmation).ToList();
+                        pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable").OrderBy(x => x.pnrLogId).ToList();
                     }
                     else
                     {
@@ -459,45 +459,11 @@ namespace UmarSeat.Controllers
 
                     pnrAvaliable.ForEach(pr =>
                     {
-                        st.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber, Value = pr.pnrNumber.ToString() });
+
+                        st.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber+ "("+pr.branchName+")", Value = pr.pnrNumber+","+pr.branchName });
                     });
 
-                    //List<SeatConfirmation> Seatconfirmations = new List<SeatConfirmation>();
-                    //st.ListPNR = new List<SelectListItem>();
-                    //if (string.IsNullOrEmpty(Session["branchName"].ToString()))
-                    //{
-                    //    Seatconfirmations = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubcription && x.newPnrNumber == null && x.pnrStatus != "Sold").OrderBy(x => x.id_SeatConfirmation).ToList();
-                    //}
-                    //else
-                    //{
-                    //    string sb = Session["branchName"].ToString();
-                    //    Seatconfirmations = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubcription && x.newPnrNumber == null && x.pnrStatus != "Sold" && x.recevingBranch == sb).OrderBy(x => x.id_SeatConfirmation).ToList();
-
-                    //}
-
-                    //Seatconfirmations.ForEach(x =>
-                    //{
-                    //    string sb = Session["branchName"].ToString();
-                    //    if (pnrCalculator.isPnrAvaliable(x.pnrNumber, sb, "pAvaliable", "pSold"))
-                    //        st.ListPNR.Add(new SelectListItem { Text = x.pnrNumber, Value = x.pnrNumber.ToString() });
-                    //});
-                    //if (string.IsNullOrEmpty(Session["branchName"].ToString()))
-                    //{
-                    //    Seatconfirmations = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubcription && x.newPnrNumber != null && x.pnrStatus != "Sold").OrderBy(x => x.id_SeatConfirmation).ToList();
-                    //}
-                    //else
-                    //{
-                    //    string sb = Session["branchName"].ToString();
-                    //    Seatconfirmations = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubcription && x.newPnrNumber != null && x.pnrStatus != "Sold" && x.recevingBranch == sb).OrderBy(x => x.id_SeatConfirmation).ToList();
-                    //}
-
-                    //Seatconfirmations.ForEach(x =>
-                    //{
-                    //    string sb = Session["branchName"].ToString();
-                    //    if (pnrCalculator.isPnrAvaliable(x.newPnrNumber, sb, "pAvaliable", "pSold"))
-                    //        st.ListPNR.Add(new SelectListItem { Text = x.newPnrNumber, Value = x.newPnrNumber.ToString() });
-                    //});
-
+                  
 
                     db1.Dispose();
 

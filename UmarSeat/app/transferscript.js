@@ -2,7 +2,7 @@
 function updatedata() {
 
     if ($('#entry-form').valid() == true) {
-
+        alert("Asd");
         $("#dv1").append('<div id="aaa" class="panel-default-overlay-down">\
                         <div class="col-sm-12 text-center" style="height:100%">\
                             <div class="progress-circle-indeterminate m-t-45">\
@@ -81,6 +81,7 @@ function clearall() {
     $("#gdsPnrNumber").val('');
     $("#catalystInvoiceNumber").val('');
 }
+var maxNumber = 1;
 var form = $('#entry-form').validate({ // initialize the plugin
     onkeyup: function (element) {
 
@@ -115,6 +116,12 @@ var form = $('#entry-form').validate({ // initialize the plugin
         },
         sellingPrice: {
             required: true
+        },
+        noOfSeats: {
+            min: 1,
+            max: function () {
+                return maxNumber;
+            }
         }
 
 
@@ -140,17 +147,29 @@ var form = $('#entry-form').validate({ // initialize the plugin
     errorClass: "has-error",
 
     errorPlacement: function (error, element) {
-        var elem = $(element).parent().addClass('has-error');
+        if (error[0].innerText.length > 0)
+        {
+            var elem = $(element).parent().addClass('has-error');
 
-        $('body').pgNotification({
+            $('body').pgNotification({
 
-            style: 'flip',
+                style: 'flip',
 
-            message: error[0].innerText,
-            timeout: 3000,
-            type: "danger"
-        }).show();
-    }
+                message: error[0].innerText,
+                timeout: 3000,
+                type: "danger"
+            }).show();
+        }
+        else
+        {
+            $(element).closest('.has-error').parent().removeClass('has-error').addClass('has-success');
+        }
+       
+    },
+    success: function (element) {
+        $(element).closest('.has-error').parent().removeClass('has-error').addClass('has-success');
+    },
+    
 });
 $(document).ready(function () {
 
@@ -168,7 +187,8 @@ $(document).ready(function () {
             },
             onKeyValidation: function (result) {
 
-                if (result == false && $(a).val().length < 9) {
+                if (result == false && $(a).val().length < 19) {
+                    console.log(a);
                     $('body').pgNotification({
 
                         style: 'flip',
@@ -195,6 +215,7 @@ $(document).ready(function () {
         greedy: false,
         "oncomplete": function () {
             $(this).parent().removeClass('has-error');
+            
         },
         "onincomplete": function () {
             $(this).parent().addClass('has-error');
@@ -229,7 +250,9 @@ $(document).ready(function () {
             traditional: true,
             success: function (data) {
 
+
                 if (data.length > 0) {
+                    //$("#s2id_pnrNumber,#s2id_Country,#").parent().removeClass('has-error');
                     data = JSON.parse(data);
 
                     $("#Country").select2('val', data.pnrInfo.country, true);
@@ -238,7 +261,8 @@ $(document).ready(function () {
                     $("#tb").select2('val', data.pnrInfo.recevingBranch, true);
                     $("#noOfSeats").val(data.tsa);
                     $("#cost").val(data.pnrInfo.cost);
-
+                    maxNumber = data.tsa;
+                    $('#entry-form').valid();
 
                     var chartData = [];
                     chartData.push({ "noOfSeats": data.tsa, "Type": "Seats Avaliable", });
@@ -246,25 +270,7 @@ $(document).ready(function () {
                     chartData.push({ "noOfSeats": data.tss, "Type": "Seats Sold", });
                     chartData.push({ "noOfSeats": data.tts, "Type": "Seats Transfer", });
 
-                    /*    if (data.groupsplit.length > 0)
-                        {
-                            $.each(data.groupsplit, function (index, row) {
-                                chartData.push({
-                                    "Date": moment(row.CreatedAt).format("DD/MM/YYYY"),
-                                    "noOfSeats": row.noOfSeats,
-                                    "Type": row.ptype,
-                                    "newPnrNumber": row.newPnrNumber
-                                });
-                            })
-                            
-                        }*/
-
-
-                    /*data = [{ "Date": "12/15/2015", "Value": 5165, "Rate": "1.25%", "Type": "CD1" },
-          { "Date": "05/01/2016", "Value": 2523, "Rate": "9.54%", "Type": "CD2" },
-          { "Date": "08/12/2016", "Value": 4435, "Rate": "21.25%", "Type": "CD1" },
-          { "Date": "03/11/2017", "Value": 1234, "Rate": "7.25%", "Type": "Ladder" }
-                   ];*/
+                  
                     drawchart(chartData);
                 }
 
@@ -298,5 +304,22 @@ $(document).ready(function () {
     $("#rb").select2({
         placeholder: "Select Receving Branch",
         allowClear: true
+    }).on("change", function (e) {
+        $('#entry-form').valid();
+    });
+    $("#margin").bind("change",function () {
+       var cost =$("#cost").inputmask('unmaskedvalue');
+       var margin = $(this).inputmask('unmaskedvalue');
+      // console.log(parseInt(parseInt(cost) + parseInt(margin)));
+       $("#sellingPrice").attr('value', (parseInt(parseInt(cost) + parseInt(margin))));
+       $('#entry-form').valid();
+
+    });
+    $("#sellingPrice").bind("change", function () {
+        var cost = $("#cost").inputmask('unmaskedvalue');
+        var sp = $("#sellingPrice").inputmask('unmaskedvalue');
+        $("#margin").attr('value', parseInt(sp) - parseInt(cost));
+        $('#entry-form').valid();
+
     });
 });

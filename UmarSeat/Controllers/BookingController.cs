@@ -621,52 +621,46 @@ namespace UmarSeat.Controllers
         {
             if(!String.IsNullOrEmpty(pnr))
             {
+
                 int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+                string br = Session["branchName"].ToString();
+                if(pnr.Contains(','))
+                {
+                    string[] pnrbr = pnr.Split(',');
+                    pnr = pnrbr[0];
+                    br = pnrbr[1];
+                }
+
 
                 SeatConfirmation st = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null).FirstOrDefault();
                 if(st == null)
                 {
-                    st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
-                   
-                  
+                    st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();  
                 }
                 st.ptype = "Avalible Stock";
-                
-                string br = Session["branchName"].ToString();
-                if(!string.IsNullOrEmpty(br))
-                {
-                    Dictionary<string, object> pnrdata = new Dictionary<string, object>();
-                    pnrdata.Add("pnrInfo", st);
-                   
-                    pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == pnr && x.branchName == br).SingleOrDefault();
-                    if(pl != null)
-                    {
-                      
-                        pnrdata.Add("tst", pl.totalSeats);
-                        pnrdata.Add("tgs", pl.groupSplit);
-                        pnrdata.Add("tss", pl.sellSeats);
-                        pnrdata.Add("tts", pl.transferSeats - pl.receiveSeats);
-                        pnrdata.Add("tsa", pl.avaliableSeats);
-                    }
-                    
-                   
-                    return JsonConvert.SerializeObject(pnrdata);
+                Dictionary<string, object> pnrdata = getPnrStats(pnr, br);
+                pnrdata.Add("pnrInfo", st);
+                return JsonConvert.SerializeObject(pnrdata);
 
-                }
-                else
-                {
-                 
-
-
-
-
-                   
-                }
-
-
-              
             }
             return "";
+        }
+
+        private Dictionary<string, object> getPnrStats(string pnr, string br)
+        {
+            Dictionary<string, object> pnrdata = new Dictionary<string, object>();
+
+            pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == pnr && x.branchName == br).SingleOrDefault();
+            if (pl != null)
+            {
+
+                pnrdata.Add("tst", pl.totalSeats);
+                pnrdata.Add("tgs", pl.groupSplit);
+                pnrdata.Add("tss", pl.sellSeats);
+                pnrdata.Add("tts", pl.transferSeats - pl.receiveSeats);
+                pnrdata.Add("tsa", pl.avaliableSeats);
+            }
+            return pnrdata;
         }
 
         // POST: /Booking/Create

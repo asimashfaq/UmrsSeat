@@ -57,9 +57,21 @@
                 @Html.ValidationSummary(true)
             </div>
 
+              <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group  form-group-default form-group-default-select2 ">
+                                @Html.LabelFor(model => model.pnrNumber)
+                                @Html.DropDownListFor(model => model.pnrNumber, Model.ListPNR, "", new { @class = "full-width", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.pnrNumber)
 
+
+                            </div>
+
+                        </div>
+
+                    </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <div class="form-group  form-group-default form-group-default-select2 ">
                         @Html.LabelFor(model => model.country)
                         @{
@@ -78,13 +90,7 @@
                     </div>
 
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group form-group-default">
-                        @Html.LabelFor(model => model.pnrNumber)
-                        @Html.TextBoxFor(model => model.pnrNumber, new { @class = "form-control", @disabled="disabled" })
-                        @Html.ValidationMessageFor(model => model.pnrNumber)
-                    </div>
-                </div>
+               
             </div>
 
             <div class="row">
@@ -102,12 +108,12 @@
             <div class="row">
 
                 <div class="col-sm-12">
-                    <div class="form-group  form-group-default form-group-default-select2" id="st">
+                    <div class="form-group  form-group-default form-group-default-select2" >
                         @Html.LabelFor(model => model.stockId)
-                        <div id="stocks" class="form-group-default form-group-default-select2" style="padding:0px ; margin:0px">
-                            @Html.DropDownListFor(x => x.stockId, new List<SelectListItem>(), "Choose Stock", new { @id = "stockId", @class = "full-width" })
+                       
+                            @Html.DropDownListFor(x => x.stockId,Model.ListStockId, "", new { @id = "stockId", @class = "full-width" })
                             @Html.ValidationMessageFor(model => model.stockId)
-                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -206,7 +212,7 @@
 
 
             <div class="row">
-                <button type="button" onclick="updatedata()" class="btn btn-primary"><i class="pg-plus"></i> Add Seat Transfer Module</button>
+                <button type="button" onclick="updatedata()" class="btn btn-primary"><i class="pg-plus"></i> Update Seat Transfer Module</button>
                 <button class="btn btn-default" onclick="clearall()"><i class="pg-close"></i> Clear</button>
             </div>
         }
@@ -216,47 +222,19 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+   <script src="~/Scripts/jquery.inputmask/jquery.inputmask.bundle.js"></script>
+
     <script src="~/Content/assets/plugins/jquery-autonumeric/autoNumeric.js" type="text/javascript"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/additional-methods.js"></script>
     <script src="~/Content/assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
 
     <script src="~/app/transferscript.js"></script>
+<script src="~/app/pnrchart.js"></script>
     <script>
         $(document).ready(function () {
-            $.ajax({
-                type: "post",
-                url: "/Branches/GetCities",
-                data: { countryId: $('#Country').val() },
-                datatype: "json",
-                traditional: true,
-                success: function (data) {
-                    $("#s2id_Country").parent().removeClass('has-error');
-                    var city = "<select id='stockId' name='stockId'>";
-
-                    for (var i = 0; i < data.length; i++) {
-                        data[i].Value = data[i].Value.replace(/\s/g, '');
-                        if (data[i].Value == '@(Model.stockId)') {
-                            city = city + '<option selected="selected" value=' + data[i].Value + '>' + data[i].Text + '</option>';
-                        }
-                        else {
-                            city = city + '<option  value=' + data[i].Value + '>' + data[i].Text + '</option>';
-                        }
-
-
-                    }
-                    city = city + '</select>';
-                    $("#st").show();
-                    $('#stocks').html(city);
-
-                    $("#stockId").select2({
-                        placeholder: "Select a City",
-                        allowClear: true
-                    });
-                    $("#dv1").html('');
-                    $("#entry-form").css('visibility', 'visible')
-                }
-            });
+           
+            $("#dv1").html('');
+            $("#entry-form").css('visibility', 'visible')
         });
     </script>
 }
