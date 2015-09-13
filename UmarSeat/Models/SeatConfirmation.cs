@@ -69,7 +69,9 @@ namespace UmarSeat.Models
         public int avaliableSeats { get; set; }
         public string pnrStatus { get; set; }
         public string pnrStatus1 { get; set; }
-
+        [Timestamp]
+        [ConcurrencyCheck]
+        public byte[] RowVersion { get; set; }
         public bool Locked { get; set; }
 
 

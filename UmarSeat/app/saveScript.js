@@ -533,7 +533,13 @@ function sellingsavedata() {
         playload["country"] = $("#Country").val();
         playload["stockId"] = $("#stockId").val();
         playload["idAgent"] = $("#agentId").val();
-        playload["sellingBranch"] = $("#sb").val();
+        if ($("#sellingBranch").val() != undefined) {
+            playload["sellingBranch"] = $("#sellingBranch").val();
+        }
+        else {
+            playload["sellingBranch"] = $("#sb").val();
+        }
+      
         playload["noOfSeats"] = $("#noOfSeats").val();
 
         playload["cost"] = $("#cost").inputmask('unmaskedvalue');

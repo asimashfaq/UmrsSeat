@@ -573,22 +573,32 @@ namespace UmarSeat.Controllers
                 tasks.Add(Task.Factory.StartNew(() =>
                 {
                     ApplicationDbContext db1 = new ApplicationDbContext();
+
                     List<pnrLog> pnrAvaliable = new List<pnrLog>();
                     st.ListPNR = new List<SelectListItem>();
                     if (string.IsNullOrEmpty(Session["branchName"].ToString()))
                     {
-                        //   Seatconfirmations = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubcription && x.newPnrNumber == null && x.pnrStatus == "Avaliable" ).OrderBy(x => x.id_SeatConfirmation).ToList();
+                        pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable").OrderBy(x => x.pnrLogId).ToList();
+                        pnrAvaliable.ForEach(pr =>
+                        {
+
+                            
+                            st.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber + "(" + pr.branchName + ")", Value = pr.pnrNumber + "," + pr.branchName });
+                        });
                     }
                     else
                     {
                         string sb = Session["branchName"].ToString();
                         pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable" && x.branchName == sb).OrderBy(x => x.pnrLogId).ToList();
+                        pnrAvaliable.ForEach(pr =>
+                        {
+
+                            st.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber, Value = pr.pnrNumber });
+                        });
 
                     }
-                    pnrAvaliable.ForEach(pr =>
-                    {
-                        st.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber, Value = pr.pnrNumber.ToString() });
-                    });
+
+                 
 
 
                     db1.Dispose();
@@ -663,21 +673,24 @@ namespace UmarSeat.Controllers
                     if (string.IsNullOrEmpty(Session["branchName"].ToString()))
                     {
                         pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable").OrderBy(x => x.pnrLogId).ToList();
+                        pnrAvaliable.ForEach(pr =>
+                        {
+
+                            st.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber + "(" + pr.branchName + ")", Value = pr.pnrNumber + "," + pr.branchName });
+                        });
                     }
                     else
                     {
                         string sb = Session["branchName"].ToString();
                         pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable" && x.branchName == sb).OrderBy(x => x.pnrLogId).ToList();
+                        pnrAvaliable.ForEach(pr =>
+                        {
+                            st.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber, Value = pr.pnrNumber });
+                            
+                        });
 
                     }
 
-                    pnrAvaliable.ForEach(pr =>
-                    {
-
-                        st.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber+ "("+pr.branchName+")", Value = pr.pnrNumber+","+pr.branchName });
-                    });
-
-                  
 
                     db1.Dispose();
 
@@ -855,18 +868,17 @@ namespace UmarSeat.Controllers
                     {
                         errors.Add(new ResponseRequest() { isSuccess = false, Element = "stockId", ErrorMessage = "StockId Cannot be null " });
                     }
-
-
-
-
-                    if (errors.Count == 0)
+                    pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.transferingBranch).SingleOrDefault();
+                    if(pl1.avaliableSeats >= stocktransfer.noOfSeats)
                     {
-                        int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-                       
+                        if (errors.Count == 0)
+                        {
+                            int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+
                             stocktransfer.createAt = DateTime.Now;
                             stocktransfer.id_Subscription = idSubcription;
                             stocktransfer.UpdateAt = DateTime.Now;
-                            using(TransactionScope ts = new TransactionScope())
+                            using (TransactionScope ts = new TransactionScope())
                             {
 
                                 db.StockTransfer.Add(stocktransfer);
@@ -875,20 +887,70 @@ namespace UmarSeat.Controllers
                                 pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.recevingBranch).SingleOrDefault();
                                 if (pl != null)
                                 {
-                                    pl.pnrStatus = "Avaliable";
-                                    pl.pnrLock = "";
-                                    db.Entry(pl).OriginalValues["RowVersion"] = pl.RowVersion;
-                                    db.SaveChanges();
+                                   
                                 }
+                                else
+                                {
+                                    pl = new pnrLog();
+                                    pl.pnrStatus = "Avaliable";
+                                    pl.branchName = stocktransfer.recevingBranch;
+                                    pl.pnrNumber = stocktransfer.pnrNumber;
+                                    pl.idSubscription = stocktransfer.id_Subscription;
+                                    pl.pnrLock = "";
+                                    pl.avaliableSeats = pl.receiveSeats = stocktransfer.noOfSeats;
+                                    db.pnrLogs.Add(pl);
+                                    db.SaveChanges();
+
+                                }
+                                if ((pl1.avaliableSeats - stocktransfer.noOfSeats) == 0)
+                                {
+
+                                    pl = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.transferingBranch).SingleOrDefault();
+                                    if (pl != null)
+                                    {
+                                        pl.pnrStatus = "Avaliable";
+                                        if ((pl1.avaliableSeats - stocktransfer.noOfSeats) == 0)
+                                        {
+                                            pl.pnrStatus = "Sold";
+                                            pl.avaliableSeats = 0;
+                                            pl.transferSeats = pl.transferSeats + stocktransfer.noOfSeats;
+                                        }
+
+                                        pl.pnrLock = "";
+                                        db.Entry(pl).OriginalValues["RowVersion"] = pl.RowVersion;
+                                        db.SaveChanges();
+                                    }
+
+                                    var st = db.SeatConfirmation.Where(x => (x.pnrNumber == stocktransfer.pnrNumber ||
+                                    x.newPnrNumber == stocktransfer.pnrNumber) && x.recevingBranch == stocktransfer.transferingBranch).SingleOrDefault();
+                                    if(st != null)
+                                    {
+                                       st.pnrStatus1 = st.pnrStatus = "Sold";
+                                       db.Entry(st).OriginalValues["RowVersion"] = st.RowVersion;
+                                       db.SaveChanges();
+                                    }
+                                }
+
+
+
                                 rr.isSuccess = true;
                                 rr.Message = "Insert Successfully";
                                 errors.Add(rr);
                                 ts.Complete();
                             }
-                       
 
 
+
+                        }
                     }
+                    else
+                    {
+                        errors.Add(new ResponseRequest() { isSuccess = false, Element = "noOfSeats", ErrorMessage = "# of seats greater than # of seats avaliable" });
+                    }
+
+
+
+                  
                 }
                 catch (Exception ex)
                 {
@@ -999,18 +1061,24 @@ namespace UmarSeat.Controllers
                     stocktransfer.ListPNR = new List<SelectListItem>();
                     if (string.IsNullOrEmpty(Session["branchName"].ToString()))
                     {
-                        //   Seatconfirmations = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubcription && x.newPnrNumber == null && x.pnrStatus == "Avaliable" ).OrderBy(x => x.id_SeatConfirmation).ToList();
+                        pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable").OrderBy(x => x.pnrLogId).ToList();
+                        pnrAvaliable.ForEach(pr =>
+                        {
+
+                            stocktransfer.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber, Value = pr.pnrNumber });
+                        });
                     }
                     else
                     {
                         string sb = Session["branchName"].ToString();
                         pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable" && x.branchName == sb).OrderBy(x => x.pnrLogId).ToList();
+                        pnrAvaliable.ForEach(pr =>
+                        {
+
+                            stocktransfer.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber + "(" + pr.branchName + ")", Value = pr.pnrNumber + "," + pr.branchName });
+                        });
 
                     }
-                    pnrAvaliable.ForEach(pr =>
-                    {
-                        stocktransfer.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber, Value = pr.pnrNumber.ToString() });
-                    });
 
                 }));
                 Task.WaitAll(tasks.ToArray());
