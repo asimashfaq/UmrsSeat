@@ -1,0 +1,186 @@
+﻿@model IEnumerable<UmarSeat.Models.SeatConfirmation>
+
+
+<div class="table-responsive">
+    <table class="table table-hover table-condensed  table-detailed" id="detailedTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.pnrNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.newPnrNumber)
+                </th>
+
+             
+                <th>
+                    @Html.DisplayNameFor(model => model.stockId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.outBoundDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.inBoundDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.outBoundSector)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.inBoundSector)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.noOfSeats)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.cost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.recevingBranch)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.emdNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.timeLimit)
+                </th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="@Html.Raw(item.pnrNumber)">
+                    
+                  
+                  
+                    <td bdv="pnrnumber">
+                        @Html.DisplayFor(modelItem => item.pnrNumber)
+                    </td>
+                    <td bdv="newpnrnumber">
+                        @Html.DisplayFor(modelItem => item.newPnrNumber)
+                    </td>
+                   
+                    <td bdv="stockId">
+                        @Html.DisplayFor(modelItem => item.stockId)
+                    </td>
+                    <td bdv="outbounddate">
+                        @String.Format("{0:MM-dd-yyyy}", item.outBoundDate)
+                    </td>
+                    <td bdv="inbounddate">
+                        @String.Format("{0:MM-dd-yyyy}", item.inBoundDate)
+                    </td>
+                    <td bdv="outboundsector">
+                        @Html.DisplayFor(modelItem => item.outBoundSector)
+                    </td>
+                    <td bdv="inboundsector">
+                        @Html.DisplayFor(modelItem => item.inBoundSector)
+                    </td>
+                    <td bdv="noofseats">
+                        @Html.DisplayFor(modelItem => item.noOfSeats)
+                    </td>
+                    <td bdv="cost">
+                        @Html.DisplayFor(modelItem => item.cost)
+
+                    </td>
+                    <td bdv="category">
+                        @Html.DisplayFor(modelItem => item.category)
+                    </td>
+                    <td bdv="recevingbranch">
+                        @Html.DisplayFor(modelItem => item.recevingBranch)
+                    </td>
+                    <td bdv="emdnumber">
+                        @Html.DisplayFor(modelItem => item.emdNumber)
+                    </td>
+                    <td bdv="timelimit">
+                        @Html.DisplayFor(modelItem => item.timeLimit)
+                    </td>
+                    <td class="action">
+                        <a key="@Html.Raw(item.pnrNumber)" href="/booking/groupsplitedit/@Html.Raw(item.id_SeatConfirmation)" class=" editbtn btn btn-complete">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a id="showLink" href="/booking/groupsplitdelete/@Html.Raw(item.id_SeatConfirmation)" class="btn btn-danger" data-toggle="modal" data-target="#modalSlideUp">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                        <p style="display:none" class="btn btn-danger">Locked</p>
+
+
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+<div class="dataTables_wrapper form-inline no-footer">
+    <div class="row">
+        <div class="dataTables_paginate paging_bootstrap pagination" id="table_paginate">
+            <ul>
+
+
+                @{
+                    if (1 == int.Parse(ViewBag.current.ToString()))
+                    {
+                        <li class="prev disabled"><a href="/booking/ngetseats?length=@Html.Raw(ViewBag.length)&pagenum=1"><i class="pg-arrow_left"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="prev"><a href="/booking/ngetseats?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(ViewBag.prev)"><i class="pg-arrow_left"></i></a></li>
+                    }
+                    int pages = int.Parse(ViewBag.pages.ToString());
+                    int st = 1;
+                    while (st <= pages)
+                    {
+                        if (st == int.Parse(ViewBag.current.ToString()))
+                        {
+                            <li class="active"><a href="/booking/ngetseats?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(st)">@Html.Raw(st)</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="/booking/ngetseats?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(st)">@Html.Raw(st)</a></li>
+                        }
+
+                        st++;
+                    }
+                    if (pages == int.Parse(ViewBag.current.ToString()))
+                    {
+                        <li class="next disabled"><a href="/booking/ngetseats?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(pages)"><i class="pg-arrow_right"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="next"><a href="/booking/ngetseats?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(ViewBag.next)"><i class="pg-arrow_right"></i></a></li>
+                    }
+
+                }
+
+
+            </ul>
+        </div>
+        <div class="dataTables_info" id="tableWithSearch_info" role="status" aria-live="polite">
+            Showing <b>@Html.Raw(ViewBag.start) to @Html.Raw(ViewBag.end)</b> of @Html.Raw(ViewBag.total) entries
+        </div>
+    </div>
+</div>
+
+<div class="modal fade slide-up disable-scroll" id="modalSlideUp" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="pg-close fs-14"></i>
+                    </button>
+                    <h5>Heading <span class="semi-bold">here</span></h5>
+                </div>
+                <div class="modal-body" id="mc">
+                    Add Your Content here
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

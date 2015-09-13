@@ -1,0 +1,262 @@
+﻿@model UmarSeat.Models.StockTransfer
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<style>
+    select {
+        border: 0px !important;
+    }
+
+    .select2-container {
+        width: 100%;
+    }
+
+    .bootstrap-datetimepicker-widget, .datepicker {
+        z-index: 9999 !important;
+    }
+</style>
+<link media="screen" type="text/css" rel="stylesheet" href="~/Content/assets/plugins/bootstrap-datepicker/css/datepicker3.css">
+<link href="~/Content/overlay-bootstrap.css" rel="stylesheet" />
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h3> Edit Stock Transfer @Html.Raw(Model.pnrNumber)</h3>
+        </div>
+        <div class="pull-right">
+
+
+ 
+
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <div id="dv1">
+            <div id="aaa" class="panel-default-overlay-down">
+
+                <div class="col-sm-12 text-center" style="height:100%">
+
+                    <div class="progress-circle-indeterminate m-t-45">
+
+                    </div>
+                    <br>
+                    <p class="small hint-text">Loading data</p>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm("transferedit", "stock", FormMethod.Post, htmlAttributes: new { id = "entry-form", style = "visibility:hidden" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true)
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group  form-group-default form-group-default-select2 ">
+                        @Html.LabelFor(model => model.country)
+                        @{
+            RouteValueDictionary RouteValues = new RouteValueDictionary();
+
+
+            RouteValues["class"] = "full-width";
+            RouteValues["data-init-plugin"] = "select2";
+            RouteValues["id"] = "Country";
+
+                        }
+
+                        @Html.DropDownListFor(x => x.country, Model.ListCountry, "Choose Country", RouteValues)
+                        @Html.ValidationMessageFor(model => model.country)
+
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(model => model.pnrNumber)
+                        @Html.TextBoxFor(model => model.pnrNumber, new { @class = "form-control", @disabled="disabled" })
+                        @Html.ValidationMessageFor(model => model.pnrNumber)
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group  form-group-default form-group-default-select2 ">
+                        @Html.LabelFor(model => model.airLine)
+                        @Html.DropDownListFor(model => model.airLine, Model.ListAirline, new { @id = "airlineId", @class = "full-width" })
+                        @Html.ValidationMessageFor(model => model.airLine)
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <div class="form-group  form-group-default form-group-default-select2" id="st">
+                        @Html.LabelFor(model => model.stockId)
+                        <div id="stocks" class="form-group-default form-group-default-select2" style="padding:0px ; margin:0px">
+                            @Html.DropDownListFor(x => x.stockId, new List<SelectListItem>(), "Choose Stock", new { @id = "stockId", @class = "full-width" })
+                            @Html.ValidationMessageFor(model => model.stockId)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="form-group  form-group-default form-group-default-select2 ">
+                        @Html.LabelFor(model => model.transferingBranch)
+                        @Html.DropDownListFor(model => model.transferingBranch, Model.ListBranches, "Select Transfering Branch", new { @id = "tb", @class = "full-width" })
+                        @Html.ValidationMessageFor(model => model.transferingBranch)
+
+
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group  form-group-default form-group-default-select2 ">
+                        @Html.LabelFor(model => model.recevingBranch)
+                        @Html.DropDownListFor(model => model.recevingBranch, Model.ListBranches, "Select Receving Branch", new { @id = "rb", @class = "full-width" })
+                        @Html.ValidationMessageFor(model => model.recevingBranch)
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(model => model.cost)
+                        @{
+            RouteValues = new RouteValueDictionary();
+
+
+            RouteValues["class"] = "form-control";
+
+            RouteValues["id"] = "cost";
+          
+            RouteValues["data-inputmask"] = "'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'prefix': 'Rs ', 'placeholder': '0',  'clearMaskOnLostFocus': true";
+            RouteValues["data-inputmask-repeat"] = "10";
+
+                        }
+                        @Html.TextBoxFor(model => model.cost, RouteValues)
+                        @Html.ValidationMessageFor(model => model.cost)
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group  form-group-default ">
+                        @Html.LabelFor(model => model.margin)
+                        @{
+            RouteValues = new RouteValueDictionary();
+
+
+            RouteValues["class"] = "form-control";
+
+            RouteValues["id"] = "margin";
+          
+            RouteValues["data-inputmask"] = "'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'prefix': 'Rs ', 'placeholder': '0',  'clearMaskOnLostFocus': true";
+            RouteValues["data-inputmask-repeat"] = "10";
+
+                        }
+                        @Html.TextBoxFor(model => model.margin, RouteValues)
+                        @Html.ValidationMessageFor(model => model.margin)
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(model => model.sellingPrice)
+                        @{
+            RouteValues = new RouteValueDictionary();
+
+
+            RouteValues["class"] = "form-control";
+
+            RouteValues["id"] = "sellingPrice";
+        
+            RouteValues["data-inputmask"] = "'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'prefix': 'Rs ', 'placeholder': '0',  'clearMaskOnLostFocus': true";
+            RouteValues["data-inputmask-repeat"] = "10";
+
+                        }
+                        @Html.TextBoxFor(model => model.sellingPrice, RouteValues)
+                        @Html.ValidationMessageFor(model => model.sellingPrice)
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <button type="button" onclick="updatedata()" class="btn btn-primary"><i class="pg-plus"></i> Add Seat Transfer Module</button>
+                <button class="btn btn-default" onclick="clearall()"><i class="pg-close"></i> Clear</button>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+    <script src="~/Content/assets/plugins/jquery-autonumeric/autoNumeric.js" type="text/javascript"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/additional-methods.js"></script>
+    <script src="~/Content/assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
+
+    <script src="~/app/transferscript.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "post",
+                url: "/Branches/GetCities",
+                data: { countryId: $('#Country').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $("#s2id_Country").parent().removeClass('has-error');
+                    var city = "<select id='stockId' name='stockId'>";
+
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].Value = data[i].Value.replace(/\s/g, '');
+                        if (data[i].Value == '@(Model.stockId)') {
+                            city = city + '<option selected="selected" value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        else {
+                            city = city + '<option  value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+
+
+                    }
+                    city = city + '</select>';
+                    $("#st").show();
+                    $('#stocks').html(city);
+
+                    $("#stockId").select2({
+                        placeholder: "Select a City",
+                        allowClear: true
+                    });
+                    $("#dv1").html('');
+                    $("#entry-form").css('visibility', 'visible')
+                }
+            });
+        });
+    </script>
+}

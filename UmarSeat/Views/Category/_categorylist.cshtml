@@ -1,0 +1,76 @@
+﻿@using UmarSeat.Helpers;
+@model IEnumerable<UmarSeat.Models.Category>
+
+<div class="table-responsive">
+
+    <table class="table table-hover   table-detailed" id="detailedTable">
+
+
+        <thead>
+            
+            <tr>
+
+
+                <th>
+                    <div class="wp">
+                        @Html.DisplayNameFor(model => model.categoryName)
+                    </div>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+
+
+                    <td>
+                        <div class="wp">@Html.DisplayFor(modelItem => item.categoryName)</div>
+                    </td>
+                    <td>
+                        <a key="@Html.Raw(item.id_Category)" href="/category/edit/@Html.Raw(item.id_Category)" class=" editbtn btn btn-complete" data-toggle="modal" data-target="#mCategory">
+                            <i class="fa fa-edit"></i> Edit
+                        </a>
+                        @Ajax.RawActionLink(string.Format("<i class=\"fa fa-remove\" ></i> Delete"), "Delete", null, new { id = item.id_Category },
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    OnSuccess = "onSuccess",
+                                    Confirm = "Are you sure you want to Delete this category?",
+                                  
+                                    OnFailure = "onFail"
+                                },
+                                  new { @class = "btn btn-danger", id = "cnfrmDelete" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
+</div>
+
+
+
+
+<div data-refresh="true" class="modal fade slide-up disable-scroll" id="mCategory" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="pg-close fs-14"></i>
+                    </button>
+                    <h5>Please wait <span class="semi-bold">...</span></h5>
+                </div>
+                <div class="modal-body" id="mc">
+                    Loading Content
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

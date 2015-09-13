@@ -1,0 +1,47 @@
+﻿@model IEnumerable<UmarSeat.Models.SeatConfirmation>
+<div class="table-responsive">
+    <table class="table table-hover  table-detailed timet" >
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.pnrNumber)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.airLine)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.stockId)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="@Html.Raw(item.pnrNumber)">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.pnrNumber)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.airLine)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.stockId)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

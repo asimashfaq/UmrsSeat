@@ -1,0 +1,127 @@
+﻿@model UmarSeat.Models.UserRoles
+
+
+@{
+    ViewBag.Title = "Create";
+}
+<div class="p-r-30">
+    <h3>Update Roles</h3>
+    <br>
+   
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+
+        @Html.ValidationSummary(true)
+
+        <div class="form-group form-group-default ">
+            @Html.HiddenFor(x=> x.id_UserRroles)
+            @Html.HiddenFor(x=> x.userRolesName)
+
+
+            @Html.LabelFor(model => model.userRolesType)
+            @Html.TextBoxFor(model => model.userRolesType, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.userRolesType)
+        </div>
+        <div class="row">
+            <div class="form-group">
+                @{
+    List<Dictionary<string, string>> roles = ViewBag.roles;
+
+    foreach (Dictionary<string, string> role in roles)
+    {
+        if (role.Count == 4)
+        {
+            string name = role["Create"];
+            string aa = "" + (name.Substring(6, name.Length - 6));
+            <div class="col-sm-3 ">
+                <label>Manage @Html.Raw(aa)</label>
+                <br />
+                <input type="button" id="@Html.Raw(aa.Trim())" value="Grant Access" class="mm btn btn-default" />
+                <span class="checkbox check-primary checkbox-circle">
+                    <input type="checkbox" class="@Html.Raw(aa.Trim()) rf" name="rp" value="@Html.Raw(role["Create"])" id="@Html.Raw(role["Create"].Trim())">
+                    <label for="@Html.Raw(role["Create"].Trim())">@Html.Raw(role["Create"])</label>
+                </span>
+                <span class="checkbox check-primary checkbox-circle">
+                    <input type="checkbox" class="@Html.Raw(aa.Trim()) rf" name="rp" value="@Html.Raw(role["Read"])" id="@Html.Raw(role["Read"].Trim())">
+                    <label for="@Html.Raw(role["Read"].Trim())">@Html.Raw(role["Read"])</label>
+                </span>
+                <span class="checkbox check-primary checkbox-circle">
+                    <input type="checkbox" class="@Html.Raw(aa.Trim()) rf" name="rp" value="@Html.Raw(role["Update"])" id="@Html.Raw(role["Update"].Trim())">
+                    <label for="@Html.Raw(role["Update"].Trim())">@Html.Raw(role["Update"])</label>
+                </span>
+                <span class="checkbox check-primary checkbox-circle">
+                    <input type="checkbox" class="@Html.Raw(aa.Trim()) rf" name="rp" value="@Html.Raw(role["Delete"])" id="@Html.Raw(role["Delete"].Trim())">
+                    <label for="@Html.Raw(role["Delete"].Trim())">@Html.Raw(role["Delete"])</label>
+                </span>
+
+
+            </div>
+        }
+
+    }
+
+
+                }
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" name="checkAll" value="Check ALL" id="ca" class="btn btn-default" />
+                <input type="button" name="uncheckAll" value="Uncheck ALL" id="ua" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#ca").click(function () {
+
+                $(".rf").prop('checked', true);
+            });
+            $("#ua").click(function () {
+                $(".rf").prop('checked', false);
+            });
+            $(".mm").click(function () {
+
+                if ($(this).val() != "Remove Permission") {
+                    $("." + $(this).prop('id')).prop('checked', true);
+                    $(this).val("Remove Permission");
+                }
+                else {
+
+                    $("." + $(this).prop('id')).prop('checked', false);
+                    $(this).val("Manage " + $(this).prop('id'));
+                }
+
+            });
+            var aa = '@Model.userRolesName';
+            var roles = aa.split(',');
+            
+            for(var i = 0; i< roles.length; i++)
+            {
+               
+                $("#" + roles[i]).prop('checked', true);
+            }
+        })
+    </script>
+}

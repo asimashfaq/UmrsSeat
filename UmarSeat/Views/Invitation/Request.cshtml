@@ -1,0 +1,182 @@
+﻿@model UmarSeat.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title>Register</title>
+
+    <link href="~/Content/assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css" media="screen" />
+
+    <link href="~/Content/assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="~/Content/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+    <link class="main-stylesheet" href="~/Content/pages/css/pages.css" rel="stylesheet" type="text/css" />
+    <!--[if lte IE 9]>
+        <link href="pages/css/ie9.css" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <script type="text/javascript">
+        window.onload = function () {
+            // fix for windows 8
+            if (navigator.appVersion.indexOf("Windows NT 6.2") != -1)
+                document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="~/Content/pages/css/windows.chrome.fix.css" />'
+        }
+    </script>
+</head>
+<body class="fixed-header   ">
+    <div class="register-container full-height sm-p-t-30">
+        <div class="container-sm-height full-height">
+            <div class="row row-sm-height">
+                <div class="col-sm-12 col-sm-height col-middle">
+                    <img src="/content/assets/img/logo.png" alt="logo" data-src="/content/assets/img/logo.png" data-src-retina="/content/assets/img/logo_2x.png" width="78" height="22">
+                    <h3>Pages makes it easy to enjoy what matters the most in your life</h3>
+                    <p>
+                        <small>
+                            Create a pages account. If you have a facebook account, log into it for this process. Sign in with <a href="#" class="text-info">Facebook</a> or <a href="#" class="text-info">Google</a>
+                        </small>
+                    </p>
+                    <div>
+                        @{
+                            string show = "visible";
+                        }
+                        @if ((bool)ViewBag.display == true)
+                        {
+                            if ((bool)ViewBag.success == true)
+                            {
+                                show = "hidden";
+                            <div class="alert alert-success" role="alert"><button class="close" data-dismiss="alert"></button><strong>Success: </strong> @Html.Raw(ViewBag.message.ToString())</div>
+                        }
+                            else if ((bool)ViewBag.success == false)
+                            {
+                                show = "visible";
+                            <div class="alert alert-danger" role="alert"><button class="close" data-dismiss="alert"></button><strong>Failed: </strong> @Html.Raw(ViewBag.message.ToString())</div> 
+                        }
+                        }
+                    </div>
+                    @using (Html.BeginForm("Request", "Invitation", routeValues: new { id = Model.idSubscription }, method:FormMethod.Post,htmlAttributes: new { @class = "form", role = "form", id = "form-register", style="visibility:"+@Html.Raw(show)+"" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary()
+                           @Html.HiddenFor(x=> x.idSubscription  ,Model.idSubscription)
+                        <div class="row">
+                         
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default">
+                                    @Html.LabelFor(m => m.PersonInfo.firstName)
+
+                                    @Html.TextBoxFor(m => m.PersonInfo.firstName, new { @class = "form-control" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default">
+                                    @Html.LabelFor(m => m.PersonInfo.lastName)
+
+                                    @Html.TextBoxFor(m => m.PersonInfo.lastName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default">
+                                    @Html.LabelFor(m => m.PersonInfo.email)
+
+                                    @Html.TextBoxFor(m => m.PersonInfo.email, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default">
+                                    @Html.LabelFor(m => m.UserName)
+
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default">
+                                    @Html.LabelFor(m => m.Password)
+
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default">
+                                    @Html.LabelFor(m => m.ConfirmPassword)
+
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default">
+                                    @Html.LabelFor(m => m.PersonInfo.mobileNumber)
+
+                                    @Html.TextBoxFor(m => m.PersonInfo.mobileNumber, new { @class = "form-control" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-t-10">
+                            <div class="col-md-6">
+                                <p>I agree to the <a href="#" class="text-info small">Pages Terms</a> and <a href="#" class="text-info small">Privacy</a>.</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <a href="#" class="text-info small">Help? Contact Support</a>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-cons m-t-10" type="submit">Create a new account</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+     
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+    <script src="~/Content/assets/plugins/jquery-autonumeric/autoNumeric.js" type="text/javascript"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/additional-methods.js"></script>
+    <script src="~/Scripts/jquery.inputmask/jquery.inputmask.phone.extensions.js"></script>
+        <!-- END VENDOR JS -->
+        <!-- BEGIN CORE TEMPLATE JS -->
+        <script src="~/Content/pages/js/pages.min.js"></script>
+        <!-- END CORE TEMPLATE JS -->
+        <!-- BEGIN PAGE LEVEL JS -->
+        <script src="~/Content/assets/js/scripts.js" type="text/javascript"></script>
+        <!-- END PAGE LEVEL JS -->
+    <script src="~/app/invitationscript.js"></script>
+        <script>
+            $(function () {
+                $('#form-register').validate()
+            })
+        </script>
+    
+
+
+
+</body>
+</html>

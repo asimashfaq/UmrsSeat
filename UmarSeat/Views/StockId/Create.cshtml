@@ -1,0 +1,77 @@
+﻿@model UmarSeat.Models.Stock
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<link href="~/Content/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen" />
+<link class="main-stylesheet" href="~/Content/pages/css/pages.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+
+<div class="panel panel-transparent">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h3> Add new Stock Id</h3>
+        </div>
+        <div class="pull-right">
+            <button data-dismiss="modal" type="button" class="btn btn-rounded btn-danger" onclick="clearall()"><i class="pg-close"></i> </button>
+
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="panel-body">
+        <div id="dv2">
+            <div id="aaa" class="panel-default-overlay-down">
+
+                <div class="col-sm-12 text-center" style="height:100%">
+
+                    <div class="progress-circle-indeterminate m-t-45">
+
+                    </div>
+                    <br>
+                    <p class="small hint-text">Loading data</p>
+                </div>
+            </div>
+        </div>
+
+        @using (Html.BeginForm("create", "stockId", FormMethod.Post, htmlAttributes: new { id = "entry-form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true)
+            </div>
+
+            @Html.HiddenFor(x => x.id_Stock);
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(model => model.stockName)
+                        @Html.TextBoxFor(model => model.stockName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.stockName)
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+            <button type="button" onclick="stockidsavedata()" class="btn btn-primary"><i class="pg-plus"></i> Add Stock Id</button>
+
+
+        }
+    </div>
+</div>
+
+
+<style>
+    .select2-container {
+        width: 100%;
+    }
+</style>

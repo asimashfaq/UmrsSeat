@@ -1,0 +1,199 @@
+﻿@model IEnumerable<UmarSeat.Models.StockTransfer>
+
+
+<div class="table-responsive">
+    <table class="table table-hover table-condensed  table-detailed" id="detailedTable">
+
+         <thead>
+             <tr>
+                 
+                 <th>
+                     @Html.DisplayNameFor(model => model.pnrNumber)
+                 </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.airLine)
+                 </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.stockId)
+                 </th>
+
+                 <th>
+                     @Html.DisplayNameFor(model => model.idAgent)
+                 </th>
+
+                 <th>
+                     @Html.DisplayNameFor(model => model.sellingBranch)
+                 </th>
+               
+
+                 <th>
+                     @Html.DisplayNameFor(model => model.cost)
+                 </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.margin)
+                 </th>
+
+                 <th>
+                     @Html.DisplayNameFor(model => model.sellingPrice)
+                 </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.noOfSeats)
+                 </th>
+              
+                 <th>
+                     @Html.DisplayNameFor(model => model.isPackage)
+                 </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.advanceAmount)
+                 </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.advanceDate)
+                 </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.gdsPnrNumber)
+                 </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.catalystInvoiceNumber)
+                 </th>
+
+                 <th></th>
+             </tr>
+         </thead>
+
+         <tbody>
+             @foreach (var item in Model)
+             {
+                 <tr id="@Html.Raw(item.pnrNumber)">
+                    
+                     <td>
+                         @Html.DisplayFor(modelItem => item.pnrNumber)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.airLine)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.stockId)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.idAgent)
+                     </td>
+
+                     <td>
+                         @Html.DisplayFor(modelItem => item.sellingBranch)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.cost)
+                     </td>
+
+                     <td>
+                         @Html.DisplayFor(modelItem => item.margin)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.sellingPrice)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.noOfSeats)
+                     </td>
+
+                    
+                     <td>
+                         @Html.DisplayFor(modelItem => item.isPackage)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.advanceAmount)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.advanceDate)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.gdsPnrNumber)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.catalystInvoiceNumber)
+                     </td>
+
+                     <td class="action">
+                         <a key="@Html.Raw(item.pnrNumber)" href="/stock/sellingedit/@Html.Raw(item.id_StockTransfer)" class=" editbtn btn btn-complete">
+                             <i class="fa fa-edit"></i>
+                         </a>
+                         <a id="showLink" href="/stock/sellingdelete/@Html.Raw(item.id_StockTransfer)" class="btn btn-danger" data-toggle="modal" data-target="#modalSlideUp">
+                             <i class="fa fa-remove"></i>
+                         </a>
+                         <p style="display:none" class="btn btn-danger">Locked</p>
+
+
+                     </td>
+                 </tr>
+             }
+         </tbody>
+
+        </table>
+
+</div>
+<div class="dataTables_wrapper form-inline no-footer">
+    <div class="row">
+        <div class="dataTables_paginate paging_bootstrap pagination" id="table_paginate">
+            <ul>
+
+
+                @{
+                    if (1 == int.Parse(ViewBag.current.ToString()))
+                    {
+                        <li class="prev disabled"><a href="/stock/getstock?length=@Html.Raw(ViewBag.length)&pagenum=1"><i class="pg-arrow_left"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="prev"><a href="/stock/getstock?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(ViewBag.prev)"><i class="pg-arrow_left"></i></a></li>
+                    }
+                    int pages = int.Parse(ViewBag.pages.ToString());
+                    int st = 1;
+                    while (st <= pages)
+                    {
+                        if (st == int.Parse(ViewBag.current.ToString()))
+                        {
+                            <li class="active"><a href="/stock/getstock?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(st)">@Html.Raw(st)</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="/stock/getstock?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(st)">@Html.Raw(st)</a></li>
+                        }
+
+                        st++;
+                    }
+                    if (pages == int.Parse(ViewBag.current.ToString()))
+                    {
+                        <li class="next disabled"><a href="/stock/getstock?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(pages)"><i class="pg-arrow_right"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="next"><a href="/stock/getstock?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(ViewBag.next)"><i class="pg-arrow_right"></i></a></li>
+                    }
+
+                }
+
+
+            </ul>
+        </div>
+        <div class="dataTables_info" id="tableWithSearch_info" role="status" aria-live="polite">
+            Showing <b>@Html.Raw(ViewBag.start) to @Html.Raw(ViewBag.end)</b> of @Html.Raw(ViewBag.total) entries
+        </div>
+    </div>
+</div>
+<div class="modal fade slide-up disable-scroll" id="modalSlideUp" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="pg-close fs-14"></i>
+                    </button>
+                    <h5>Please wait <span class="semi-bold">...</span></h5>
+                </div>
+                <div class="modal-body" id="mc">
+                    Loading Content
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

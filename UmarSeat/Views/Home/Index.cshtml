@@ -1,0 +1,616 @@
+﻿@using UmarSeat.Helpers;
+@model Tuple<UmarSeat.Models.SeatConfirmation,UmarSeat.Models.StockTransfer>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section Bread{
+    
+}
+<br/>
+
+<div class="row">
+    <div class="col-sm-12 col-md-7 col-lg-7">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#slide1">
+                    <span>Seat Confirmation</span>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#slide2">
+                    <span>Seat Transfer Module</span>
+                </a>
+            </li>
+        </ul>
+
+
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane slide-left active" id="slide1">
+                <div id="myPortlet" class="panel panel-transparent">
+
+
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            Seat Confirmation
+                        </div>
+                        <div class="panel-controls">
+                            <ul>
+
+                                <li>
+                                    <a href="#" class="portlet-collapse" data-toggle="collapse"><i class="portlet-icon portlet-icon-collapse"></i></a>
+                                </li>
+
+                                <li>
+                                    <a href="#" class="portlet-close" data-toggle="close"><i class="portlet-icon portlet-icon-close"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body form-group-attached">
+                        @using (Html.BeginForm("Index", "Booking", null, method: FormMethod.Get, htmlAttributes: new { role = "form", @class = "form-group-attached" }))
+                        {
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default">
+                                        @Html.LabelFor(model => model.Item1.pnrNumber)
+                                        @Html.LowerTextBoxFor(model => model.Item1.pnrNumber, new { @class = "form-control", placeholder = "XSDJH", Name = "pnr" })
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default">
+
+                                        @Html.LabelFor(model => model.Item1.outBoundSector)
+                                        @Html.TextBox("outBoundSector", "", new { @class = "form-control", Name = "outboundsector" })
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group form-group-default">
+                                        @Html.LabelFor(model => model.Item1.airLine)
+                                        @Html.TextBox("airline", "", new { @class = "form-control", Name = "airline" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-group-default">
+                                        @Html.LabelFor(model => model.Item1.stockId)
+                                        @Html.TextBox("stockId", "", new { @class = "form-control", Name = "stockId" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-group-default">
+                                        @Html.LabelFor(model => model.Item1.recevingBranch)
+                                        @Html.TextBox("recevingBranch", "", new { @class = "form-control", Name = "recevingBranch" })
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-group-default">
+                                        @Html.LabelFor(model => model.Item1.category)
+                                        @Html.TextBox("category", "", new { @class = "form-control", Name = "category" })
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group form-group-default">
+                                        <label>Outbound Date Range</label>
+                                        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 0px solid #ccc; width: 100%">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                            <span></span><input type="hidden" name="outboundrange" id="outboundrange" /> <b class="caret"></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group form-group-default">
+                                        <label>Time Limit Range</label>
+                                        <div id="reportrange2" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 0px solid #ccc; width: 100%">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                            <span></span> <input type="hidden" name="timelimitrange" id="timelimitrange" /><b class="caret"></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group form-group-default">
+                                        <label>Creation Date</label>
+                                        <div id="reportrange3" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 0px solid #ccc; width: 100%">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                            <span></span> <input type="hidden" name="creationrange" id="creationrange" /><b class="caret"></b>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="row">
+                                <button type="submit" class="btn btn-primary"><i class="pg-search"></i> Search</button>
+                                <button onclick="clearall()" type="reset" class="btn btn-default"><i class="pg-close"></i> Clear</button>
+
+                            </div>
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane slide-right" id="slide2">
+                <div id="myPortlet" class="panel panel-transparent">
+
+
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            Seat Transfer Module
+                        </div>
+                        <div class="panel-controls">
+                            <ul>
+
+                                <li>
+                                    <a href="#" class="portlet-collapse" data-toggle="collapse"><i class="portlet-icon portlet-icon-collapse"></i></a>
+                                </li>
+
+                                <li>
+                                    <a href="#" class="portlet-close" data-toggle="close"><i class="portlet-icon portlet-icon-close"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body form-group-attached">
+                        @using (Html.BeginForm("selling", "Stock", null, method: FormMethod.Get, htmlAttributes: new { role = "form", @class = "form-group-attached" }))
+                        {
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default">
+                                        @Html.LabelFor(model => model.Item2.pnrNumber)
+                                        @Html.TextBox("pnrNumber", "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default">
+
+                                        @Html.LabelFor(ts => ts.Item2.catalystInvoiceNumber)
+                                        @Html.TextBox("catalystInvoiceNumber", "", new { @class = "form-control" })
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group form-group-default">
+                                        @Html.LabelFor(model => model.Item2.airLine)
+                                        @Html.TextBox("airline", "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-group-default">
+                                        @Html.LabelFor(model => model.Item2.stockId)
+                                        @Html.TextBox("stockId", "", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-group-default">
+                                        @Html.LabelFor(model => model.Item2.recevingBranch)
+                                        @Html.TextBox("recevingBranch", "", new { @class = "form-control" })
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-group-default">
+                                        @Html.LabelFor(model => model.Item2.gdsPnrNumber)
+                                        @Html.TextBox("gdsPnrNumber", "", new { @class = "form-control" })
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default">
+                                        <label>Advance Date Range</label>
+                                        <div id="reportrange4" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 0px solid #ccc; width: 100%">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                            <span></span> <input type="hidden" name="daterange" id="daterange" /><b class="caret"></b>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group form-group-default">
+                                        <label>Creation Date</label>
+                                        <div id="reportrange5" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 0px solid #ccc; width: 100%">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                            <span></span> <input type="hidden" name="creationrange" id="creationrange1" /> <b class="caret"></b>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+
+                            <br />
+                            <div class="row">
+                                <button type="submit" class="btn btn-primary"><i class="pg-search"></i> Search</button>
+                                <button onclick="clearall()" type="reset" class="btn btn-default"><i class="pg-close"></i> Clear</button>
+
+                            </div>
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-sm-12 col-md-2 col-lg-2">
+
+        <div class="panel panel-default bg-complete text-white">
+            <div class="panel-heading">
+                <div class="panel-title text-white text-center">
+                    <p>Subscription Expired In</p>
+                </div>
+            </div>
+            <div class="panel-body text-center ">
+                @{
+    var edate = (DateTime)ViewBag.edate;
+    var today = DateTime.Now;
+   
+}
+                <h1 class="text-white text-capitalize bold">@Html.Raw((edate -today).Days)</h1>
+                <h3 class="text-white bold "><strong>Days</strong></h3>
+                
+                <p>  @Html.Raw(ViewBag.status) Ttill @Html.Raw(edate.ToShortDateString())</p>
+                <div class="date" data-utc="@Html.Raw(edate.ToLongDateString())"></div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="col-sm-12 col-md-2 col-lg-3">
+        <div class="">
+
+            <div class="widget-11 panel no-border  no-margin widget-loader-bar">
+                <div class="panel-heading ">
+                    <div class="panel-title">
+                        Today's sales
+                    </div>
+                    <div class="panel-controls">
+                        <ul>
+                            <li>
+                                <a data-toggle="refresh" class="portlet-refresh text-black" href="#"><i class="portlet-icon portlet-icon-refresh"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="p-l-25 p-r-25 p-b-20">
+                    <div class="pull-left">
+                        <h2 class="text-success no-margin">webarch</h2>
+                    </div>
+                    <h3 class="pull-right semi-bold"><sup><small class="semi-bold">$</small></sup> 102,967</h3>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="scroll-wrapper scrollable" style="position: relative;">
+                    <div class="scrollable scroll-content scroll-scrolly_visible" style="margin-bottom: 0px; margin-right: 0px; height: 268px;">
+                        <div class="demo-portlet-scrollable">
+                            <div class="widget-11-table">
+                                <table class="table table-condensed table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-montserrat all-caps fs-12">#2345</td>
+
+                                            <td class="text-right b-r b-dashed b-grey">
+                                                <span class="hint-text small">Qty 1</span>
+                                            </td>
+                                            <td>
+                                                <span class="font-montserrat fs-18">$27</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-montserrat all-caps fs-12">#2345</td>
+
+                                            <td class="text-right b-r b-dashed b-grey">
+                                                <span class="hint-text small">Qty 1</span>
+                                            </td>
+                                            <td>
+                                                <span class="font-montserrat fs-18">$27</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-montserrat all-caps fs-12">#2345</td>
+
+                                            <td class="text-right b-r b-dashed b-grey">
+                                                <span class="hint-text small">Qty 1</span>
+                                            </td>
+                                            <td>
+                                                <span class="font-montserrat fs-18">$27</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-montserrat all-caps fs-12">#2345</td>
+
+                                            <td class="text-right b-r b-dashed b-grey">
+                                                <span class="hint-text small">Qty 1</span>
+                                            </td>
+                                            <td>
+                                                <span class="font-montserrat fs-18">$27</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-montserrat all-caps fs-12">#2345</td>
+
+                                            <td class="text-right b-r b-dashed b-grey">
+                                                <span class="hint-text small">Qty 1</span>
+                                            </td>
+                                            <td>
+                                                <span class="font-montserrat fs-18">$27</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-montserrat all-caps fs-12">#2345</td>
+
+                                            <td class="text-right b-r b-dashed b-grey">
+                                                <span class="hint-text small">Qty 1</span>
+                                            </td>
+                                            <td>
+                                                <span class="font-montserrat fs-18">$27</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-montserrat all-caps fs-12">#2345</td>
+
+                                            <td class="text-right b-r b-dashed b-grey">
+                                                <span class="hint-text small">Qty 1</span>
+                                            </td>
+                                            <td>
+                                                <span class="font-montserrat fs-18">$27</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-montserrat all-caps fs-12">#2345</td>
+
+                                            <td class="text-right b-r b-dashed b-grey">
+                                                <span class="hint-text small">Qty 1</span>
+                                            </td>
+                                            <td>
+                                                <span class="font-montserrat fs-18">$27</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-montserrat all-caps fs-12">#2345</td>
+
+                                            <td class="text-right b-r b-dashed b-grey">
+                                                <span class="hint-text small">Qty 1</span>
+                                            </td>
+                                            <td>
+                                                <span class="font-montserrat fs-18">$27</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-montserrat all-caps fs-12">#2345</td>
+
+                                            <td class="text-right b-r b-dashed b-grey">
+                                                <span class="hint-text small">Qty 1</span>
+                                            </td>
+                                            <td>
+                                                <span class="font-montserrat fs-18">$27</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="padding-25">
+                    <p class="small no-margin">
+                        <a href="#"><i class="fa fs-16 fa-arrow-circle-o-down text-success m-r-10"></i></a>
+                        <span class="hint-text ">Show more</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+
+
+
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Lastest Record
+                </div>
+            </div>
+            <div class="panel-body scrollable">
+                @{
+                    List<UmarSeat.Models.SeatConfirmation> sclist = ViewBag.latestRecord as List<UmarSeat.Models.SeatConfirmation>;
+                }
+                @{Html.RenderPartial("_latest", sclist);}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Time Limit / Expiry
+                </div>
+            </div>
+            <div class="panel-body scrollable">
+                <!-- REMOVE THIS WRAPPER IF .scrollable IS NOT USED -->
+                @{
+                    sclist = ViewBag.expriysoon as List<UmarSeat.Models.SeatConfirmation>;
+                }
+                @{Html.RenderPartial("_expire", sclist);}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Out Bound Date
+                </div>
+            </div>
+            <div class="panel-body scrollable">
+                <!-- REMOVE THIS WRAPPER IF .scrollable IS NOT USED -->
+                @{
+                    sclist = ViewBag.outbound as List<UmarSeat.Models.SeatConfirmation>;
+                }
+                @{Html.RenderPartial("_outbound", sclist);}
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/moment.js"></script>
+
+<script src="~/Content/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript">
+    function clearall() {
+        
+         $('#reportrange span,#reportrange2 span,#reportrange3 span,#reportrange4 span,#reportrange5 span').html("");
+         $('#outboundrange,#timelimitrange,#creationrange,#creationrange1,#daterange').val('');
+    }
+    $(function () {
+        $('#myPortlet').portlet()
+        function cb(start, end) {
+
+            $('#reportrange span').html(start.format('L') + ' - ' + end.format('L'));
+            $('#outboundrange').val(start.format('L') + '-' + end.format('L'));
+       
+
+        }
+        function cb2(start, end) {
+
+            $('#reportrange2 span').html(start.format('L') + ' - ' + end.format('L'));
+            $('#timelimitrange').val(start.format('L') + '-' + end.format('L'));
+        }
+        function cb3(start, end) {
+
+            $('#reportrange3 span').html(start.format('L') + ' - ' + end.format('L'));
+            $('#creationrange').val(start.format('L') + '-' + end.format('L'));
+        }
+
+        function cb4(start, end) {
+
+            $('#reportrange4 span').html(start.format('L') + ' - ' + end.format('L'));
+            $('#daterange').val(start.format('L') + '-' + end.format('L'));
+        }
+        function cb5(start, end) {
+
+            $('#reportrange5 span').html(start.format('L') + ' - ' + end.format('L'));
+            $('#creationrange').val(start.format('L') + '-' + end.format('L'));
+        }
+        cb(moment().startOf('year'), moment().endOf('year'));
+        cb2(moment().startOf('year'), moment().endOf('year'));
+        cb3(moment().startOf('year'), moment().endOf('year'));
+        cb4(moment().startOf('year'), moment().endOf('year'));
+        cb5(moment().startOf('year'), moment().endOf('year'));
+
+        $('#reportrange').daterangepicker({
+            "opens": "center",
+            "startDate": moment().startOf('year'),
+            "endDate": moment().endOf('year'),
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+        $('#reportrange2').daterangepicker({
+            "opens": "center",
+            "startDate": moment().startOf('year'),
+            "endDate": moment().endOf('year'),
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb2);
+        $('#reportrange3').daterangepicker({
+            "opens": "center",
+            "startDate": moment().startOf('year'),
+            "endDate": moment().endOf('year'),
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb3);
+        $('#reportrange4').daterangepicker({
+            "opens": "center",
+            "startDate": moment().startOf('year'),
+            "endDate": moment().endOf('year'),
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb4);
+        $('#reportrange5').daterangepicker({
+            "opens": "center",
+            "startDate": moment().startOf('year'),
+            "endDate": moment().endOf('year'),
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb5);
+       // $('#reportrange span,#reportrange2 span,#reportrange3 span,#reportrange4 span,#reportrange5 span').html("");
+       // $('#outboundrange,#timelimitrange,#creationrange,#creationrange1,#daterange').val('');
+
+        $('.timet tr td:nth-child(4)').each(function (i) { var t = ($(this).text()); $(this).text(moment(t).fromNow()) })
+    });
+</script>
+
+
+}

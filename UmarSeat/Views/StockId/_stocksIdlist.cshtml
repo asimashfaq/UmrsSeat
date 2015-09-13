@@ -1,0 +1,128 @@
+﻿@using UmarSeat.Helpers;
+@model IEnumerable<UmarSeat.Models.Stock>
+<div class="table-responsive">
+
+    <table class="table table-hover" id="tableWithExportOptions">
+
+        <thead>
+
+            <tr>
+
+
+                <th>
+                    <div class="wp">
+                        @Html.DisplayNameFor(model => model.stockName)
+                    </div>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+
+
+                    <td>
+                        <div class="wp">@Html.DisplayFor(modelItem => item.stockName)</div>
+                    </td>
+                    <td>
+                        <a key="@Html.Raw(item.id_Stock)" href="/stockid/edit/@Html.Raw(item.id_Stock)" class=" editbtn btn btn-complete" data-toggle="modal" data-target="#modalSlideUp">
+                            <i class="fa fa-edit"></i> Edit
+                        </a>
+                        @Ajax.RawActionLink(string.Format("<i class=\"fa fa-remove\" ></i> Delete"), "Delete", null, new { id = item.id_Stock },
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    OnSuccess = "onSuccess",
+                                    Confirm = "Are you sure you want to Delete this category?",
+
+                                    OnFailure = "onFail"
+                                },
+                                  new { @class = "btn btn-danger", id = "cnfrmDelete" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+
+
+        <tfoot>
+
+        </tfoot>
+    </table>
+</div>
+
+
+
+<div class="dataTables_wrapper form-inline no-footer">
+    <div class="row">
+        <div class="dataTables_paginate paging_bootstrap pagination" id="table_paginate">
+            <ul>
+
+
+                @{
+                    if (1 == int.Parse(ViewBag.current.ToString()))
+                    {
+                        <li class="prev disabled"><a href="/stockId/getstocks?length=@Html.Raw(ViewBag.length)&pagenum=1"><i class="pg-arrow_left"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="prev"><a href="/stockId/getstocks?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(ViewBag.prev)"><i class="pg-arrow_left"></i></a></li>
+                    }
+                    int pages = int.Parse(ViewBag.pages.ToString());
+                    int st = 1;
+                    while (st <= pages)
+                    {
+                        if (st == int.Parse(ViewBag.current.ToString()))
+                        {
+                            <li class="active"><a href="/stockId/getstocks?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(st)">@Html.Raw(st)</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="/stockId/getstocks?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(st)">@Html.Raw(st)</a></li>
+                        }
+
+                        st++;
+                    }
+                    if (pages == int.Parse(ViewBag.current.ToString()))
+                    {
+                        <li class="next disabled"><a href="/stockId/getstocks?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(pages)"><i class="pg-arrow_right"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="next"><a href="/stockId/getstocks?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(ViewBag.next)"><i class="pg-arrow_right"></i></a></li>
+                    }
+
+                }
+
+
+            </ul>
+        </div>
+        <div class="dataTables_info" id="tableWithSearch_info" role="status" aria-live="polite">
+            Showing <b>@Html.Raw(ViewBag.start) to @Html.Raw(ViewBag.end)</b> of @Html.Raw(ViewBag.total) entries
+        </div>
+    </div>
+</div>
+
+
+<div data-refresh="true" class="modal fade slide-up disable-scroll" id="modalSlideUp" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="pg-close fs-14"></i>
+                    </button>
+                    <h5>Please wait <span class="semi-bold">...</span></h5>
+                </div>
+                <div class="modal-body" id="mc">
+                    Loading Content
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+

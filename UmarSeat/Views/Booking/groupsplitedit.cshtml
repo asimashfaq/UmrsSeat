@@ -1,0 +1,306 @@
+﻿@model UmarSeat.Models.SeatConfirmation
+
+@{
+    ViewBag.Title = "Group Split";
+}
+<style>
+    select {
+        border: 0px !important;
+    }
+
+    .select2-container {
+        width: 100%;
+    }
+
+    .bootstrap-datetimepicker-widget, .datepicker {
+        z-index: 9999 !important;
+    }
+</style>
+<link media="screen" type="text/css" rel="stylesheet" href="~/Content/assets/plugins/bootstrap-datepicker/css/datepicker3.css">
+<link href="~/Content/overlay-bootstrap.css" rel="stylesheet" />
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h3>Update Group Split @Html.Raw(Model.newPnrNumber) </h3>
+        </div>
+        <div class="pull-right">
+
+
+            <button type="button" class="btn btn-default"><i class="fa fa-file-excel-o"></i> Import Excel</button>
+
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <div id="dv1">
+            <div id="aaa" class="panel-default-overlay-down">
+
+                <div class="col-sm-12 text-center" style="height:100%">
+
+                    <div class="progress-circle-indeterminate m-t-45">
+
+                    </div>
+                    <br>
+                    <p class="small hint-text">Loading data</p>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm("groupsplit", "booking", FormMethod.Post, htmlAttributes: new { id = "entry-form", style = "visibility:hidden" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="">
+                @Html.ValidationSummary(true)
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group  form-group-default form-group-default-select2 ">
+                        @Html.LabelFor(model => model.country)
+                        @{
+            RouteValueDictionary RouteValues = new RouteValueDictionary();
+
+
+            RouteValues["class"] = "full-width";
+            RouteValues["data-init-plugin"] = "select2";
+            RouteValues["id"] = "Country";
+
+                        }
+
+                        @Html.DropDownListFor(x => x.country, Model.ListCountry, "Choose Country", RouteValues)
+                        @Html.ValidationMessageFor(model => model.country)
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(model => model.pnrNumber)
+                        @Html.TextBoxFor(model => model.pnrNumber, new { @class = "form-control", style = "text-transform:UPPERCASE", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.pnrNumber)
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(model => model.newPnrNumber)
+                        @Html.TextBoxFor(model => model.newPnrNumber, new { @class = "form-control", style = "text-transform:UPPERCASE", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.newPnrNumber)
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <div class="form-group  form-group-default form-group-default-select2" id="st" style="display:none">
+                        @Html.LabelFor(model => model.stockId)
+                        <div id="stocks" class="form-group-default form-group-default-select2" style="padding:0px ; margin:0px">
+                            @Html.DropDownListFor(x => x.stockId, new List<SelectListItem>(), "Choose Stock", new { @id = "stockId", @class = "full-width" })
+                            @Html.ValidationMessageFor(model => model.stockId)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    @{
+            Model.outBoundDate = DateTime.Now;
+                    }
+                    <div class="form-group form-group-default date input-group">
+                        @Html.LabelFor(model => model.outBoundDate)
+                        @Html.TextBoxFor(model => model.outBoundDate, new { @id = "outbounddate", @class = "form-control", @Value = Model.outBoundDate.ToString("MM/dd/yyyy"), })
+                        @Html.ValidationMessageFor(model => model.outBoundDate)
+                        <span class="input-group-addon"> <i class="fa fa-calendar"></i></span>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+
+                    @{
+            Model.inBoundDate = DateTime.Now;
+                    }
+                    <div class="form-group form-group-default date input-group">
+                        @Html.LabelFor(model => model.inBoundDate)
+                        @Html.TextBoxFor(model => model.inBoundDate, new { @id = "inbounddate", @class = "form-control", @Value = Model.outBoundDate.ToString("MM/dd/yyyy"), })
+                        @Html.ValidationMessageFor(model => model.inBoundDate)
+                        <span class="input-group-addon"> <i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group  form-group-default form-group-default-select2 ">
+                        @Html.LabelFor(model => model.inBoundSector)
+                        @Html.DropDownListFor(model => model.inBoundSector, Model.ListSectors, new { @id = "inboundsector", @class = "full-width" })
+                        @Html.ValidationMessageFor(model => model.inBoundSector)
+
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group  form-group-default form-group-default-select2 ">
+                        @Html.LabelFor(model => model.outBoundSector)
+                        @Html.DropDownListFor(model => model.outBoundSector, Model.ListSectors, new { @id = "outboundsector", @class = "full-width" })
+                        @Html.ValidationMessageFor(model => model.outBoundSector)
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group  form-group-default ">
+                        @Html.LabelFor(model => model.noOfSeats)
+                        @Html.TextBoxFor(model => model.noOfSeats, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.noOfSeats)
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(model => model.cost)
+                        @{
+            RouteValues = new RouteValueDictionary();
+
+
+            RouteValues["class"] = "form-control";
+
+            RouteValues["id"] = "cost";
+            RouteValues["value"] = "";
+            RouteValues["data-inputmask"] = "'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'prefix': 'Rs ', 'placeholder': '0',  'clearMaskOnLostFocus': true";
+            RouteValues["data-inputmask-repeat"] = "10";
+
+                        }
+                        @Html.TextBoxFor(model => model.cost, RouteValues)
+                        @Html.ValidationMessageFor(model => model.cost)
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group  form-group-default form-group-default-select2 ">
+                        @Html.LabelFor(model => model.category)
+                        @Html.DropDownListFor(model => model.category, Model.ListCategory, new { @id = "cat", @class = "full-width" })
+                        @Html.ValidationMessageFor(model => model.category)
+
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group  form-group-default form-group-default-select2 ">
+                        @Html.LabelFor(model => model.recevingBranch)
+                        @Html.DropDownListFor(model => model.recevingBranch, Model.ListBranches, new { @id = "branches", @class = "full-width" })
+                        @Html.ValidationMessageFor(model => model.recevingBranch)
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(model => model.emdNumber)
+                        @Html.TextBoxFor(model => model.emdNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.emdNumber)
+                    </div>
+                </div>
+                <div class="col-sm-6">
+
+                    @{
+            Model.timeLimit = DateTime.Now;
+                    }
+                    <div class="form-group form-group-default date input-group">
+                        @Html.LabelFor(model => model.timeLimit)
+                        @Html.TextBoxFor(model => model.timeLimit, new { @id = "timelimit", @class = "form-control", @Value = Model.outBoundDate.ToString("MM/dd/yyyy"), })
+                        @Html.ValidationMessageFor(model => model.timeLimit)
+                        <span class="input-group-addon"> <i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <button class="btn btn-primary" type="button" onclick="updatedata()"><i class="pg-plus"></i> Add Group Split Seat Confirmation</button>
+            <button class="btn btn-default" onclick="clearall()"><i class=" pg-close"></i> Clear</button>
+
+
+
+
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+    <script src="~/Content/assets/plugins/jquery-autonumeric/autoNumeric.js" type="text/javascript"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/additional-methods.js"></script>
+
+    <script src="~/Content/assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script type="text/javascript" src="~/Content/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/app/groupsplitscript.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                type: "post",
+                url: "/Branches/GetCities",
+                data: { countryId: $('#Country').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    $("#s2id_Country").parent().removeClass('has-error');
+                    var city = "<select id='stockId' name='stockId'>";
+
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].Value = data[i].Value.replace(/\s/g, '');
+                        if (data[i].Value == '@(Model.stockId)') {
+
+                            city = city + '<option selected="selected" value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+                        else {
+                            city = city + '<option  value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                        }
+
+
+                    }
+                    city = city + '</select>';
+                    $("#st").show();
+                    $('#stocks').html(city);
+
+                    $("#stockId").select2({
+                        placeholder: "Select a City",
+                        allowClear: true
+                    });
+
+                    $("#dv1").html('');
+                    $("#entry-form").css('visibility', 'visible')
+                }
+            });
+            
+               
+          
+
+        });
+
+       
+    </script>
+}

@@ -1,0 +1,50 @@
+﻿@model UmarSeat.Models.subscriptionPlan
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>subscriptionPlan</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nameSubscriptionPlan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nameSubscriptionPlan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.duration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.subscriptionDurationType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.subscriptionDurationType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.subscriptionPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.subscriptionPrice)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_SubscriptionPlan }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

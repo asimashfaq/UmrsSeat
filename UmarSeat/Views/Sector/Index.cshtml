@@ -1,0 +1,146 @@
+﻿@model IEnumerable<UmarSeat.Models.Sector>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<link href="~/Content/overlay-bootstrap.css" rel="stylesheet" />
+<style>
+    .wp {
+        word-wrap: break-word;
+    }
+
+   
+    table {
+        table-layout: fixed;
+    }
+</style>
+<div class="container-fluid  bg-white">
+    <!-- START PANEL -->
+    <div class="panel panel-transparent">
+        <div class="panel-heading">
+            <div class="panel-title">
+                List of Sectors
+            </div>
+            <div class="pull-right">
+                <a href="/sector/create" class="btn btn-animated btn-primary text-white" data-toggle="modal" data-target="#mSector">
+                    <i class="fa fa-plus"></i> Add Sector
+                </a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body" id="dv1">
+            @{Html.RenderPartial("_sectorlist", Model);}
+
+        </div>
+    </div>
+    <!-- END PANEL -->
+</div>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<style>
+    .table > tfoot > tr > th, .table > thead > tr > th {
+        border-top: 0px !important;
+    }
+
+    .TableTools {
+        display: inline-block !important;
+    }
+
+    .ColVis.TableTools .btn {
+        margin-top: -2px;
+        margin-right: 2px;
+    }
+
+    .TableTools_Button, .fix {
+        background: white;
+        border: 1px solid #F1F1F1;
+        text-align: left;
+        /* border-top: 1px; */
+        margin-bottom: -1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        letter-spacing: 0.01em;
+        -webkit-font-smoothing: antialiased;
+        padding: 6px 12px;
+    }
+
+    .TableTools_catcher {
+        display: none !important;
+    }
+
+    .TableTools_collectionBackground {
+        max-width: 95%;
+    }
+</style>
+
+<script src="~/Content/assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+
+
+<script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
+<script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+
+
+<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+<script src="~/Content/assets/plugins/jquery-autonumeric/autoNumeric.js" type="text/javascript"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/additional-methods.js"></script>
+<script src="~/Content/assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
+<script src="~/app/sectorscript.js"></script>
+<script src="~/app/saveScript.js"></script>
+
+<script>
+    function onSuccess() {
+
+        window.location.reload();
+    }
+    function onFail()
+    {
+        alert("Something went wrong");
+    }
+
+
+
+
+        var table = $('#detailedTable');
+
+        var _handelDatatable = function () {
+
+            table.DataTable({
+                "sDom": "t",
+                "scrollCollapse": true,
+                "paging": false,
+                "bSort": false,
+                "bDestory": false,
+            });
+
+        };
+
+        _handelDatatable();
+
+
+
+
+</script>
+
+}
+
+
+@section Bread{
+    <ul class="breadcrumb">
+        <li>
+            <a href="/sector/index">Sector</a>
+        </li>
+        <li>
+            <a href="#" class="active">List </a>
+        </li>
+    </ul>
+}
+
+</table>

@@ -1,0 +1,291 @@
+﻿@model IEnumerable<UmarSeat.Models.SeatConfirmation>
+
+@{
+    ViewBag.Title = " Confirmed Seats Reports Category WISE";
+}
+
+<div class="container-fluid  bg-white">
+    <!-- START PANEL -->
+    <div class="panel panel-transparent">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Confirmed Seats Reports Category WISE
+            </div>
+            <div class="export-options-container pull-right"></div>
+
+            <div class="col-sm-3 pull-right">
+                <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+
+
+            <table class="table" id="tableWithSearch">
+                <thead>
+
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.pnrNumber)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.airLine)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.stockId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.outBoundDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.inBoundDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.outBoundSector)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.inBoundSector)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.noOfSeats)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.cost)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.category)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.recevingBranch)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.emdNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.timeLimit)
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.pnrNumber)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.airLine)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.stockId)
+                            </td>
+                            <td>
+                                @String.Format("{0:MM-dd-yyyy}", item.outBoundDate)
+                            </td>
+                            <td>
+                                @String.Format("{0:MM-dd-yyyy}", item.inBoundDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.outBoundSector)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.inBoundSector)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.noOfSeats)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cost)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.category)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.recevingBranch)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.emdNumber)
+                            </td>
+                            <td>
+                                @String.Format("{0:MM-dd-yyyy}", item.timeLimit)
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+
+                </tfoot>
+
+
+            </table>
+
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <style>
+        .table > tfoot > tr > th, .table > thead > tr > th {
+            border-top: 0px !important;
+        }
+
+        .TableTools {
+            display: inline-block !important;
+        }
+
+        .ColVis.TableTools .btn {
+            margin-top: -2px;
+            margin-right: 2px;
+        }
+
+        .TableTools_Button, .fix {
+            background: white;
+            border: 1px solid #F1F1F1;
+            text-align: left;
+            /* border-top: 1px; */
+            margin-bottom: -1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            letter-spacing: 0.01em;
+            -webkit-font-smoothing: antialiased;
+            padding: 6px 12px;
+        }
+
+        .TableTools_catcher {
+            display: none !important;
+        }
+
+        .TableTools_collectionBackground {
+            max-width: 95%;
+        }
+    </style>
+
+    <script src="~/Content/assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/Content/assets/plugins/bootstrap-select2/select2.min.js"></script>
+    <script src="~/Content/assets/asimdatabtable/js/TableTools.js"></script>
+    <script src="~/Content/assets/plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
+    <script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+
+
+    <script src="~/Content/assets/asimdatabtable/js/ColVis.js"></script>
+    <script src="~/Content/assets/asimdatabtable/js/ColReorderWithResize.js"></script>
+
+    <script src="~/Content/assets/asimdatabtable/js/ZeroClipboard.js"></script>
+    <script src="~/Content/assets/asimdatabtable/js/jquery.dataTables.columnFilter.js"></script>
+
+
+
+
+
+
+    <script type="text/javascript" charset="utf-8">
+
+        $(document).ready(function () {
+
+
+
+            var oTable = $('#tableWithSearch').dataTable({
+
+
+                "bProcessing": true,
+                "bDestroy": true,
+                "oLanguage": {
+
+                    "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries",
+                    "sSearch": "",
+                    "sLengthMenu": "<select  class='cs-select cs-skin-slide form-control' data-init-plugin='cs-select'>" +
+                                    "<option value='10'>10</option>" +
+                                    "<option value='50'>50</option>" +
+                                    "<option value='100'>100</option>" +
+                                    "<option value='-1'>All</option>" +
+                                    "</select>"
+                },
+                "iDisplayLength": 5,
+
+                "sPaginationType": "bootstrap",
+                "scrollCollapse": true,
+                "sDom": "<'selectMenu' l>r<'exportOptions'CT><'table-responsive't><'row'<pi>>",
+                "oTableTools": {
+                    "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf",
+                    "aButtons": [
+
+                    {
+                        "sExtends": "xls",
+                        "sFileName": "projectsList.xls",
+                        "sButtonText": "<i class='fa fa-file-excel-o'></i>",
+                        'mColumns': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                    },
+                    {
+                        "sExtends": "xls",
+                        "sFileName": "visibleProjectList1.xls",
+                        "sButtonText": "Download Visible Columns",
+                        'mColumns': "visible"
+                    }
+
+                    ]
+
+                },
+                "oColVis": { "sClose": "<i class='fa fa-close'></i>", "buttonText": "<i class='fa fa-eye'></i>", "bLabel": true, "iMaxRows": 2 },
+                "aoColumnDefs": [
+                 //{ 'bSortable': false, 'aTargets': [2] }
+                ],
+                fnDrawCallback: function (oSettings) {
+
+                    $('.export-options-container').append($('.exportOptions'));
+                    $(".ColVis_Button").attr('class', 'btn btn-white fix');
+
+                    $('#ToolTables_tableWithExportOptions_0').tooltip({
+                        title: 'Export as CSV',
+                        container: 'body'
+                    });
+
+                    $('#ToolTables_tableWithExportOptions_1').tooltip({
+                        title: 'Export as Excel',
+                        container: 'body'
+                    });
+
+                    $('#ToolTables_tableWithExportOptions_2').tooltip({
+                        title: 'Export as PDF',
+                        container: 'body'
+                    });
+
+                    $('#ToolTables_tableWithExportOptions_3').tooltip({
+                        title: 'Copy data',
+                        container: 'body'
+                    });
+                }
+
+
+            });
+
+            $('#search-table').keyup(function () {
+                oTable.fnFilter($(this).val());
+            });
+
+
+        });
+
+    </script>
+
+}
+@section Bread{
+    <ul class="breadcrumb">
+        <li>
+            <a href="">Reports</a>
+        </li>
+        <li>
+            <a href="#" class="active"> Confirmed Seats Reports Category WISE </a>
+        </li>
+    </ul>
+}

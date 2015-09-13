@@ -1,0 +1,449 @@
+﻿@model UmarSeat.Models.StockTransfer
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css" rel="stylesheet" data-semver="3.0.1" />
+<style>
+    #chart { /* NEW */
+        height: 280px; /* NEW */
+        position: relative; /* NEW */
+        width: 280px; /* NEW */
+    }
+    /* NEW */
+    .tooltip { /* NEW */
+        color: #333; /* NEW */
+        display: none; /* NEW */
+        font-size: 12px; /* NEW */
+        left: 57px; /* NEW */
+        padding: 10px; /* NEW */
+        position: absolute; /* NEW */
+        text-align: center; /* NEW */
+        top: 95px; /* NEW */
+        width: 167px; /* NEW */
+        z-index: 10; /* NEW */
+        background: #fff;
+        border: 1px solid #efefef;
+        box-shadow: 0px 1px 0px #ccc;
+    }
+    /* NEW */
+
+    .legend {
+        font-size: 12px;
+    }
+
+    rect {
+        stroke-width: 2;
+    }
+
+    .onm {
+        margin: 0px !important;
+    }
+
+    .count {
+        font-size: 40px;
+        font-weight: bold;
+    }
+
+    .dataRow1:nth-child(1) {
+        border-left: 4px solid #6D5CAE;
+    }
+
+    .dataRow1:nth-child(2) {
+        border-left: 4px solid #E2DEEF;
+    }
+
+    .dataRow1:nth-child(3) {
+        border-left: 4px solid #48B0F7;
+    }
+
+    .dataRow1:nth-child(4) {
+        border-left: 4px solid #6DC0F9;
+    }
+
+
+    .tasb {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        background: #6D5CAE;
+        margin-right: 10px;
+    }
+
+    .tgst {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        background: #E2DEEF;
+        margin-right: 10px;
+    }
+
+    .tsst {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        background: #48B0F7;
+        margin-right: 10px;
+    }
+
+    .legend1 label {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .legend1 p {
+        display: inline-block;
+        min-width: 200px;
+    }
+
+    .ttst {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        background: #6DC0F9;
+        margin-right: 10px;
+    }
+</style>
+<link media="screen" type="text/css" rel="stylesheet" href="~/Content/assets/plugins/bootstrap-datepicker/css/datepicker3.css">
+<link href="~/Content/overlay-bootstrap.css" rel="stylesheet" />
+<br />
+<div class="row">
+    <div class="col-lg-6 col-md-12" id="ginfo">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h3> Add Stock Selling </h3>
+                </div>
+                <div class="pull-right">
+
+
+                    <button type="button" class="btn btn-default"><i class="fa fa-file-excel-o"></i> Import Excel</button>
+
+                </div>
+            </div>
+
+            <div class="panel-body">
+
+                <div id="dv1">
+                    <div id="aaa" class="panel-default-overlay-down">
+
+                        <div class="col-sm-12 text-center" style="height:100%">
+
+                            <div class="progress-circle-indeterminate m-t-45">
+
+                            </div>
+                            <br>
+                            <p class="small hint-text">Loading data</p>
+                        </div>
+                    </div>
+                </div>
+
+                @using (Html.BeginForm("sellingcreate", "stock", FormMethod.Post, htmlAttributes: new { id = "entry-form", style = "visibility:hidden" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        @Html.ValidationSummary(true)
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group  form-group-default form-group-default-select2 ">
+                               
+                                @Html.LabelFor(model => model.pnrNumber)
+                                @Html.DropDownListFor(model => model.pnrNumber, Model.ListPNR, "", new { @class = "full-width" })
+                                @Html.ValidationMessageFor(model => model.pnrNumber)
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-sm-12">
+                            <div class="form-group  form-group-default form-group-default-select2 ">
+                                @Html.LabelFor(model => model.country)
+                                @{
+                    RouteValueDictionary RouteValues = new RouteValueDictionary();
+
+
+                    RouteValues["class"] = "full-width";
+                    RouteValues["data-init-plugin"] = "select2";
+                    RouteValues["id"] = "Country";
+
+                                }
+
+                                @Html.DropDownListFor(x => x.country, Model.ListCountry, "", RouteValues)
+                                @Html.ValidationMessageFor(model => model.country)
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group  form-group-default form-group-default-select2">
+                                @Html.LabelFor(model => model.airLine)
+
+                                @Html.DropDownListFor(x => x.airLine, Model.ListAirline, "", new { @id = "airlineId", @class = "full-width" })
+                                @Html.ValidationMessageFor(model => model.airLine)
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group  form-group-default form-group-default-select2" >
+                                @Html.LabelFor(model => model.stockId)
+                               
+                                    @Html.DropDownListFor(x => x.stockId, Model.ListStockId, "", new { @id = "stockId", @class = "full-width" })
+                                    @Html.ValidationMessageFor(model => model.stockId)
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="form-group  form-group-default form-group-default-select2 ">
+                                @Html.LabelFor(model => model.idAgent)
+                                @Html.DropDownListFor(model => model.idAgent, Model.ListAgents, "Select Agents", new { @id = "agentId", @class = "full-width" })
+                                @Html.ValidationMessageFor(model => model.idAgent)
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+
+
+                            @{
+                    string br = (string)Session["branchName"];
+                    if (!string.IsNullOrEmpty(br))
+                    {
+                        Model.sellingBranch = br;
+                        <div class="form-group  form-group-default">
+                            @Html.LabelFor(model => model.sellingBranch)
+                            @Html.TextBoxFor(model => model.sellingBranch, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.ValidationMessageFor(model => model.sellingBranch)
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group  form-group-default form-group-default-select2 ">
+                                @Html.LabelFor(model => model.sellingBranch)
+                                @Html.DropDownListFor(model => model.sellingBranch, Model.ListBranches, "Select Selling Branch", new { @id = "sb", @class = "full-width" })
+                                @Html.ValidationMessageFor(model => model.sellingBranch)
+
+                            </div>
+                    }
+                            }
+                           
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group  form-group-default ">
+                                @Html.LabelFor(model => model.noOfSeats)
+                                @Html.TextBoxFor(model => model.noOfSeats, new { @class = "form-control", Value = "" })
+                                @Html.ValidationMessageFor(model => model.noOfSeats)
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-default">
+                                @Html.LabelFor(model => model.cost)
+                                @{
+                    RouteValues = new RouteValueDictionary();
+
+
+                    RouteValues["class"] = "form-control";
+
+                    RouteValues["id"] = "cost";
+                    RouteValues["value"] = "";
+                    RouteValues["data-inputmask"] = "'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'prefix': 'Rs ', 'placeholder': '0',  'clearMaskOnLostFocus': true";
+                    RouteValues["data-inputmask-repeat"] = "10";
+
+                                }
+                                @Html.TextBoxFor(model => model.cost, RouteValues)
+                                @Html.ValidationMessageFor(model => model.cost)
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group  form-group-default ">
+                                @Html.LabelFor(model => model.margin)
+                                @{
+                    RouteValues = new RouteValueDictionary();
+
+
+                    RouteValues["class"] = "form-control";
+
+                    RouteValues["id"] = "margin";
+                    RouteValues["value"] = "";
+                    RouteValues["data-inputmask"] = "'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'prefix': 'Rs ', 'placeholder': '0',  'clearMaskOnLostFocus': true";
+                    RouteValues["data-inputmask-repeat"] = "10";
+
+                                }
+                                @Html.TextBoxFor(model => model.margin, RouteValues)
+                                @Html.ValidationMessageFor(model => model.margin)
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-default">
+                                @Html.LabelFor(model => model.sellingPrice)
+                                @{
+                    RouteValues = new RouteValueDictionary();
+
+
+                    RouteValues["class"] = "form-control";
+
+                    RouteValues["id"] = "sellingPrice";
+                    RouteValues["value"] = "";
+                    RouteValues["data-inputmask"] = "'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'prefix': 'Rs ', 'placeholder': '0',  'clearMaskOnLostFocus': true";
+                    RouteValues["data-inputmask-repeat"] = "10";
+
+                                }
+                                @Html.TextBoxFor(model => model.sellingPrice, RouteValues)
+                                @Html.ValidationMessageFor(model => model.sellingPrice)
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group  form-group-default ">
+                                @Html.LabelFor(model => model.advanceAmount)
+                                @{
+                    RouteValues = new RouteValueDictionary();
+
+
+                    RouteValues["class"] = "form-control";
+
+                    RouteValues["id"] = "advanceAmount";
+                    RouteValues["value"] = "";
+                    RouteValues["data-inputmask"] = "'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': false, 'prefix': 'Rs ', 'placeholder': '0',  'clearMaskOnLostFocus': true";
+                    RouteValues["data-inputmask-repeat"] = "10";
+
+                                }
+                                @Html.TextBoxFor(model => model.advanceAmount, RouteValues)
+                                @Html.ValidationMessageFor(model => model.advanceAmount)
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+                            @{
+                    Model.advanceDate = DateTime.Now;
+                            }
+                            <div class="form-group form-group-default date input-group">
+                                @Html.LabelFor(model => model.advanceDate)
+                                @{
+                    Model.advanceDate = DateTime.Now;
+                                }
+                                @Html.TextBoxFor(model => model.advanceDate, new { @id = "advancedate", @class = "form-control", @Value = Model.advanceDate.Value.ToString("dd/MM/yyyy"), })
+                                @Html.ValidationMessageFor(model => model.advanceDate)
+                                <span class="input-group-addon"> <i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group  form-group-default ">
+                                @Html.LabelFor(model => model.gdsPnrNumber)
+                                @Html.TextBoxFor(model => model.gdsPnrNumber, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.gdsPnrNumber)
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-default">
+                                @Html.LabelFor(model => model.catalystInvoiceNumber)
+                                @Html.TextBoxFor(model => model.catalystInvoiceNumber, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.catalystInvoiceNumber)
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="checkbox check-primary">
+                        <input type="checkbox" name="isPackage" value="1" id="checkbox1">
+                        <label for="checkbox1">With Package</label>
+                    </div>
+
+
+
+                    <div class="row">
+                        <button type="button" class="btn btn-primary" onclick="sellingsavedata()"> <i class="pg-plus"></i> Add Stock Selling</button>
+                        <button class="btn btn-default"><i class="pg-close"></i> Clear</button>
+                    </div>
+
+
+                }
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-lg-6 col-md-6" id="pinfo" style="display:none">
+        <div style="width: 100%; overflow: hidden;">
+            <div id="svgContent" style="width: 350px; float:left "> </div>
+            <div class="col-lg-3 col-md-12 col-sm-4">
+                <div class="row legend1">
+
+                    <p><span class="tasb"></span><label>Avaliable Seats</label></p>
+                    <p><span class="tgst"></span><label>Seats Split</label></p>
+                    <p><span class="tsst"></span><label>Seats Sold</label></p>
+                    <p><span class="ttst"></span><label>Seats Transfer</label></p>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h3> PNR Info </h3>
+                </div>
+
+            </div>
+            <table class="table table-hover table-condensed" id="testtable"></table>
+        </div>
+
+    </div>
+</div>
+
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")  
+            <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/2.x/dist/jquery.inputmask.bundle.js"></script>
+            <script src="~/Content/assets/plugins/jquery-autonumeric/autoNumeric.js" type="text/javascript"></script>
+            <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/additional-methods.js"></script>
+<script data-semver="3.4.6" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.6/d3.min.js"></script>
+            <script src="~/Content/assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/moment.js"></script>
+            <script type="text/javascript" src="~/Content/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+            <script src="~/app/sellingscript.js"></script>
+<script src="~/app/saveScript.js"></script>
+<script src="~/app/pnrchart.js"></script>
+            <script>
+              
+                $(document).ready(function () {
+                    $("#dv1").html('');
+                    $("#entry-form").css('visibility', 'visible')
+                });
+            </script>
+        }

@@ -1,0 +1,111 @@
+﻿@model UmarSeat.Models.Sector
+
+@{
+    ViewBag.Title = "Create";
+  Layout = null;
+}
+
+<link href="~/Content/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link class="main-stylesheet" href="~/Content/pages/css/pages.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+
+
+    <!-- START PANEL -->
+    <div class="panel panel-transparent">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <h3>Add Secotr</h3>
+            </div>
+            <div class="pull-right">
+                <button data-dismiss="modal" type="button" class="btn btn-rounded btn-danger" onclick="clearall()"><i class="pg-close"></i> </button>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+           
+            <div id="dv2"></div>
+          @using (Html.BeginForm("create", "sector", FormMethod.Post, htmlAttributes: new { id = "entry-form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="">
+
+                    @Html.ValidationSummary(true)
+                </div>
+
+               <div class="row">
+                   <div class="col-sm-12">
+                       <div class="form-group  form-group-default form-group-default-select2 ">
+                           <label>Country</label>
+
+                           @{
+                RouteValueDictionary RouteValues = new RouteValueDictionary();
+
+
+                RouteValues["class"] = "full-width";
+                RouteValues["data-init-plugin"] = "select2";
+                RouteValues["id"] = "country";
+
+
+                           }
+
+                           @Html.DropDownListFor(x => x.country, Model.ListCountry, "Choose Country", RouteValues)
+                           @Html.ValidationMessageFor(model => model.country)
+
+                       </div>
+
+                   </div>
+                  
+                 
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group  form-group-default form-group-default-select2">
+                            @Html.LabelFor(model => model.airline)
+                            @Html.DropDownListFor(model => model.airline, Model.ListAirline, new { @id = "airlineId1", @class = "full-width" })
+                     
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            @Html.LabelFor(model => model.sectorName)
+                            @Html.TextBoxFor(model => model.sectorName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.sectorName)
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            @Html.LabelFor(model => model.category)
+                            <div class="radio radio-complete">
+                                <input type="radio" value="Inbound Sector" name="category" id="sis">
+                                <label for="sis">Inbound Sector</label>
+                                <input type="radio" value="Outbound Sector" name="category" id="sos">
+                                <label for="sos">Outbound Sector</label>
+                                <input type="radio" checked="checked" value="Both" name="category" id="sbs">
+                                <label for="sbs">Both</label>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <button  type="button" onclick="sectorsavedata()" class="btn btn-primary"><i class="pg-plus"></i> Add Sector</button>
+    
+
+            }
+
+  </div>
+</div>

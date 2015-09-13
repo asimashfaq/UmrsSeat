@@ -1,0 +1,433 @@
+﻿@model IEnumerable<UmarSeat.Models.SeatConfirmation>
+
+@{
+    ViewBag.Title = " Confirmed Seats Reports PNR # WISE";
+}
+
+<div class="container-fluid  bg-white">
+    <!-- START PANEL -->
+    <div class="panel panel-transparent">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Confirmed Seats Reports PNR # WISE
+            </div>
+            <div class="export-options-container pull-right"></div>
+           
+            <div class="col-sm-3 pull-right">
+                <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+            
+
+            <table class="table" id="tableWithSearch">
+                <thead>
+
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.pnrNumber)
+                        </th>
+                       
+                        <th>
+                            @Html.DisplayNameFor(model => model.airLine)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.stockId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.outBoundDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.inBoundDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.outBoundSector)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.inBoundSector)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.noOfSeats)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.cost)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.category)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.recevingBranch)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.emdNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.timeLimit)
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.pnrNumber)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.airLine)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.stockId)
+                            </td>
+                            <td>
+                              @String.Format("{0:MM-dd-yyyy}", item.outBoundDate)
+                            </td>
+                            <td>
+                                @String.Format("{0:MM-dd-yyyy}", item.inBoundDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.outBoundSector)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.inBoundSector)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.noOfSeats)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cost)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.category)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.recevingBranch)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.emdNumber)
+                            </td>
+                            <td>
+                                @String.Format("{0:MM-dd-yyyy}", item.timeLimit)
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+
+                </tfoot>
+
+
+            </table>
+
+
+            <div id="nvd3-area" class="line-chart m-t-30 text-center" data-x-grid="false">
+                <svg></svg>
+            </div>
+</div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+<link media="screen" type="text/css" rel="stylesheet" href="~/Content/assets/plugins/nvd3/nv.d3.min.css"></link>
+<script type="text/javascript" src="~/Content/assets/plugins/nvd3/lib/d3.v3.js"></script>
+<script type="text/javascript" src="~/Content/assets/plugins/nvd3/nv.d3.min.js"></script>
+<script type="text/javascript" src="~/Content/assets/plugins/nvd3/src/utils.js"></script>
+<script type="text/javascript" src="~/Content/assets/plugins/nvd3/src/tooltip.js"></script>
+<script type="text/javascript" src="~/Content/assets/plugins/nvd3/src/interactiveLayer.js"></script>
+<script type="text/javascript" src="~/Content/assets/plugins/nvd3/src/models/axis.js"></script>
+<script type="text/javascript" src="~/Content/assets/plugins/nvd3/src/models/line.js"></script>
+<script type="text/javascript" src="~/Content/assets/plugins/nvd3/src/models/lineWithFocusChart.js"></script>
+    <style>
+        .table > tfoot > tr > th, .table > thead > tr > th {
+            border-top: 0px !important;
+        }
+
+        .TableTools {
+            display: inline-block !important;
+        }
+
+        .ColVis.TableTools .btn {
+            margin-top: -2px;
+            margin-right: 2px;
+        }
+
+        .TableTools_Button, .fix {
+            background: white;
+            border: 1px solid #F1F1F1;
+            text-align: left;
+            /* border-top: 1px; */
+            margin-bottom: -1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            letter-spacing: 0.01em;
+            -webkit-font-smoothing: antialiased;
+            padding: 6px 12px;
+        }
+
+        .TableTools_catcher {
+            display: none !important;
+        }
+
+        .TableTools_collectionBackground {
+            max-width: 95%;
+        }
+
+
+        svg .nv-controlsWrap
+        {
+            display: none;
+        }
+
+        
+    </style>
+
+    <script src="~/Content/assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/Content/assets/plugins/bootstrap-select2/select2.min.js"></script>
+    <script src="~/Content/assets/asimdatabtable/js/TableTools.js"></script>
+    <script src="~/Content/assets/plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
+    <script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+
+
+    <script src="~/Content/assets/asimdatabtable/js/ColVis.js"></script>
+    <script src="~/Content/assets/asimdatabtable/js/ColReorderWithResize.js"></script>
+
+    <script src="~/Content/assets/asimdatabtable/js/ZeroClipboard.js"></script>
+    <script src="~/Content/assets/asimdatabtable/js/jquery.dataTables.columnFilter.js"></script>
+
+
+
+
+
+
+    <script type="text/javascript" charset="utf-8">
+      
+        $(document).ready(function () {
+
+
+           
+            var oTable = $('#tableWithSearch').dataTable({
+
+
+                "bProcessing": true,
+                "bDestroy": true,
+                "oLanguage": {
+
+                    "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries",
+                    "sSearch": "",
+                    "sLengthMenu": "<select  class='cs-select cs-skin-slide form-control' data-init-plugin='cs-select'>" +
+                                    "<option value='10'>10</option>" +
+                                    "<option value='50'>50</option>" +
+                                    "<option value='100'>100</option>" +
+                                    "<option value='-1'>All</option>" +
+                                    "</select>"
+                },
+                "iDisplayLength": 5,
+
+                "sPaginationType": "bootstrap",
+                "scrollCollapse": true,
+                "sDom": "<'selectMenu' l>r<'exportOptions'CT><'table-responsive't><'row'<pi>>",
+                "oTableTools": {
+                    "sSwfPath": "http://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf",
+                    "aButtons": [
+
+                    {
+                        "sExtends": "xls",
+                        "sFileName": "projectsList.xls",
+                        "sButtonText": "<i class='fa fa-file-excel-o'></i>",
+                        'mColumns': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                    },
+                    {
+                        "sExtends": "xls",
+                        "sFileName": "visibleProjectList1.xls",
+                        "sButtonText": "Download Visible Columns",
+                        'mColumns': "visible"
+                    }
+
+                    ]
+
+                },
+                "oColVis": { "sClose": "<i class='fa fa-close'></i>", "buttonText": "<i class='fa fa-eye'></i>", "bLabel": true, "iMaxRows": 2 },
+                "aoColumnDefs": [
+                 //{ 'bSortable': false, 'aTargets': [2] }
+                ],
+                fnDrawCallback: function (oSettings) {
+
+                    $('.export-options-container').append($('.exportOptions'));
+                    $(".ColVis_Button").attr('class', 'btn btn-white fix');
+
+                    $('#ToolTables_tableWithExportOptions_0').tooltip({
+                        title: 'Export as CSV',
+                        container: 'body'
+                    });
+
+                    $('#ToolTables_tableWithExportOptions_1').tooltip({
+                        title: 'Export as Excel',
+                        container: 'body'
+                    });
+
+                    $('#ToolTables_tableWithExportOptions_2').tooltip({
+                        title: 'Export as PDF',
+                        container: 'body'
+                    });
+
+                    $('#ToolTables_tableWithExportOptions_3').tooltip({
+                        title: 'Copy data',
+                        container: 'body'
+                    });
+                }
+
+
+            });
+
+            $('#search-table').keyup(function () {
+                oTable.fnFilter($(this).val());
+            });
+
+
+        });
+
+
+
+        d3.json('/reports/pnrgraph', function (data) {
+
+            (function () {
+
+                // Renders a stacked area chart
+                nv.addGraph(function () {
+                    var chart = nv.models.stackedAreaChart()
+                        // Gets color (rgba) value using Pages util function $.Pages.getColor()
+                        .color([
+                            $.Pages.getColor('success', .7),
+                            $.Pages.getColor('info'),
+                            $.Pages.getColor('primary', .87), //south america
+                            $.Pages.getColor('warning'),
+                            $.Pages.getColor('complete', .67), //europe
+                            $.Pages.getColor('success-dark'),
+                            $.Pages.getColor('menu', .2) //antarctica
+                        ])
+                        .margin({
+                            left: 15
+                        })
+                        .x(function (d) {
+                            return d[0]
+                        }) //We can modify the data accessor functions...
+                        .y(function (d) {
+                            return d[1]
+                        }) //...in case your data is formatted differently.
+                        .useInteractiveGuideline(true) //Tooltips which show all data points. Very nice!
+                        .rightAlignYAxis(true) //Let's move the y-axis to the right side.
+                        .transitionDuration(500)
+                        .showControls(true) //Allow user to choose 'Stacked', 'Stream', 'Expanded' mode.
+                        .clipEdge(true);
+
+                    //Format x-axis labels with custom function.
+                    chart.xAxis
+                        .tickFormat(function (d) {
+                            return d3.time.format('%x')(new Date(d))
+                        });
+
+                    chart.yAxis
+                        .tickFormat(d3.format('d'));
+
+
+
+                    chart.legend.margin({
+                        top: 0
+                    });
+
+                    d3.select('#nvd3-area svg')
+                        .datum(data)
+                        .call(chart);
+
+                    var xTicks = d3.select('.nv-y.nv-axis  g').selectAll('g');
+                    xTicks
+                        .selectAll('text')
+                        .attr('transform', function (d, i, j) {
+                            return 'translate (8, 0)'
+                        });
+
+                    var yTicks = d3.select('.nv-x.nv-axis  g').selectAll('g');
+                    yTicks
+                        .selectAll('text')
+                        .attr('transform', function (d, i, j) {
+                            return 'translate (0, 10)'
+                        });
+
+                    var minmax = d3.select('.nv-x.nv-axis g');
+                    minmax
+                        .selectAll('text')
+                        .attr('transform', function (d, i, j) {
+                            return 'translate (0, 10)'
+                        });
+
+
+                    var legend = d3.select('.nv-legendWrap .nv-legend');
+                    legend.attr('transform', function (d, i, j) {
+                        return 'translate (0, 0)'
+                    });
+
+                    d3.showControls(false);
+                    $('#nvd3-area').data('chart', chart);
+
+                    nv.utils.windowResize(function () {
+
+                        chart.update();
+
+                        var xTicks = d3.select('.nv-y.nv-axis  g').selectAll('g');
+                        xTicks
+                            .selectAll('text')
+                            .attr('transform', function (d, i, j) {
+                                return 'translate (10, 0)'
+                            });
+
+                        var yTicks = d3.select('.nv-x.nv-axis  g').selectAll('g');
+                        yTicks
+                            .selectAll('text')
+                            .attr('transform', function (d, i, j) {
+                                return 'translate (0, 10)'
+                            });
+
+                        var minmax = d3.select('.nv-x.nv-axis g');
+                        minmax
+                            .selectAll('text')
+                            .attr('transform', function (d, i, j) {
+                                return 'translate (0, 10)'
+                            });
+
+
+                        var legend = d3.select('.nv-legendWrap .nv-legend');
+                        legend.attr('transform', function (d, i, j) {
+                            return 'translate (0, 0)'
+                        });
+
+                    });
+
+               
+
+                    return chart;
+                });
+
+            })();
+        });
+
+    </script>
+
+}
+@section Bread{
+    <ul class="breadcrumb">
+        <li>
+            <a href="">Reports</a>
+        </li>
+        <li>
+            <a href="#" class="active"> Confirmed Seats Reports PNR # WISE </a>
+        </li>
+    </ul>
+}

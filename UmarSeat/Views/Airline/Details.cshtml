@@ -1,0 +1,42 @@
+﻿@model UmarSeat.Models.airLine
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>airLine</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Subscription.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subscription.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.airlineName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.airlineName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_AirLine }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,67 @@
+﻿@using UmarSeat.Helpers;
+
+@model UmarSeat.Models.Stock
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = null;
+}
+
+
+<link href="~/Content/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link class="main-stylesheet" href="~/Content/pages/css/pages.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+
+<div class="container-fluid  bg-white">
+    <!-- START PANEL -->
+    <div class="panel panel-transparent">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Do you Want to Delete @Html.Raw(Model.stockName) ?
+            </div>
+            <div class="export-options-container pull-right"></div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+
+
+            <table class="table table-responsive ">
+                <tbody>
+                    <tr>
+                        <td>StockId Name</td>
+                        <td>@Html.Raw(Model.stockName)</td>
+
+                    </tr>
+                    
+
+
+                </tbody>
+            </table>
+
+            @Ajax.RawActionLink(string.Format("<i class=\"fa fa-remove\" ></i> Delete {0}", Model.id_Stock), "Delete", null, new { id = Model.id_Stock },
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "onDeleteSuccess",
+                Confirm = "Are you sure you want to delete this?"
+            },
+                              new { @class = "btn btn-danger", id = "cnfrmDelete" })
+
+        </div>
+    </div>
+    <!-- END PANEL -->
+</div>
+
+
+
+
+
+<script>
+    function onDeleteSuccess() {
+     
+        window.location.reload();
+    }
+
+
+</script>

@@ -1,0 +1,153 @@
+﻿
+@model UmarSeat.Models.branches
+
+@{
+    ViewBag.Title = "Edit ";
+    Layout = null;
+}
+<link href="~/Content/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen" />
+<link class="main-stylesheet" href="~/Content/pages/css/pages.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+<link href="~/Content/overlay-bootstrap.css" rel="stylesheet" />
+<div class="panel panel-transparent">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h3> Edit Branch @Html.Raw(Model.branchName)</h3>
+        </div>
+        <div class="export-options-container pull-right"></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="panel-body">
+        <div id="dv2">
+            <div id="aaa" class="panel-default-overlay-down">
+
+                <div class="col-sm-12 text-center" style="height:100%">
+
+                    <div class="progress-circle-indeterminate m-t-45">
+
+                    </div>
+                    <br>
+                    <p class="small hint-text">Loading data</p>
+                </div>
+            </div>
+        </div>
+
+        @using (Html.BeginForm("edit", "branches", FormMethod.Post, htmlAttributes: new { id = "entry-form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true)
+            </div>
+            @Html.HiddenFor(x => x.id_branch)
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(model => model.branchName)
+                        @Html.TextBoxFor(model => model.branchName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.branchName)
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group  form-group-default form-group-default-select2 ">
+                        @Html.LabelFor(model => model.branchCountry)
+                        @Html.DropDownListFor(x => x.branchCountry, Model.ListCountry, "Choose Country", new { @class = "full-width" })
+                        @Html.ValidationMessageFor(model => model.branchCountry)
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-sm-12">
+                    <div class="form-group  form-group-default form-group-default-select2" id="st">
+                        @Html.LabelFor(model => model.branchCity)
+                        <div id="citites" class="form-group-default form-group-default-select2" style="padding:0px ; margin:0px">
+                            @Html.DropDownListFor(x => x.branchCity, new List<SelectListItem>(), "Choose Stock", new { @id = "branchCity", @class = "full-width" })
+                            @Html.ValidationMessageFor(model => model.branchCity)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group  form-group-default ">
+                        @Html.LabelFor(model => model.branchAddress)
+                        @Html.TextBoxFor(model => model.branchAddress, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.branchAddress)
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button type="button" onclick="updatedata()" class="btn btn-primary"><i class="pg-plus"></i> Update Branch</button>
+    <button data-dismiss="modal" onclick="clearall()" class="btn btn-default"><i class="pg-close"></i> Clear</button>
+        }
+    </div>
+</div>
+
+
+
+<style>
+    .select2-container {
+        width: 99%;
+    }
+</style>
+
+<script>
+ 
+
+    $.ajax({
+        type: "post",
+        url: "/Branches/GetCities",
+        data: { countryId: $('#branchCountry').val() },
+        datatype: "json",
+        traditional: true,
+        success: function (data) {
+            $("#s2id_Country").parent().removeClass('has-error');
+            var city = "<select id='branchCity' name='branchCity'>";
+
+            for (var i = 0; i < data.length; i++) {
+                data[i].Value = data[i].Value.replace(/\s/g, '');
+                if (data[i].Value == '@(Model.branchCity)') {
+                    city = city + '<option selected="selected" value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+                else {
+                    city = city + '<option  value=' + data[i].Value + '>' + data[i].Text + '</option>';
+                }
+
+
+            }
+            city = city + '</select>';
+            $("#st").show();
+            $('#citites').html(city);
+
+            $("#branchCity").select2({
+                placeholder: "Select a City",
+                allowClear: true
+            });
+            $("#branchCountry").select2({
+                placeholder: "Select a Country",
+                allowClear: true
+            });
+            $("#dv2").html('');
+            $("#entry-form").css('visibility', 'visible')
+        }
+    });
+</script>
+

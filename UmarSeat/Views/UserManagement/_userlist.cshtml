@@ -1,0 +1,171 @@
+﻿@using UmarSeat.Helpers;
+
+@model IEnumerable<UmarSeat.Models.ApplicationUser>
+
+<div class="table-responsive">
+
+    <table class="table table-hover   table-detailed" id="detailedTable">
+
+
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.PersonInfo.First().firstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PersonInfo.First().lastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PersonInfo.First().email)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.userRole)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.AccountStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PersonInfo.First().branchName)
+                </th>
+
+
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PersonInfo.First().firstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PersonInfo.First().lastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PersonInfo.First().email)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.userRole)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccountStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PersonInfo.First().branchName)
+                    </td>
+
+
+
+
+                    <td class="action">
+                        @if(item.AccountStatus == UmarSeat.Models.AccountStatus.Pending)
+                        {
+                              
+                            
+                             @Ajax.RawActionLink(string.Format("<i class=\"fa fa-check\" ></i> Approve"), "Approved", null, new { id = item.Id },
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    OnSuccess = "onSuccess",
+                                    Confirm = "Are you sure you want to Approve this?",
+                                    Url = string.Format("/usermanagement/approved/?id={0}",item.Id),
+                                    OnFailure = "onFail"
+                                },
+                              new { @class = "btn btn-complete", id = "cnfrmApprove" })
+
+                        }
+                        else
+                        {
+                            <a key="@Html.Raw(item.Id)" href="/Usermanagement/addroletouser/?id=@Html.Raw(item.Id)" class=" editbtn btn btn-complete" data-toggle="modal" data-target="#modalEdit">
+                                <i class="fa fa-edit"></i> Manage Permission
+                            </a>
+                             @Ajax.RawActionLink(string.Format("<i class=\"fa fa-ban\" ></i> Blocked"), "Blocked", null, new { uid = item.Id },
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    OnSuccess = "onSuccess",
+                                    Confirm = "Are you sure you want to Blocked this?",
+                                    Url = string.Format("/usermanagement/blocked/?id={0}", item.Id),
+                                    OnFailure = "onFail"
+                                },
+                                  new { @class = "btn btn-danger", id = "cnfrmBlocked" })
+                        }
+                      
+                       
+                        @Ajax.RawActionLink(string.Format("<i class=\"fa fa-remove\" ></i> Delete"), "Delete", null, new { uid = item.Id },
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    OnSuccess = "onSuccess",
+                                    Confirm = "Are you sure you want to Delete this?",
+                                    Url = string.Format("/usermanagement/delete/?id={0}", item.Id),
+                                    OnFailure = "onFail"
+                                },
+                              new { @class = "btn btn-danger", id = "cnfrmDelete" })
+                      
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+
+</div>
+
+
+
+
+<div class="modal fade slide-up disable-scroll" id="modalSlideUp" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="pg-close fs-14"></i>
+                    </button>
+                    <h5>Please wait <span class="semi-bold">...</span></h5>
+                </div>
+                <div class="modal-body" id="mc">
+                    Loading Content
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+
+<div class="modal fade slide-up disable-scroll" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="pg-close fs-14"></i>
+                    </button>
+                    <h5>Please wait <span class="semi-bold">...</span></h5>
+                </div>
+                <div class="modal-body" id="mc">
+                    Loading Content
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@model UmarSeat.Models.branches
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>branches</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.branchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.branchName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.branchCitry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.branchCitry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.branchAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.branchAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_branch }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

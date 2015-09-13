@@ -1,0 +1,1978 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D5627EF2-A86C-47E2-A848-8683AD4FF7CE}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UmarSeat</RootNamespace>
+    <AssemblyName>UmarSeat</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Forloop.HtmlHelpers">
+      <HintPath>..\packages\Forloop.HtmlHelpers.1.2.0.0\lib\net45\Forloop.HtmlHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.OData.Core">
+      <HintPath>..\packages\Microsoft.OData.Core.6.11.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.OData.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.OData.Edm">
+      <HintPath>..\packages\Microsoft.OData.Edm.6.11.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.OData.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Spatial">
+      <HintPath>..\packages\Microsoft.Spatial.6.11.0\lib\portable-net40+sl5+wp8+win8+wpa\Microsoft.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\packages\Quartz.2.3.3\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.OData">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.5.1\lib\net45\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Tracing">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Tracing.5.2.3\lib\net45\System.Web.Http.Tracing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.OData">
+      <HintPath>..\packages\Microsoft.AspNet.OData.5.6.0\lib\net45\System.Web.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.1.0.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.1.0.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.2.0.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.0.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.0.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.2.0.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.2.0.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.2.0.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgentsController.cs" />
+    <Compile Include="Controllers\AirlineController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
+    <Compile Include="Controllers\BranchesController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\EmpController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvitationController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SectorController.cs" />
+    <Compile Include="Controllers\StockController.cs" />
+    <Compile Include="Controllers\StockIdController.cs" />
+    <Compile Include="Controllers\SubscriptionPlanController.cs" />
+    <Compile Include="Controllers\UserManagementController.cs" />
+    <Compile Include="Controllers\UserRoleController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\EntitySetControllerWithHub.cs" />
+    <Compile Include="Helpers\JsonpResult.cs" />
+    <Compile Include="Helpers\lowercase.cs" />
+    <Compile Include="Helpers\pnrCalculator.cs" />
+    <Compile Include="Hubs\BookingHub.cs" />
+    <Compile Include="Hubs\MyHub1.cs" />
+    <Compile Include="jobs\pnrStatsJob.cs" />
+    <Compile Include="Migrations\201508041327409_updatetodb.cs" />
+    <Compile Include="Migrations\201508041327409_updatetodb.Designer.cs">
+      <DependentUpon>201508041327409_updatetodb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508041439407_SubscriptionPlan.cs" />
+    <Compile Include="Migrations\201508041439407_SubscriptionPlan.Designer.cs">
+      <DependentUpon>201508041439407_SubscriptionPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508050527576_Persontable1.cs" />
+    <Compile Include="Migrations\201508050527576_Persontable1.Designer.cs">
+      <DependentUpon>201508050527576_Persontable1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508050539255_SubscriptionPlantToIdentity.cs" />
+    <Compile Include="Migrations\201508050539255_SubscriptionPlantToIdentity.Designer.cs">
+      <DependentUpon>201508050539255_SubscriptionPlantToIdentity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508051336584_Subscription.cs" />
+    <Compile Include="Migrations\201508051336584_Subscription.Designer.cs">
+      <DependentUpon>201508051336584_Subscription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508070527466_addStatus.cs" />
+    <Compile Include="Migrations\201508070527466_addStatus.Designer.cs">
+      <DependentUpon>201508070527466_addStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508071257380_airline.cs" />
+    <Compile Include="Migrations\201508071257380_airline.Designer.cs">
+      <DependentUpon>201508071257380_airline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508080626238_BranchesCity.cs" />
+    <Compile Include="Migrations\201508080626238_BranchesCity.Designer.cs">
+      <DependentUpon>201508080626238_BranchesCity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508080629322_CityName.cs" />
+    <Compile Include="Migrations\201508080629322_CityName.Designer.cs">
+      <DependentUpon>201508080629322_CityName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508090552401_CityChanges.cs" />
+    <Compile Include="Migrations\201508090552401_CityChanges.Designer.cs">
+      <DependentUpon>201508090552401_CityChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508090557063_branchChanges.cs" />
+    <Compile Include="Migrations\201508090557063_branchChanges.Designer.cs">
+      <DependentUpon>201508090557063_branchChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508091207548_countryChanges1.cs" />
+    <Compile Include="Migrations\201508091207548_countryChanges1.Designer.cs">
+      <DependentUpon>201508091207548_countryChanges1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508091358594_branchCountry.cs" />
+    <Compile Include="Migrations\201508091358594_branchCountry.Designer.cs">
+      <DependentUpon>201508091358594_branchCountry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508100440100_branchCountryNotRequired.cs" />
+    <Compile Include="Migrations\201508100440100_branchCountryNotRequired.Designer.cs">
+      <DependentUpon>201508100440100_branchCountryNotRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508100503544_Sector.cs" />
+    <Compile Include="Migrations\201508100503544_Sector.Designer.cs">
+      <DependentUpon>201508100503544_Sector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508100512002_Category.cs" />
+    <Compile Include="Migrations\201508100512002_Category.Designer.cs">
+      <DependentUpon>201508100512002_Category.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508100551586_SeatConfirmation.cs" />
+    <Compile Include="Migrations\201508100551586_SeatConfirmation.Designer.cs">
+      <DependentUpon>201508100551586_SeatConfirmation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508100603158_SeatConfirmationCountry.cs" />
+    <Compile Include="Migrations\201508100603158_SeatConfirmationCountry.Designer.cs">
+      <DependentUpon>201508100603158_SeatConfirmationCountry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508110435125_Agents.cs" />
+    <Compile Include="Migrations\201508110435125_Agents.Designer.cs">
+      <DependentUpon>201508110435125_Agents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508110603598_StockTransfer.cs" />
+    <Compile Include="Migrations\201508110603598_StockTransfer.Designer.cs">
+      <DependentUpon>201508110603598_StockTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508120549060_UserRole.cs" />
+    <Compile Include="Migrations\201508120549060_UserRole.Designer.cs">
+      <DependentUpon>201508120549060_UserRole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508120559557_userRoles.cs" />
+    <Compile Include="Migrations\201508120559557_userRoles.Designer.cs">
+      <DependentUpon>201508120559557_userRoles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508150942490_UserRoleSubscription.cs" />
+    <Compile Include="Migrations\201508150942490_UserRoleSubscription.Designer.cs">
+      <DependentUpon>201508150942490_UserRoleSubscription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508151107187_checking.cs" />
+    <Compile Include="Migrations\201508151107187_checking.Designer.cs">
+      <DependentUpon>201508151107187_checking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508151154204_checking1.cs" />
+    <Compile Include="Migrations\201508151154204_checking1.Designer.cs">
+      <DependentUpon>201508151154204_checking1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508151155275_checking2.cs" />
+    <Compile Include="Migrations\201508151155275_checking2.Designer.cs">
+      <DependentUpon>201508151155275_checking2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508160457247_exp1.cs" />
+    <Compile Include="Migrations\201508160457247_exp1.Designer.cs">
+      <DependentUpon>201508160457247_exp1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508171414053_employee.cs" />
+    <Compile Include="Migrations\201508171414053_employee.Designer.cs">
+      <DependentUpon>201508171414053_employee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508180631540_addLock.cs" />
+    <Compile Include="Migrations\201508180631540_addLock.Designer.cs">
+      <DependentUpon>201508180631540_addLock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508201107572_Branchcanges1.cs" />
+    <Compile Include="Migrations\201508201107572_Branchcanges1.Designer.cs">
+      <DependentUpon>201508201107572_Branchcanges1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508201456015_SeatLock.cs" />
+    <Compile Include="Migrations\201508201456015_SeatLock.Designer.cs">
+      <DependentUpon>201508201456015_SeatLock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508300417073_stock.cs" />
+    <Compile Include="Migrations\201508300417073_stock.Designer.cs">
+      <DependentUpon>201508300417073_stock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508300503211_stockSUbscirption.cs" />
+    <Compile Include="Migrations\201508300503211_stockSUbscirption.Designer.cs">
+      <DependentUpon>201508300503211_stockSUbscirption.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509030731587_sectorAdvance.cs" />
+    <Compile Include="Migrations\201509030731587_sectorAdvance.Designer.cs">
+      <DependentUpon>201509030731587_sectorAdvance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509110452161_somestuff.cs" />
+    <Compile Include="Migrations\201509110452161_somestuff.Designer.cs">
+      <DependentUpon>201509110452161_somestuff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509111006474_pnrStatus.cs" />
+    <Compile Include="Migrations\201509111006474_pnrStatus.Designer.cs">
+      <DependentUpon>201509111006474_pnrStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509111409149_pnrStatus1.cs" />
+    <Compile Include="Migrations\201509111409149_pnrStatus1.Designer.cs">
+      <DependentUpon>201509111409149_pnrStatus1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509120623327_pnrLogs1.cs" />
+    <Compile Include="Migrations\201509120623327_pnrLogs1.Designer.cs">
+      <DependentUpon>201509120623327_pnrLogs1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509120748362_pnrLogs11.cs" />
+    <Compile Include="Migrations\201509120748362_pnrLogs11.Designer.cs">
+      <DependentUpon>201509120748362_pnrLogs11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509121000351_pnrLock.cs" />
+    <Compile Include="Migrations\201509121000351_pnrLock.Designer.cs">
+      <DependentUpon>201509121000351_pnrLock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509121133210_RowVersion.cs" />
+    <Compile Include="Migrations\201509121133210_RowVersion.Designer.cs">
+      <DependentUpon>201509121133210_RowVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509121250471_sync.cs" />
+    <Compile Include="Migrations\201509121250471_sync.Designer.cs">
+      <DependentUpon>201509121250471_sync.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Agents.cs" />
+    <Compile Include="Models\airLine.cs" />
+    <Compile Include="Models\branches.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\City.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\ExcludeChar.cs" />
+    <Compile Include="Models\FormattedDbEntityValidationException.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\person.cs" />
+    <Compile Include="Models\pnrLog.cs" />
+    <Compile Include="Models\SearchSeatModel.cs" />
+    <Compile Include="Models\SeatConfirmation.cs" />
+    <Compile Include="Models\Sector.cs" />
+    <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\StockTransfer.cs" />
+    <Compile Include="Models\Subscription.cs" />
+    <Compile Include="Models\subscriptionPlan.cs" />
+    <Compile Include="Models\UserRoles.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\agentscript.js" />
+    <Content Include="app\airlinescript.js" />
+    <Content Include="app\bookingscript.js" />
+    <Content Include="app\bookingViewModel.js" />
+    <Content Include="app\branchscript.js" />
+    <Content Include="app\categoryscript.js" />
+    <Content Include="app\EmployeeViewModel.js" />
+    <Content Include="app\groupsplitscript.js" />
+    <Content Include="app\invitationscript.js" />
+    <Content Include="app\pnrchart.js" />
+    <Content Include="app\saveScript.js" />
+    <Content Include="app\sectorscript.js" />
+    <Content Include="app\sellingscript.js" />
+    <Content Include="app\stockidScript.js" />
+    <Content Include="app\transferscript.js" />
+    <Content Include="Content\assets\css\style.css" />
+    <Content Include="Content\assets\css\style.min.css" />
+    <Content Include="Content\assets\img\logo.png" />
+    <Content Include="Content\assets\img\logo_2x.png" />
+    <Content Include="Content\assets\img\logo_white.png" />
+    <Content Include="Content\assets\img\logo_white_2x.png" />
+    <Content Include="Content\assets\img\profiles\1.jpg" />
+    <Content Include="Content\assets\img\profiles\1x.jpg" />
+    <Content Include="Content\assets\img\profiles\2.jpg" />
+    <Content Include="Content\assets\img\profiles\2x.jpg" />
+    <Content Include="Content\assets\img\profiles\3.jpg" />
+    <Content Include="Content\assets\img\profiles\3x.jpg" />
+    <Content Include="Content\assets\img\profiles\avatar.jpg" />
+    <Content Include="Content\assets\img\profiles\avatar2x.jpg" />
+    <Content Include="Content\assets\img\profiles\avatar_small.jpg" />
+    <Content Include="Content\assets\img\profiles\avatar_small2x.jpg" />
+    <Content Include="Content\assets\js\scripts.js" />
+    <Content Include="Content\assets\plugins\alerts\sweet-alert.css" />
+    <Content Include="Content\assets\plugins\alerts\sweet-alert.js" />
+    <Content Include="Content\assets\plugins\alerts\sweet-alert.min.js" />
+    <Content Include="Content\assets\plugins\animate.min.css" />
+    <Content Include="Content\assets\plugins\boostrap-checkbox\css\bootstrap-checkbox.css" />
+    <Content Include="Content\assets\plugins\boostrap-checkbox\img\Tick.png" />
+    <Content Include="Content\assets\plugins\boostrap-checkbox\js\bootstrap-checkbox.js" />
+    <Content Include="Content\assets\plugins\boostrap-form-wizard\js\jquery.bootstrap.wizard.min.js" />
+    <Content Include="Content\assets\plugins\boostrapv3\css\bootstrap-theme.css" />
+    <Content Include="Content\assets\plugins\boostrapv3\css\bootstrap-theme.min.css" />
+    <Content Include="Content\assets\plugins\boostrapv3\css\bootstrap.css" />
+    <Content Include="Content\assets\plugins\boostrapv3\css\bootstrap.min.css" />
+    <Content Include="Content\assets\plugins\boostrapv3\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\assets\plugins\boostrapv3\js\bootstrap.js" />
+    <Content Include="Content\assets\plugins\boostrapv3\js\bootstrap.min.js" />
+    <Content Include="Content\assets\plugins\boostrap\css\bootstrap-theme.css" />
+    <Content Include="Content\assets\plugins\boostrap\css\bootstrap-theme.min.css" />
+    <Content Include="Content\assets\plugins\boostrap\css\bootstrap.css" />
+    <Content Include="Content\assets\plugins\boostrap\css\bootstrap.min.css" />
+    <Content Include="Content\assets\plugins\boostrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\assets\plugins\boostrap\js\bootstrap.js" />
+    <Content Include="Content\assets\plugins\boostrap\js\bootstrap.min.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\css\datepicker.css" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\css\datepicker3.css" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.az.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.et.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.no.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.ua.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Content\assets\plugins\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2-bootstrap.css" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2-spinner.gif" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2.css" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2.min.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2.png" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2x2.png" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_ar.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_az.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_bg.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_ca.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_cs.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_da.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_de.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_el.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_es.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_et.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_eu.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_fa.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_fi.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_fr.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_gl.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_he.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_hr.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_hu.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_id.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_is.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_it.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_ja.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_ka.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_ko.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_lt.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_lv.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_mk.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_ms.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_nl.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_no.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_pl.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_pt-BR.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_pt-PT.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_ro.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_rs.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_ru.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_sk.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_sv.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_th.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_tr.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_ua.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_ug-CN.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_uk.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_vi.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_zh-CN.js" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_zh-TW.js" />
+    <Content Include="Content\assets\plugins\bootstrap-tag\bootstrap-tagsinput.css" />
+    <Content Include="Content\assets\plugins\bootstrap-tag\bootstrap-tagsinput.js" />
+    <Content Include="Content\assets\plugins\bootstrap-tag\bootstrap-tagsinput.min.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\bootstrap3-wysihtml5.all.min.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\bootstrap3-wysihtml5.min.css" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\commands.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.ar-AR.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.bg-BG.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.ca-CT.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.cs-CZ.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.da-DK.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.de-DE.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.el-GR.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.en-US.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.es-AR.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.es-ES.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.fr-FR.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.hr-HR.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.hu-HU.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.il-HE.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.it-IT.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.ja-JP.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.ko-KR.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.lt-LT.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.mo-MD.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.nb-NB.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.nl-NL.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.pl-PL.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.pt-BR.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.ru-RU.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.sk-SK.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.sv-SE.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.tr-TR.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.ua-UA.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.zh-CN.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\locales\bootstrap-wysihtml5.zh-TW.js" />
+    <Content Include="Content\assets\plugins\bootstrap3-wysihtml5\templates.js" />
+    <Content Include="Content\assets\plugins\classie\classie.js" />
+    <Content Include="Content\assets\plugins\codrops-stepsform\css\component.css" />
+    <Content Include="Content\assets\plugins\codrops-stepsform\js\classie.js" />
+    <Content Include="Content\assets\plugins\codrops-stepsform\js\stepsForm.js" />
+    <Content Include="Content\assets\plugins\codrops-stepsform\README.txt" />
+    <Content Include="Content\assets\plugins\d3\d3.min.js" />
+    <Content Include="Content\assets\plugins\datatables-responsive\css\datatables.responsive.css" />
+    <Content Include="Content\assets\plugins\datatables-responsive\img\minus.png" />
+    <Content Include="Content\assets\plugins\datatables-responsive\img\plus.png" />
+    <Content Include="Content\assets\plugins\datatables-responsive\js\datatables.responsive.js" />
+    <Content Include="Content\assets\plugins\datatables-responsive\js\lodash.min.js" />
+    <Content Include="Content\assets\plugins\dropzone\css\basic.css" />
+    <Content Include="Content\assets\plugins\dropzone\css\dropzone.css" />
+    <Content Include="Content\assets\plugins\dropzone\dropzone-amd-module.js" />
+    <Content Include="Content\assets\plugins\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Content\assets\plugins\dropzone\dropzone.js" />
+    <Content Include="Content\assets\plugins\dropzone\dropzone.min.js" />
+    <Content Include="Content\assets\plugins\dropzone\images\new\back\spritemap%402x.png" />
+    <Content Include="Content\assets\plugins\dropzone\images\new\back\spritemap.png" />
+    <Content Include="Content\assets\plugins\dropzone\images\new\spritemap%402x.png" />
+    <Content Include="Content\assets\plugins\dropzone\images\new\spritemap.png" />
+    <Content Include="Content\assets\plugins\dropzone\images\spritemap%402x.png" />
+    <Content Include="Content\assets\plugins\dropzone\images\spritemap.png" />
+    <Content Include="Content\assets\plugins\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\assets\plugins\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\assets\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar.css" />
+    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar.min.css" />
+    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar.min.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar.print.css" />
+    <Content Include="Content\assets\plugins\fullcalendar\fullcalendar.print.min.css" />
+    <Content Include="Content\assets\plugins\fullcalendar\gcal.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\gcal.min.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang-all.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\ar-ma.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\ar-sa.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\ar.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\bg.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\ca.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\cs.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\da.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\de-at.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\de.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\el.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\en-au.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\en-ca.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\en-gb.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\es.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\fa.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\fi.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\fr-ca.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\fr.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\hi.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\hr.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\hu.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\id.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\is.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\it.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\ja.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\ko.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\lt.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\lv.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\nl.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\pl.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\pt-br.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\pt.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\ro.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\ru.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\sk.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\sl.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\sr-cyrl.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\sr.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\sv.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\th.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\tr.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\uk.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\vi.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\zh-cn.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lang\zh-tw.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\animated-overlay.gif" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-bg_flat_15_cd0a0a_40x100.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-bg_glass_100_e4f1fb_1x400.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-bg_glass_50_3baae3_1x400.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-bg_glass_80_d7ebf9_1x400.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-bg_highlight-hard_100_f2f5f7_1x100.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-bg_highlight-hard_70_000000_1x100.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-bg_highlight-soft_100_deedf7_1x100.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-bg_highlight-soft_25_ffef8f_1x100.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-icons_2694e8_256x240.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-icons_3d80b3_256x240.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-icons_72a7cf_256x240.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\cupertino\jquery-ui.min.css" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\jquery-ui.custom.min.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\jquery.min.js" />
+    <Content Include="Content\assets\plugins\fullcalendar\lib\moment.min.js" />
+    <Content Include="Content\assets\plugins\hammer.min.js" />
+    <Content Include="Content\assets\plugins\imagesloaded\imagesloaded.pkgd.min.js" />
+    <Content Include="Content\assets\plugins\ion-slider\css\ion.rangeSlider.css" />
+    <Content Include="Content\assets\plugins\ion-slider\css\ion.rangeSlider.skinFlat.css" />
+    <Content Include="Content\assets\plugins\ion-slider\css\ion.rangeSlider.skinHTML5.css" />
+    <Content Include="Content\assets\plugins\ion-slider\css\ion.rangeSlider.skinModern.css" />
+    <Content Include="Content\assets\plugins\ion-slider\css\ion.rangeSlider.skinNice.css" />
+    <Content Include="Content\assets\plugins\ion-slider\css\ion.rangeSlider.skinSimple.css" />
+    <Content Include="Content\assets\plugins\ion-slider\css\normalize.css" />
+    <Content Include="Content\assets\plugins\ion-slider\css\normalize.min.css" />
+    <Content Include="Content\assets\plugins\ion-slider\img\sprite-skin-flat.png" />
+    <Content Include="Content\assets\plugins\ion-slider\img\sprite-skin-modern.png" />
+    <Content Include="Content\assets\plugins\ion-slider\img\sprite-skin-nice.png" />
+    <Content Include="Content\assets\plugins\ion-slider\img\sprite-skin-simple.png" />
+    <Content Include="Content\assets\plugins\ion-slider\js\ion.rangeSlider.js" />
+    <Content Include="Content\assets\plugins\ion-slider\js\ion.rangeSlider.min.js" />
+    <Content Include="Content\assets\plugins\jquery-actual\jquery.actual.min.js" />
+    <Content Include="Content\assets\plugins\jquery-autonumeric\autoNumeric.js" />
+    <Content Include="Content\assets\plugins\jquery-bez\jquery.bez.min.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\column_render.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\complex_header.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\defaults.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\dom_multiple_elements.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\dom_toolbar.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\dt_events.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\events_live.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\footer_callback.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\html5-data-attributes.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\language_file.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\length_menu.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\row_callback.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\row_grouping.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\advanced_init\sort_direction_control.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\custom_data_flat.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\custom_data_property.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\data\arrays.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\data\arrays_custom_prop.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\data\arrays_subobjects.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\data\objects.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\data\objects_deep.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\data\objects_root_array.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\data\objects_subarrays.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\data\orthogonal.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\deep.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\defer_render.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\null_data_source.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\objects.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\objects_subarrays.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\orthogonal-data.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\ajax\simple.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\add_row.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\api_in_init.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\counter_columns.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\form.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\highlight.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\multi_filter.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\multi_filter_select.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\regex.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\row_details.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\select_row.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\select_single_row.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\show_hide.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\api\tabs_and_scrolling.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\alt_pagination.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\comma-decimal.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\complex_header.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\dom.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\filter_only.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\flexible_width.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\hidden_columns.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\language.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\multiple_tables.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\multi_col_sort.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\scroll_x.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\scroll_xy.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\scroll_y.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\scroll_y_theme.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\state_save.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\table_sorting.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\basic_init\zero_configuration.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\data_sources\ajax.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\data_sources\dom.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\data_sources\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\data_sources\js_array.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\data_sources\server_side.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\plug-ins\api.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\plug-ins\dom_sort.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\plug-ins\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\plug-ins\range_filtering.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\plug-ins\sorting_auto.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\plug-ins\sorting_manual.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\bootstrap\3\dataTables.bootstrap.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\bootstrap\3\dataTables.bootstrap.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\bootstrap\3\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\bootstrap\images\sort_asc.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\bootstrap\images\sort_asc_disabled.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\bootstrap\images\sort_both.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\bootstrap\images\sort_desc.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\bootstrap\images\sort_desc_disabled.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\demo.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\demo.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\details_close.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\details_open.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\de_DE.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\foundation\dataTables.foundation.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\foundation\dataTables.foundation.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\foundation\images\sort_asc.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\foundation\images\sort_asc_disabled.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\foundation\images\sort_both.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\foundation\images\sort_desc.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\foundation\images\sort_desc_disabled.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\jqueryui\dataTables.jqueryui.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\jqueryui\dataTables.jqueryui.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\jqueryui\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\syntax\shCore.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\syntax\shCore.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\custom_vars.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\defer_loading.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\ids.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\jsonp.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\object_data.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\pipeline.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\post.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\row_details.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\mysql.sql" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\postgres.sql" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\sqlite.sql" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\sqlserver.sql" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\select_rows.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\simple.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\bootstrap.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\cell-border.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\compact.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\display.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\foundation.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\hover.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\jqueryUI.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\no-classes.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\order-column.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\row-border.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\styling\stripe.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\css\dataTables.autoFill.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\css\dataTables.autoFill.min.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\examples\columns.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\examples\complete-callback.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\examples\fill-both.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\examples\fill-horizontal.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\examples\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\examples\scrolling.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\examples\simple.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\examples\step-callback.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\images\filler.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\js\dataTables.autoFill.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\js\dataTables.autoFill.min.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\AutoFill\Readme.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Bootstrap\jquery-datatable-bootstrap.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\css\dataTables.colReorder.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\css\dataTables.colReorder.min.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\alt_insert.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\colvis.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\col_filter.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\fixedcolumns.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\fixedheader.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\jqueryui.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\new_init.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\predefined.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\realtime.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\reset.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\scrolling.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\server_side.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\simple.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\examples\state_save.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\images\insert.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\js\dataTables.colReorder.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\js\dataTables.colReorder.min.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColReorder\Readme.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\css\dataTables.colVis.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\css\dataTables.colvis.jqueryui.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\css\dataTables.colVis.min.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\button_order.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\exclude_columns.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\group_columns.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\jqueryui.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\mouseover.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\new_init.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\restore.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\simple.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\text.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\title_callback.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\two_tables.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\examples\two_tables_identical.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\js\dataTables.colVis.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\js\dataTables.colVis.min.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\ColVis\Readme.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\css\dataTables.fixedColumns.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\css\dataTables.fixedColumns.min.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\bootstrap.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\colvis.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\col_filter.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\css_size.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\index_column.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\left_right_columns.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\right_column.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\rowspan.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\server-side-processing.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\simple.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\size_fixed.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\size_fluid.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\examples\two_columns.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\js\dataTables.fixedColumns.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\js\dataTables.fixedColumns.min.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedColumns\Readme.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\css\dataTables.fixedHeader.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\css\dataTables.fixedHeader.min.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\examples\header_footer.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\examples\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\examples\simple.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\examples\top_left_right.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\examples\two_tables.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\examples\zIndexes.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\js\dataTables.fixedHeader.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\js\dataTables.fixedHeader.min.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\FixedHeader\Readme.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\KeyTable\css\dataTables.keyTable.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\KeyTable\css\dataTables.keyTable.min.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\KeyTable\examples\events.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\KeyTable\examples\html.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\KeyTable\examples\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\KeyTable\examples\scrolling.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\KeyTable\examples\simple.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\KeyTable\js\dataTables.keyTable.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\KeyTable\js\dataTables.keyTable.min.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\KeyTable\Readme.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\css\dataTables.scroller.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\css\dataTables.scroller.min.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\examples\api_scrolling.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\examples\data\2500.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\examples\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\examples\large_js_source.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\examples\server-side_processing.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\examples\simple.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\examples\state_saving.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\images\loading-background.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\js\dataTables.scroller.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\js\dataTables.scroller.min.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\Readme.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\css\dataTables.tableTools.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\css\dataTables.tableTools.min.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\ajax.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\alter_buttons.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\bootstrap.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\button_text.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\collection.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\defaults.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\index.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\jqueryui.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\multiple_tables.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\multi_instance.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\new_init.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\pdf_message.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\plug-in.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\select_column.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\select_multi.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\select_os.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\select_single.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\simple.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\examples\swf_path.html" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\background.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\collection.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\collection_hover.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\copy.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\copy_hover.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\csv.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\csv_hover.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\pdf.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\pdf_hover.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\print.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\print_hover.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\xls.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\xls_hover.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\js\dataTables.tableTools.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\js\dataTables.tableTools.min.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\Readme.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\swf\copy_csv_xls.swf" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Content\assets\plugins\jquery-datatable\license.txt" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\css\jquery.dataTables.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\css\jquery.dataTables.min.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\css\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\images\sort_asc.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\images\sort_asc_disabled.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\images\sort_both.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\images\sort_desc.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\js\jquery.dataTables.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\js\jquery.dataTables.min.js" />
+    <Content Include="Content\assets\plugins\jquery-datatable\media\js\jquery.js" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\jquery.dynatree.min.js" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\skin-vista\icons.gif" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\skin-vista\loading.gif" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\skin-vista\ui.dynatree.css" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\skin\icons-rtl.gif" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\skin\icons-rtl.png" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\skin\icons.gif" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\skin\loading.gif" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\skin\ui.dynatree.css" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\skin\vline-rtl.gif" />
+    <Content Include="Content\assets\plugins\jquery-dynatree\skin\vline.gif" />
+    <Content Include="Content\assets\plugins\jquery-inputmask\jquery.inputmask.min.js" />
+    <Content Include="Content\assets\plugins\jquery-ios-list\jquery.ioslist.min.js" />
+    <Content Include="Content\assets\plugins\jquery-isotope\isotope.pkgd.min.js" />
+    <Content Include="Content\assets\plugins\jquery-isotope\masonry-horizontal.js" />
+    <Content Include="Content\assets\plugins\jquery-lookingfor\jquery.lookingfor.min.js" />
+    <Content Include="Content\assets\plugins\jquery-metrojs\images\1pixel.gif" />
+    <Content Include="Content\assets\plugins\jquery-metrojs\images\metroIcons.jpg" />
+    <Content Include="Content\assets\plugins\jquery-metrojs\images\metroIcons_light.jpg" />
+    <Content Include="Content\assets\plugins\jquery-metrojs\MetroJs.css" />
+    <Content Include="Content\assets\plugins\jquery-metrojs\MetroJs.js" />
+    <Content Include="Content\assets\plugins\jquery-metrojs\MetroJs.min.css" />
+    <Content Include="Content\assets\plugins\jquery-metrojs\MetroJs.min.js" />
+    <Content Include="Content\assets\plugins\jquery-mousewheel\jquery.mousewheel.min.js" />
+    <Content Include="Content\assets\plugins\jquery-nestable\jquery.nestable.css" />
+    <Content Include="Content\assets\plugins\jquery-nestable\jquery.nestable.js" />
+    <Content Include="Content\assets\plugins\jquery-nestable\jquery.nestable.min.css" />
+    <Content Include="Content\assets\plugins\jquery-nestable\jquery.nestable.min.js" />
+    <Content Include="Content\assets\plugins\jquery-nouislider\jquery.liblink.js" />
+    <Content Include="Content\assets\plugins\jquery-nouislider\jquery.nouislider.css" />
+    <Content Include="Content\assets\plugins\jquery-nouislider\jquery.nouislider.min.js" />
+    <Content Include="Content\assets\plugins\jquery-scrollbar\jquery.scrollbar.css" />
+    <Content Include="Content\assets\plugins\jquery-scrollbar\jquery.scrollbar.js" />
+    <Content Include="Content\assets\plugins\jquery-scrollbar\jquery.scrollbar.min.js" />
+    <Content Include="Content\assets\plugins\jquery-scrollto\jquery-scrollto.js" />
+    <Content Include="Content\assets\plugins\jquery-slider\jquery.sidr.min.js" />
+    <Content Include="Content\assets\plugins\jquery-slider\stylesheets\jquery.sidr.dark.css" />
+    <Content Include="Content\assets\plugins\jquery-slider\stylesheets\jquery.sidr.light.css" />
+    <Content Include="Content\assets\plugins\jquery-sparkline\jquery.sparkline.js" />
+    <Content Include="Content\assets\plugins\jquery-sparkline\jquery.sparkline.min.js" />
+    <Content Include="Content\assets\plugins\jquery-ui-touch\jquery.ui.touch-punch.min.js" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\animated-overlay.gif" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\assets\plugins\jquery-ui\jquery-ui-1.10.1.custom.min.css" />
+    <Content Include="Content\assets\plugins\jquery-ui\jquery-ui.min.js" />
+    <Content Include="Content\assets\plugins\jquery-ui\jquery-ui2.min.js" />
+    <Content Include="Content\assets\plugins\jquery-ui\jquery-ui_back.min.js" />
+    <Content Include="Content\assets\plugins\jquery-unevent\jquery.unevent.js" />
+    <Content Include="Content\assets\plugins\jquery-unveil\jquery.unveil.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\additional-methods.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\additional-methods.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\jquery.validate.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\jquery.validate.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ar.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ar.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_bg.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_bg.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ca.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ca.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_cs.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_cs.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_da.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_da.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_de.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_de.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_el.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_el.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_es.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_es.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_es_AR.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_es_AR.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_et.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_et.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_eu.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_eu.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_fa.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_fa.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_fi.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_fi.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_fr.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_fr.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_gl.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_gl.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_he.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_he.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_hr.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_hr.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_hu.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_hu.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_id.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_id.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_is.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_is.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_it.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_it.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ja.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ja.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ka.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ka.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_kk.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_kk.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ko.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ko.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_lt.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_lt.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_lv.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_lv.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_my.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_my.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_nl.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_nl.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_no.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_no.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_pl.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_pl.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_pt_BR.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_pt_BR.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_pt_PT.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_pt_PT.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ro.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ro.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ru.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_ru.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_si.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_si.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_sk.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_sk.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_sl.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_sl.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_sr.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_sr.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_sr_lat.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_sr_lat.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_sv.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_sv.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_th.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_th.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_tj.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_tj.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_tr.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_tr.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_uk.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_uk.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_vi.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_vi.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_zh.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_zh.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_zh_TW.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\messages_zh_TW.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\methods_de.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\methods_de.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\methods_es_CL.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\methods_es_CL.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\methods_fi.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\methods_fi.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\methods_nl.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\methods_nl.min.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\methods_pt.js" />
+    <Content Include="Content\assets\plugins\jquery-validation\js\localization\methods_pt.min.js" />
+    <Content Include="Content\assets\plugins\jquery.sieve.min.js" />
+    <Content Include="Content\assets\plugins\jquery\jquery-1.11.1.min.js" />
+    <Content Include="Content\assets\plugins\jquery\jquery-1.8.3.min.js" />
+    <Content Include="Content\assets\plugins\jquery\jquery-easy.js" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\alpha20.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\alpha50.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\arrow-down.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\arrow-up.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\closedhand.cur" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\cross.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\fullscreen-exit.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\fullscreen.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\loader.gif" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\openhand.cur" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\pin-blue.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\pin-green.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\pin-orange.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\pin-purple.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\pin-red.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\target.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\tooltip-triangle.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\images\viewer.png" />
+    <Content Include="Content\assets\plugins\mapplic\css\mapplic-ie.css" />
+    <Content Include="Content\assets\plugins\mapplic\css\mapplic.css" />
+    <Content Include="Content\assets\plugins\mapplic\js\hammer.js" />
+    <Content Include="Content\assets\plugins\mapplic\js\jquery.mousewheel.js" />
+    <Content Include="Content\assets\plugins\mapplic\js\mapplic.js" />
+    <Content Include="Content\assets\plugins\masonry\masonry.pkgd.min.js" />
+    <Content Include="Content\assets\plugins\modernizr.custom.js" />
+    <Content Include="Content\assets\plugins\moment\moment-with-locales.min.js" />
+    <Content Include="Content\assets\plugins\moment\moment.min.js" />
+    <Content Include="Content\assets\plugins\noui-slider\jquery.nouislider.css" />
+    <Content Include="Content\assets\plugins\noui-slider\jquery.nouislider.min.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\cie.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\colorbrewer.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\crossfilter.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\crossfilter.min.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\d3.v2.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\d3.v2.min.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\d3.v3.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\fisheye.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\hive.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\horizon.js" />
+    <Content Include="Content\assets\plugins\nvd3\lib\sankey.js" />
+    <Content Include="Content\assets\plugins\nvd3\nv.d3.min.css" />
+    <Content Include="Content\assets\plugins\nvd3\nv.d3.min.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\core.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\interactiveLayer.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\intro.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\axis.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\backup\bullet.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\backup\bulletChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\boilerplate.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\bullet.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\bulletChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\cumulativeLineChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\discreteBar.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\discreteBarChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\distribution.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\historicalBar.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\historicalBarChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\indentedTree.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\legend.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\line.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\lineChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\linePlusBarChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\linePlusBarWithFocusChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\lineWithFisheye.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\lineWithFisheyeChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\lineWithFocusChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\multiBar.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\multiBarChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\multiBarHorizontal.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\multiBarHorizontalChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\multiBarTimeSeries.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\multiBarTimeSeriesChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\multiChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\ohlcBar.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\parallelCoordinates.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\pie.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\pieChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\scatter.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\scatterChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\scatterPlusLineChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\sparkline.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\sparklinePlus.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\stackedArea.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\models\stackedAreaChart.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\nv.d3.css" />
+    <Content Include="Content\assets\plugins\nvd3\src\outro.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\tooltip.js" />
+    <Content Include="Content\assets\plugins\nvd3\src\utils.js" />
+    <Content Include="Content\assets\plugins\owl-carousel\assets\owl.carousel.css" />
+    <Content Include="Content\assets\plugins\owl-carousel\owl.carousel.js" />
+    <Content Include="Content\assets\plugins\owl-carousel\owl.carousel.min.js" />
+    <Content Include="Content\assets\plugins\pace\pace-theme-flash.css" />
+    <Content Include="Content\assets\plugins\pace\pace.min.js" />
+    <Content Include="Content\assets\plugins\responsive-tabs\jquery.responsive-tabs.min.js" />
+    <Content Include="Content\assets\plugins\responsive-tabs\responsive-tabs.css" />
+    <Content Include="Content\assets\plugins\responsive-tabs\responsive-tabs.js" />
+    <Content Include="Content\assets\plugins\rickshaw\rickshaw.css" />
+    <Content Include="Content\assets\plugins\rickshaw\rickshaw.js" />
+    <Content Include="Content\assets\plugins\rickshaw\rickshaw.min.css" />
+    <Content Include="Content\assets\plugins\rickshaw\rickshaw.min.js" />
+    <Content Include="Content\assets\plugins\rickshaw\vendor\d3.layout.min.js" />
+    <Content Include="Content\assets\plugins\rickshaw\vendor\d3.min.js" />
+    <Content Include="Content\assets\plugins\rickshaw\vendor\d3.v2.js" />
+    <Content Include="Content\assets\plugins\rickshaw\vendor\d3.v3.js" />
+    <Content Include="Content\assets\plugins\simple-line-icons\fonts\Simple-Line-Icons.dev.svg" />
+    <Content Include="Content\assets\plugins\simple-line-icons\fonts\Simple-Line-Icons.svg" />
+    <Content Include="Content\assets\plugins\simple-line-icons\simple-line-icons.css" />
+    <Content Include="Content\assets\plugins\skycons\skycons.js" />
+    <Content Include="Content\assets\plugins\sly.min.js" />
+    <Content Include="Content\assets\plugins\sly\sly.min.js" />
+    <Content Include="Content\assets\plugins\summernote\css\summernote-bs2.css" />
+    <Content Include="Content\assets\plugins\summernote\css\summernote-bs3.css" />
+    <Content Include="Content\assets\plugins\summernote\css\summernote.css" />
+    <Content Include="Content\assets\plugins\summernote\js\summernote.js" />
+    <Content Include="Content\assets\plugins\summernote\js\summernote.min.js" />
+    <Content Include="Content\assets\plugins\switchery\css\switchery.css" />
+    <Content Include="Content\assets\plugins\switchery\css\switchery.min.css" />
+    <Content Include="Content\assets\plugins\switchery\js\switchery.js" />
+    <Content Include="Content\assets\plugins\switchery\js\switchery.min.js" />
+    <Content Include="Content\assets\plugins\velocity\velocity.min.js" />
+    <Content Include="Content\assets\plugins\xcharts\xcharts.css" />
+    <Content Include="Content\assets\plugins\xcharts\xcharts.js" />
+    <Content Include="Content\assets\plugins\xcharts\xcharts.min.css" />
+    <Content Include="Content\assets\plugins\xcharts\xcharts.min.js" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\select2-spinner.gif" />
+    <Content Include="Content\css\select2.css" />
+    <Content Include="Content\css\select2.png" />
+    <Content Include="Content\css\select2x2.png" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\pages\css\editor.css" />
+    <Content Include="Content\pages\css\ie9.css" />
+    <Content Include="Content\pages\css\pages-icons.css" />
+    <Content Include="Content\pages\css\pages-icons.min.css" />
+    <Content Include="Content\pages\css\pages.css" />
+    <Content Include="Content\pages\css\pages.min.css" />
+    <Content Include="Content\pages\css\themes\abstract.css" />
+    <Content Include="Content\pages\css\themes\abstract.min.css" />
+    <Content Include="Content\pages\css\themes\calendar.css" />
+    <Content Include="Content\pages\css\themes\calendar.min.css" />
+    <Content Include="Content\pages\css\themes\corporate.css" />
+    <Content Include="Content\pages\css\themes\corporate.min.css" />
+    <Content Include="Content\pages\css\themes\retro.css" />
+    <Content Include="Content\pages\css\themes\retro.min.css" />
+    <Content Include="Content\pages\css\themes\simple.css" />
+    <Content Include="Content\pages\css\themes\simple.min.css" />
+    <Content Include="Content\pages\css\themes\unlax.css" />
+    <Content Include="Content\pages\css\themes\unlax.min.css" />
+    <Content Include="Content\pages\css\themes\vibes.css" />
+    <Content Include="Content\pages\css\themes\vibes.min.css" />
+    <Content Include="Content\pages\css\windows.chrome.fix.css" />
+    <Content Include="Content\pages\fonts\montserrat\montserrat-bold-webfont.svg" />
+    <Content Include="Content\pages\fonts\montserrat\montserrat-regular-webfont.svg" />
+    <Content Include="Content\pages\fonts\pages-icon\Pages-icon.svg" />
+    <Content Include="Content\pages\ico\120.png" />
+    <Content Include="Content\pages\ico\152.png" />
+    <Content Include="Content\pages\ico\60.png" />
+    <Content Include="Content\pages\ico\76.png" />
+    <Content Include="Content\pages\img\editor_tray.png" />
+    <Content Include="Content\pages\img\editor_tray_2x.png" />
+    <Content Include="Content\pages\img\icons\noti-cross-2x.png" />
+    <Content Include="Content\pages\img\icons\noti-cross.png" />
+    <Content Include="Content\pages\img\icons\top_tray.png" />
+    <Content Include="Content\pages\img\icons\top_tray_2x.png" />
+    <Content Include="Content\pages\img\linear_gradient.png" />
+    <Content Include="Content\pages\img\notes_lines.png" />
+    <Content Include="Content\pages\img\progress\progress-bar-complete.svg" />
+    <Content Include="Content\pages\img\progress\progress-bar-danger.svg" />
+    <Content Include="Content\pages\img\progress\progress-bar-master.svg" />
+    <Content Include="Content\pages\img\progress\progress-bar-primary.svg" />
+    <Content Include="Content\pages\img\progress\progress-bar-success.svg" />
+    <Content Include="Content\pages\img\progress\progress-bar-warning.svg" />
+    <Content Include="Content\pages\img\progress\progress-circle-complete.svg" />
+    <Content Include="Content\pages\img\progress\progress-circle-danger.svg" />
+    <Content Include="Content\pages\img\progress\progress-circle-lg-master-static.svg" />
+    <Content Include="Content\pages\img\progress\progress-circle-lg-master.svg" />
+    <Content Include="Content\pages\img\progress\progress-circle-lg-white-static.svg" />
+    <Content Include="Content\pages\img\progress\progress-circle-lg-white.svg" />
+    <Content Include="Content\pages\img\progress\progress-circle-master.svg" />
+    <Content Include="Content\pages\img\progress\progress-circle-primary.svg" />
+    <Content Include="Content\pages\img\progress\progress-circle-success.svg" />
+    <Content Include="Content\pages\img\progress\progress-circle-warning.svg" />
+    <Content Include="Content\pages\js\pages.calendar.js" />
+    <Content Include="Content\pages\js\pages.calendar.min.js" />
+    <Content Include="Content\pages\js\pages.email.js" />
+    <Content Include="Content\pages\js\pages.js" />
+    <Content Include="Content\pages\js\pages.min.js" />
+    <Content Include="Content\pages\js\pages.social.js" />
+    <Content Include="Content\pages\js\pages.social.min.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\wells.less" />
+    <Content Include="Content\bootstrap\variables.less" />
+    <Content Include="Content\bootstrap\utilities.less" />
+    <Content Include="Content\bootstrap\type.less" />
+    <Content Include="Content\bootstrap\tooltip.less" />
+    <Content Include="Content\bootstrap\thumbnails.less" />
+    <Content Include="Content\bootstrap\theme.less" />
+    <Content Include="Content\bootstrap\tables.less" />
+    <Content Include="Content\bootstrap\scaffolding.less" />
+    <Content Include="Content\bootstrap\responsive-utilities.less" />
+    <Content Include="Content\bootstrap\responsive-embed.less" />
+    <Content Include="Content\bootstrap\progress-bars.less" />
+    <Content Include="Content\bootstrap\print.less" />
+    <Content Include="Content\bootstrap\popovers.less" />
+    <Content Include="Content\bootstrap\panels.less" />
+    <Content Include="Content\bootstrap\pagination.less" />
+    <Content Include="Content\bootstrap\pager.less" />
+    <Content Include="Content\bootstrap\normalize.less" />
+    <Content Include="Content\bootstrap\navs.less" />
+    <Content Include="Content\bootstrap\navbar.less" />
+    <Content Include="Content\bootstrap\modals.less" />
+    <Content Include="Content\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="Content\bootstrap\mixins\text-overflow.less" />
+    <Content Include="Content\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="Content\bootstrap\mixins\table-row.less" />
+    <Content Include="Content\bootstrap\mixins\tab-focus.less" />
+    <Content Include="Content\bootstrap\mixins\size.less" />
+    <Content Include="Content\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="Content\bootstrap\mixins\resize.less" />
+    <Content Include="Content\bootstrap\mixins\reset-text.less" />
+    <Content Include="Content\bootstrap\mixins\reset-filter.less" />
+    <Content Include="Content\bootstrap\mixins\progress-bar.less" />
+    <Content Include="Content\bootstrap\mixins\panels.less" />
+    <Content Include="Content\bootstrap\mixins\pagination.less" />
+    <Content Include="Content\bootstrap\mixins\opacity.less" />
+    <Content Include="Content\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="Content\bootstrap\mixins\nav-divider.less" />
+    <Content Include="Content\bootstrap\mixins\list-group.less" />
+    <Content Include="Content\bootstrap\mixins\labels.less" />
+    <Content Include="Content\bootstrap\mixins\image.less" />
+    <Content Include="Content\bootstrap\mixins\hide-text.less" />
+    <Content Include="Content\bootstrap\mixins\grid-framework.less" />
+    <Content Include="Content\bootstrap\mixins\grid.less" />
+    <Content Include="Content\bootstrap\mixins\gradients.less" />
+    <Content Include="Content\bootstrap\mixins\forms.less" />
+    <Content Include="Content\bootstrap\mixins\clearfix.less" />
+    <Content Include="Content\bootstrap\mixins\center-block.less" />
+    <Content Include="Content\bootstrap\mixins\buttons.less" />
+    <Content Include="Content\bootstrap\mixins\border-radius.less" />
+    <Content Include="Content\bootstrap\mixins\background-variant.less" />
+    <Content Include="Content\bootstrap\mixins\alerts.less" />
+    <Content Include="Content\bootstrap\mixins.less" />
+    <Content Include="Content\bootstrap\media.less" />
+    <Content Include="Content\bootstrap\list-group.less" />
+    <Content Include="Content\bootstrap\labels.less" />
+    <Content Include="Content\bootstrap\jumbotron.less" />
+    <Content Include="Content\bootstrap\input-groups.less" />
+    <Content Include="Content\bootstrap\grid.less" />
+    <Content Include="Content\bootstrap\glyphicons.less" />
+    <Content Include="Content\bootstrap\forms.less" />
+    <Content Include="Content\bootstrap\dropdowns.less" />
+    <Content Include="Content\bootstrap\component-animations.less" />
+    <Content Include="Content\bootstrap\code.less" />
+    <Content Include="Content\bootstrap\close.less" />
+    <Content Include="Content\bootstrap\carousel.less" />
+    <Content Include="Content\bootstrap\buttons.less" />
+    <Content Include="Content\bootstrap\button-groups.less" />
+    <Content Include="Content\bootstrap\breadcrumbs.less" />
+    <Content Include="Content\bootstrap\bootstrap.less" />
+    <Content Include="Content\bootstrap\badges.less" />
+    <Content Include="Content\bootstrap\alerts.less" />
+    <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <Content Include="Content\_bootstrap-datetimepicker.less" />
+    <Content Include="Content\assets\less\style.less" />
+    <Content Include="Content\assets\plugins\boostrapv3\css\bootstrap-theme.css.map" />
+    <Content Include="Content\assets\plugins\boostrapv3\css\bootstrap.css.map" />
+    <Content Include="Content\assets\plugins\boostrapv3\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\assets\plugins\boostrapv3\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\assets\plugins\boostrapv3\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\assets\plugins\boostrap\css\bootstrap-theme.css.map" />
+    <Content Include="Content\assets\plugins\boostrap\css\bootstrap.css.map" />
+    <Content Include="Content\assets\plugins\boostrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\assets\plugins\boostrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\assets\plugins\boostrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\bower.json" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\component.json" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\composer.json" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\LICENSE" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\package.json" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\README.md" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\release.sh" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2.jquery.json" />
+    <Content Include="Content\assets\plugins\bootstrap-select2\select2_locale_en.js.template" />
+    <Content Include="Content\assets\plugins\dropzone\css\stylus\basic.styl" />
+    <Content Include="Content\assets\plugins\dropzone\css\stylus\dropzone.styl" />
+    <Content Include="Content\assets\plugins\dropzone\images\spritemap%402x.psd" />
+    <Content Include="Content\assets\plugins\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\assets\plugins\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\assets\plugins\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\assets\plugins\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\assets\plugins\font-awesome\less\bordered-pulled.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\core.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\fixed-width.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\font-awesome.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\icons.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\larger.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\list.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\mixins.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\path.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\rotated-flipped.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\spinning.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\stacked.less" />
+    <Content Include="Content\assets\plugins\font-awesome\less\variables.less" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\font-awesome.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_core.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_icons.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_larger.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_list.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_mixins.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_path.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_spinning.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_stacked.scss" />
+    <Content Include="Content\assets\plugins\font-awesome\scss\_variables.scss" />
+    <Content Include="Content\assets\plugins\hammer.min.map" />
+    <Content Include="Content\assets\plugins\jquery-datatable\bower.json" />
+    <Content Include="Content\assets\plugins\jquery-datatable\composer.json" />
+    <Content Include="Content\assets\plugins\jquery-datatable\Contributing.md" />
+    <Content Include="Content\assets\plugins\jquery-datatable\dataTables.jquery.json" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\examples.php" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\font\raleway_thin-webfont.eot" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\font\raleway_thin-webfont.ttf" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\font\raleway_thin-webfont.woff" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\jqueryui\dataTables.jqueryui.scss" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\resources\syntax\Syntax Highlighter license" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\ids-arrays.php" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\ids-objects.php" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\jsonp.php" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\objects.php" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\post.php" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\server_processing.php" />
+    <Content Include="Content\assets\plugins\jquery-datatable\examples\server_side\scripts\ssp.class.php" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\Scroller\examples\data\ssp.php" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\psd\collection.psd" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\psd\copy document.psd" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\psd\file_types.psd" />
+    <Content Include="Content\assets\plugins\jquery-datatable\extensions\TableTools\images\psd\printer.psd" />
+    <Content Include="Content\assets\plugins\jquery-datatable\package.json" />
+    <Content Include="Content\assets\plugins\jquery-datatable\Readme.md" />
+    <Content Include="Content\assets\plugins\jquery-slider\component.json" />
+    <Content Include="Content\assets\plugins\jquery-slider\README.md" />
+    <Content Include="Content\assets\plugins\responsive-tabs\README.md" />
+    <Content Include="Content\assets\plugins\responsive-tabs\responsive-tabs.less" />
+    <Content Include="Content\assets\plugins\simple-line-icons\fonts\Simple-Line-Icons.eot" />
+    <Content Include="Content\assets\plugins\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
+    <Content Include="Content\assets\plugins\simple-line-icons\fonts\Simple-Line-Icons.woff" />
+    <Content Include="Content\pages\fonts\montserrat\Montserrat-Bold.ttf" />
+    <Content Include="Content\pages\fonts\montserrat\Montserrat-Regular.ttf" />
+    <Content Include="Content\pages\fonts\pages-icon\Pages-icon.eot" />
+    <Content Include="Content\pages\fonts\pages-icon\Pages-icon.ttf" />
+    <Content Include="Content\pages\fonts\pages-icon\Pages-icon.woff" />
+    <Content Include="Content\pages\LESS\mixins.less" />
+    <Content Include="Content\pages\LESS\modules.less" />
+    <Content Include="Content\pages\LESS\modules\alerts.less" />
+    <Content Include="Content\pages\LESS\modules\buttons.less" />
+    <Content Include="Content\pages\LESS\modules\calendar.less" />
+    <Content Include="Content\pages\LESS\modules\charts.less" />
+    <Content Include="Content\pages\LESS\modules\chat.less" />
+    <Content Include="Content\pages\LESS\modules\demo.less" />
+    <Content Include="Content\pages\LESS\modules\email.less" />
+    <Content Include="Content\pages\LESS\modules\form_elements.less" />
+    <Content Include="Content\pages\LESS\modules\layout.less" />
+    <Content Include="Content\pages\LESS\modules\list.less" />
+    <Content Include="Content\pages\LESS\modules\lock_screen.less" />
+    <Content Include="Content\pages\LESS\modules\login.less" />
+    <Content Include="Content\pages\LESS\modules\misc.less" />
+    <Content Include="Content\pages\LESS\modules\modals.less" />
+    <Content Include="Content\pages\LESS\modules\nestables.less" />
+    <Content Include="Content\pages\LESS\modules\notifications.less" />
+    <Content Include="Content\pages\LESS\modules\panels.less" />
+    <Content Include="Content\pages\LESS\modules\print.less" />
+    <Content Include="Content\pages\LESS\modules\progress_indicators.less" />
+    <Content Include="Content\pages\LESS\modules\sliders.less" />
+    <Content Include="Content\pages\LESS\modules\social.less" />
+    <Content Include="Content\pages\LESS\modules\tables.less" />
+    <Content Include="Content\pages\LESS\modules\tabs_accordian.less" />
+    <Content Include="Content\pages\LESS\modules\treeview.less" />
+    <Content Include="Content\pages\LESS\modules\typography.less" />
+    <Content Include="Content\pages\LESS\modules\vector_map.less" />
+    <Content Include="Content\pages\LESS\modules\view.less" />
+    <Content Include="Content\pages\LESS\modules\widgets.less" />
+    <Content Include="Content\pages\LESS\modules\z_index.less" />
+    <Content Include="Content\pages\LESS\pages.less" />
+    <Content Include="Content\pages\LESS\responsive.less" />
+    <Content Include="Content\pages\LESS\themes\abstract\theme.less" />
+    <Content Include="Content\pages\LESS\themes\abstract\var.less" />
+    <Content Include="Content\pages\LESS\themes\calendar\theme.less" />
+    <Content Include="Content\pages\LESS\themes\calendar\var.less" />
+    <Content Include="Content\pages\LESS\themes\corporate\theme.less" />
+    <Content Include="Content\pages\LESS\themes\corporate\var.less" />
+    <Content Include="Content\pages\LESS\themes\default\theme.less" />
+    <Content Include="Content\pages\LESS\themes\default\var.less" />
+    <Content Include="Content\pages\LESS\themes\retro\theme.less" />
+    <Content Include="Content\pages\LESS\themes\retro\var.less" />
+    <Content Include="Content\pages\LESS\themes\simple\theme.less" />
+    <Content Include="Content\pages\LESS\themes\simple\var.less" />
+    <Content Include="Content\pages\LESS\themes\unlax\theme.less" />
+    <Content Include="Content\pages\LESS\themes\unlax\var.less" />
+    <Content Include="Content\pages\LESS\themes\vibes\theme.less" />
+    <Content Include="Content\pages\LESS\themes\vibes\var.less" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\dsfsdf.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.inputmask\jquery.inputmask.date.extensions.js" />
+    <Content Include="Scripts\jquery.inputmask\jquery.inputmask.extensions.js" />
+    <Content Include="Scripts\jquery.inputmask\jquery.inputmask.js" />
+    <Content Include="Scripts\jquery.inputmask\jquery.inputmask.numeric.extensions.js" />
+    <Content Include="Scripts\jquery.inputmask\jquery.inputmask.phone.extensions.js" />
+    <Content Include="Scripts\jquery.inputmask\jquery.inputmask.regex.extensions.js" />
+    <Content Include="Scripts\jquery.inputmask\phone-codes\phone-codes.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.3.0.debug.js" />
+    <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\SubscriptionPlan\Create.cshtml" />
+    <Content Include="Views\SubscriptionPlan\Delete.cshtml" />
+    <Content Include="Views\SubscriptionPlan\Details.cshtml" />
+    <Content Include="Views\SubscriptionPlan\Edit.cshtml" />
+    <Content Include="Views\SubscriptionPlan\Index.cshtml" />
+    <Content Include="Views\Airline\Create.cshtml" />
+    <Content Include="Views\Airline\Delete.cshtml" />
+    <Content Include="Views\Airline\Details.cshtml" />
+    <Content Include="Views\Airline\Edit.cshtml" />
+    <Content Include="Views\Airline\Index.cshtml" />
+    <Content Include="Views\Branches\Create.cshtml" />
+    <Content Include="Views\Branches\Delete.cshtml" />
+    <Content Include="Views\Branches\Details.cshtml" />
+    <Content Include="Views\Branches\Edit.cshtml" />
+    <Content Include="Views\Branches\Index.cshtml" />
+    <Content Include="Views\Sector\Create.cshtml" />
+    <Content Include="Views\Sector\Delete.cshtml" />
+    <Content Include="Views\Sector\Details.cshtml" />
+    <Content Include="Views\Sector\Edit.cshtml" />
+    <Content Include="Views\Sector\Index.cshtml" />
+    <Content Include="Views\Category\Create.cshtml" />
+    <Content Include="Views\Category\Delete.cshtml" />
+    <Content Include="Views\Category\Details.cshtml" />
+    <Content Include="Views\Category\Edit.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Booking\Entry.cshtml" />
+    <Content Include="Views\Booking\Delete.cshtml" />
+    <Content Include="Views\Booking\Details.cshtml" />
+    <Content Include="Views\Booking\Edit.cshtml" />
+    <Content Include="Views\Booking\Index.cshtml" />
+    <Content Include="Views\Booking\GroupSplit.cshtml" />
+    <Content Include="Views\Agents\Create.cshtml" />
+    <Content Include="Views\Agents\Delete.cshtml" />
+    <Content Include="Views\Agents\Details.cshtml" />
+    <Content Include="Views\Agents\Edit.cshtml" />
+    <Content Include="Views\Agents\Index.cshtml" />
+    <Content Include="Views\Stock\sellingcreate.cshtml" />
+    <Content Include="Views\Stock\selling.cshtml" />
+    <Content Include="Views\Stock\Transfercreate.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Delete.cshtml" />
+    <Content Include="Views\Roles\Details.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Roles\BulkCreate.cshtml" />
+    <Content Include="Views\UserRole\Create.cshtml" />
+    <Content Include="Views\UserRole\Delete.cshtml" />
+    <Content Include="Views\UserRole\Details.cshtml" />
+    <Content Include="Views\UserRole\Edit.cshtml" />
+    <Content Include="Views\UserRole\Index.cshtml" />
+    <Content Include="Views\Reports\SeatConfirmation.cshtml" />
+    <Content Include="Views\Reports\pnr.cshtml" />
+    <Content Include="Views\Reports\airline.cshtml" />
+    <Content Include="Views\Reports\stockId.cshtml" />
+    <Content Include="Views\Reports\outbounddate.cshtml" />
+    <Content Include="Views\Reports\outboundsector.cshtml" />
+    <Content Include="Views\Reports\category.cshtml" />
+    <Content Include="Views\Reports\recevingBranch.cshtml" />
+    <Content Include="Views\Reports\duetimelimit.cshtml" />
+    <Content Include="Views\Booking\_sclist.cshtml" />
+    <Content Include="Views\Booking\groupsplitlist.cshtml" />
+    <Content Include="Views\Booking\_nsclist.cshtml" />
+    <Content Include="Views\Stock\_stlist.cshtml" />
+    <Content Include="Views\UserRole\ManageUsers.cshtml" />
+    <Content Include="Views\Invitation\Request.cshtml" />
+    <Content Include="Views\UserManagement\Addroletouser.cshtml" />
+    <Content Include="Views\UserManagement\Index.cshtml" />
+    <Content Include="Views\UserManagement\InviteUser.cshtml" />
+    <Content Include="Views\Home\_latest.cshtml" />
+    <Content Include="Views\Home\_expire.cshtml" />
+    <Content Include="Views\Home\_outbound.cshtml" />
+    <Content Include="Views\Stock\Transferlist.cshtml" />
+    <Content Include="Views\Stock\_nstlist.cshtml" />
+    <Content Include="Views\Emp\Index.cshtml" />
+    <Content Include="Views\Booking\groupsplitdelete.cshtml" />
+    <Content Include="Views\Booking\groupsplitedit.cshtml" />
+    <Content Include="Views\Stock\sellingdelete.cshtml" />
+    <Content Include="Views\Stock\sellingEdit.cshtml" />
+    <Content Include="Views\Stock\transferdelete.cshtml" />
+    <Content Include="Views\Stock\TransferEdit.cshtml" />
+    <Content Include="Views\Agents\_agentlist.cshtml" />
+    <Content Include="Views\Airline\_airlinelist.cshtml" />
+    <Content Include="Views\Branches\_branchlist.cshtml" />
+    <Content Include="Views\UserManagement\_userlist.cshtml" />
+    <Content Include="Views\Category\_categorylist.cshtml" />
+    <Content Include="Views\Sector\_sectorlist.cshtml" />
+    <Content Include="Views\StockId\Index.cshtml" />
+    <Content Include="Views\StockId\_stocksIdlist.cshtml" />
+    <Content Include="Views\StockId\Delete.cshtml" />
+    <Content Include="Views\StockId\Edit.cshtml" />
+    <Content Include="Views\StockId\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201508041327409_updatetodb.resx">
+      <DependentUpon>201508041327409_updatetodb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508041439407_SubscriptionPlan.resx">
+      <DependentUpon>201508041439407_SubscriptionPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508050527576_Persontable1.resx">
+      <DependentUpon>201508050527576_Persontable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508050539255_SubscriptionPlantToIdentity.resx">
+      <DependentUpon>201508050539255_SubscriptionPlantToIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508051336584_Subscription.resx">
+      <DependentUpon>201508051336584_Subscription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508070527466_addStatus.resx">
+      <DependentUpon>201508070527466_addStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508071257380_airline.resx">
+      <DependentUpon>201508071257380_airline.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508080626238_BranchesCity.resx">
+      <DependentUpon>201508080626238_BranchesCity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508080629322_CityName.resx">
+      <DependentUpon>201508080629322_CityName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508090552401_CityChanges.resx">
+      <DependentUpon>201508090552401_CityChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508090557063_branchChanges.resx">
+      <DependentUpon>201508090557063_branchChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508091207548_countryChanges1.resx">
+      <DependentUpon>201508091207548_countryChanges1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508091358594_branchCountry.resx">
+      <DependentUpon>201508091358594_branchCountry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508100440100_branchCountryNotRequired.resx">
+      <DependentUpon>201508100440100_branchCountryNotRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508100503544_Sector.resx">
+      <DependentUpon>201508100503544_Sector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508100512002_Category.resx">
+      <DependentUpon>201508100512002_Category.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508100551586_SeatConfirmation.resx">
+      <DependentUpon>201508100551586_SeatConfirmation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508100603158_SeatConfirmationCountry.resx">
+      <DependentUpon>201508100603158_SeatConfirmationCountry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508110435125_Agents.resx">
+      <DependentUpon>201508110435125_Agents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508110603598_StockTransfer.resx">
+      <DependentUpon>201508110603598_StockTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508120549060_UserRole.resx">
+      <DependentUpon>201508120549060_UserRole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508120559557_userRoles.resx">
+      <DependentUpon>201508120559557_userRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508150942490_UserRoleSubscription.resx">
+      <DependentUpon>201508150942490_UserRoleSubscription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508151107187_checking.resx">
+      <DependentUpon>201508151107187_checking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508151154204_checking1.resx">
+      <DependentUpon>201508151154204_checking1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508151155275_checking2.resx">
+      <DependentUpon>201508151155275_checking2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508160457247_exp1.resx">
+      <DependentUpon>201508160457247_exp1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508171414053_employee.resx">
+      <DependentUpon>201508171414053_employee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508180631540_addLock.resx">
+      <DependentUpon>201508180631540_addLock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508201107572_Branchcanges1.resx">
+      <DependentUpon>201508201107572_Branchcanges1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508201456015_SeatLock.resx">
+      <DependentUpon>201508201456015_SeatLock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508300417073_stock.resx">
+      <DependentUpon>201508300417073_stock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508300503211_stockSUbscirption.resx">
+      <DependentUpon>201508300503211_stockSUbscirption.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509030731587_sectorAdvance.resx">
+      <DependentUpon>201509030731587_sectorAdvance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509110452161_somestuff.resx">
+      <DependentUpon>201509110452161_somestuff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509111006474_pnrStatus.resx">
+      <DependentUpon>201509111006474_pnrStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509111409149_pnrStatus1.resx">
+      <DependentUpon>201509111409149_pnrStatus1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509120623327_pnrLogs1.resx">
+      <DependentUpon>201509120623327_pnrLogs1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509120748362_pnrLogs11.resx">
+      <DependentUpon>201509120748362_pnrLogs11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509121000351_pnrLock.resx">
+      <DependentUpon>201509121000351_pnrLock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509121133210_RowVersion.resx">
+      <DependentUpon>201509121133210_RowVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509121250471_sync.resx">
+      <DependentUpon>201509121250471_sync.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>55462</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:55462/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,142 @@
+﻿@model IEnumerable<UmarSeat.Models.Agents>
+
+<div class="table-responsive">
+
+    <table class="table table-hover table-condensed  table-detailed" id="detailedTable">
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.id_Agent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Person.firstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Person.lastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Person.email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Person.mobileNumber)
+                </th>
+
+
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id_Agent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Person.firstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Person.lastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Person.email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Person.mobileNumber)
+                    </td>
+
+
+                    <td class="action">
+                        <a key="@Html.Raw(item.id_Agent)" href="/agents/edit/@Html.Raw(item.id_Agent)" class=" editbtn btn btn-complete" data-toggle="modal" data-target="#modalSlideUp">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a id="showLink" href="/agents/delete/@Html.Raw(item.id_Agent)" class="btn btn-danger" data-toggle="modal" data-target="#modalSlideUp">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                        <p style="display:none" class="btn btn-danger">Locked</p>
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
+</div>
+
+
+<div class="dataTables_wrapper form-inline no-footer">
+    <div class="row">
+        <div class="dataTables_paginate paging_bootstrap pagination" id="table_paginate">
+            <ul>
+
+
+                @{
+                    if (1 == int.Parse(ViewBag.current.ToString()))
+                    {
+                        <li class="prev disabled"><a href="/agents/getagents?length=@Html.Raw(ViewBag.length)&pagenum=1"><i class="pg-arrow_left"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="prev"><a href="/agents/getagents?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(ViewBag.prev)"><i class="pg-arrow_left"></i></a></li>
+                    }
+                    int pages = int.Parse(ViewBag.pages.ToString());
+                    int st = 1;
+                    while (st <= pages)
+                    {
+                        if (st == int.Parse(ViewBag.current.ToString()))
+                        {
+                            <li class="active"><a href="/agents/getagents?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(st)">@Html.Raw(st)</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="/agents/getagents?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(st)">@Html.Raw(st)</a></li>
+                        }
+
+                        st++;
+                    }
+                    if (pages == int.Parse(ViewBag.current.ToString()))
+                    {
+                        <li class="next disabled"><a href="/agents/getagents?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(pages)"><i class="pg-arrow_right"></i></a></li>
+                    }
+                    else
+                    {
+                        <li class="next"><a href="/agents/getagents?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(ViewBag.next)"><i class="pg-arrow_right"></i></a></li>
+                    }
+
+                }
+
+
+            </ul>
+        </div>
+        <div class="dataTables_info" id="tableWithSearch_info" role="status" aria-live="polite">
+            Showing <b>@Html.Raw(ViewBag.start) to @Html.Raw(ViewBag.end)</b> of @Html.Raw(ViewBag.total) entries
+        </div>
+    </div>
+</div>
+
+<div data-refresh="true" class="modal fade slide-up disable-scroll" id="modalSlideUp" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="pg-close fs-14"></i>
+                    </button>
+                    <h5>Please wait <span class="semi-bold">...</span></h5>
+                </div>
+                <div class="modal-body" id="mc">
+                    Loading Content
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

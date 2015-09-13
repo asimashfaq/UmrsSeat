@@ -1,0 +1,53 @@
+﻿@model UmarSeat.Models.Category
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<link href="~/Content/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link class="main-stylesheet" href="~/Content/pages/css/pages.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+
+
+    <!-- START PANEL -->
+    <div class="panel panel-transparent">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <h3>Add Category</h3>
+            </div>
+            
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+           
+            <div id="dv2"></div>
+          @using (Html.BeginForm("create", "category", FormMethod.Post, htmlAttributes: new { id = "entry-form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="">
+
+                    @Html.ValidationSummary(true)
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            @Html.LabelFor(model => model.categoryName)
+                            @Html.TextBoxFor(model => model.categoryName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.categoryName)
+                        </div>
+
+                    </div>
+
+                </div>
+                <button  type="button" onclick="categorysavedata()" class="btn btn-primary"><i class="pg-plus"></i> Add Category</button>
+    <button data-dismiss="modal" type="button" onclick="clearall()" class="btn btn-default"><i class="pg-close"></i> Clear</button>
+
+            }
+
+  </div>
+</div>

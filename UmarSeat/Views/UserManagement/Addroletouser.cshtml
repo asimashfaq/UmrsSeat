@@ -1,0 +1,136 @@
+﻿@model UmarSeat.Models.ManageUserRoles
+
+@{
+    ViewBag.Title = "Add Role To User";
+    Layout = null;
+}
+
+<link href="~/Content/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link class="main-stylesheet" href="~/Content/pages/css/pages.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+
+<div class="container-fluid  bg-white">
+    <!-- START PANEL -->
+    <div class="panel panel-transparent">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Assign Permissions to User
+            </div>
+            <div class="export-options-container pull-right"></div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+            <div id="dv2"></div>
+
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true)
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            @Html.LabelFor(model => model.userId)
+                            @Html.DropDownListFor(model => model.userId, Model.listUsers, new { @Class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.userId)
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            @Html.LabelFor(model => model.branchName)
+                            @Html.DropDownListFor(model => model.branchName, Model.listBranches, new { @Class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.branchName)
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group form-group-default">
+                            @Html.LabelFor(model => model.roleName)
+                            @Html.DropDownListFor(model => model.roleName, Model.listRoles, new { @Class = "form-control" })
+
+                            @Html.ValidationMessageFor(model => model.roleName)
+                        </div>
+
+                    </div>
+
+                </div>
+                <button type="button" onclick="savedata()" class="btn btn-primary"><i class="pg-plus"></i> Assign Permissions</button>
+                <button id="close" type="button" onclick="clearall()" class="btn btn-default"><i class="pg-close"></i> Close</button>
+
+
+            }
+
+        </div>
+    </div>
+
+    <script src="~/Content/assets/plugins/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+  
+    <script>
+        function savedata() {
+
+
+
+            $("#dv2").append('<div id="aaa" class="panel-default-overlay-down">\
+                        <div class="col-sm-12 text-center" style="height:100%">\
+                            <div class="progress-circle-indeterminate m-t-45">\
+                            </div>\
+                            <br>\
+                            <p class="small hint-text">Loading data</p>\
+                        </div>\
+                    </div>');
+
+            var playload = {};
+            playload["roleName"] = $("#roleName").val();
+            playload["userId"] = $("#userId").val();
+            playload["branchName"] = $("#branchName").val();
+            $.ajax({
+                type: "post",
+                url: "/usermanagement/addroletouser",
+                data: JSON.stringify({ mur: playload }),
+                datatype: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    $("#dv2").html("");
+                    if (data.length != 0) {
+
+                        data = JSON.parse(data);
+                        if (data.isSuccess == true) {
+                            $("#dv2").append('<div class="alert alert-success" role="alert"><button class="close" data-dismiss="alert"></button><strong>Success: </strong>' + data.Message + '</div>');
+                        }
+                        else {
+                            $("#dv2").append('<div class="alert alert-danger" role="alert"><button class="close" data-dismiss="alert"></button><strong>Error: </strong>' + data.ErrorMessage + '</div>');
+                        }
+                        $("#modalEdit").click();
+                        window.location.reload();
+
+                    }
+
+
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $("#dv2").html("");
+                    $("#dv2").append('<div class="alert alert-danger" role="alert"><button class="close" data-dismiss="alert"></button><strong>Error: ' + xhr.status + ' </strong>' + thrownError + '</div>');
+
+                }
+            });
+      
+    }
+
+    $(document).ready(function () {
+
+        $("#close").click(function () {
+            $("#modalEdit").click();
+        });
+
+        
+    });
+    </script>

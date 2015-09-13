@@ -1,0 +1,65 @@
+﻿@using UmarSeat.Helpers;
+@model UmarSeat.Models.branches
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = null;
+}
+
+
+<link href="~/Content/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link class="main-stylesheet" href="~/Content/pages/css/pages.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+
+<div class="container-fluid  bg-white">
+    <!-- START PANEL -->
+    <div class="panel panel-transparent">
+        <div class="panel-heading">
+            <div class="panel-title">
+                Do you Want to Delete @Html.Raw(Model.branchName) ?
+            </div>
+            <div class="export-options-container pull-right"></div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+
+
+            <table class="table table-responsive ">
+                <tbody>
+                    <tr>
+                        <td>Branch Name</td>
+                        <td>@Html.Raw(Model.branchName)</td>
+                        <td>Branch Address</td>
+                        <td>@Html.Raw(Model.branchAddress)</td>
+
+                    </tr>
+                    <tr>
+                        <td>Branch City</td>
+                        <td>@Html.Raw(Model.branchCity)</td>
+                        <td>Branch Country</td>
+                        <td>@Html.Raw(Model.branchCountry)</td>
+
+                    </tr>
+
+
+                </tbody>
+            </table>
+
+            @Ajax.RawActionLink(string.Format("<i class=\"fa fa-remove\" ></i> Delete {0}", Model.id_branch), "Delete", null, new { id = Model.id_branch },
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "onDeleteSuccess",
+                Confirm = "Are you sure you want to delete this?"
+            },
+                              new { @class = "btn btn-danger", id = "cnfrmDelete" })
+            <button data-dismiss="modal" type="button" class="btn btn-default"> No</button>
+        </div>
+    </div>
+    <!-- END PANEL -->
+</div>
+
+
+
+

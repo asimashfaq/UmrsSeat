@@ -1,0 +1,67 @@
+﻿@model UmarSeat.Models.Agents
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<link href="~/Content/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link class="main-stylesheet" href="~/Content/pages/css/pages.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+
+<div class="panel panel-transparent">
+    <div class="panel-heading">
+        <div class="panel-title">
+          <h3> Add new Agent</h3>
+        </div>
+        <div class="export-options-container pull-right"></div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="panel-body" >
+        <div id="dv2"></div>
+
+        @using (Html.BeginForm("create", "agents", FormMethod.Post, htmlAttributes: new { id = "entry-form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(m => m.Person.firstName)
+                        @Html.TextBoxFor(m => m.Person.firstName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Person.firstName)
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group form-group-default">
+                        @Html.LabelFor(m => m.Person.lastName)
+                        @Html.TextBoxFor(m => m.Person.lastName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Person.lastName)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-group-default ">
+                @Html.LabelFor(m => m.Person.email)
+                @Html.TextBoxFor(m => m.Person.email, new { @requied = "required", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Person.email)
+            </div>
+
+            <div class="form-group form-group-default ">
+                @Html.LabelFor(m => m.Person.mobileNumber)
+                @Html.TextBoxFor(m => m.Person.mobileNumber, new { @requied = "required", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Person.mobileNumber)
+            </div>
+            <br />
+            <input type="button" onclick="agentsavedata()" value="Add Agent" class="btn btn-primary" />
+            <button data-dismiss="modal" type="button" onclick="clearall()" class="btn btn-default"><i class="pg-close"></i> Close</button>
+
+        }
+        </div>
+    </div>
+
+
+
+   
