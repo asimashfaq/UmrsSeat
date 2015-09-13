@@ -222,7 +222,7 @@ namespace UmarSeat.Helpers
         {
 
             ApplicationDbContext db = new ApplicationDbContext();
-            List<Task> tasks = new List<Task>();
+         
 
             pnrLog pl = new pnrLog();
             pl.pnrNumber = pnr;
@@ -367,7 +367,15 @@ namespace UmarSeat.Helpers
                     sc.pnrStatus = "Sold";
                     sc.pnrStatus1 = "Sold";
                     db.Entry(sc).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+
+                        
+                    }
                 }
 
             }
@@ -379,7 +387,16 @@ namespace UmarSeat.Helpers
                     sc.pnrStatus = "";
                     sc.pnrStatus1 = "";
                     db.Entry(sc).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+
+                        
+                    }
+                 
                 }
             }
             return pl;

@@ -22,49 +22,73 @@ namespace UmarSeat.jobs
             {
             ApplicationDbContext db = new ApplicationDbContext();
             List<Task> tasks = new List<Task>();
-            List<SeatConfirmation> seatconfirmations = db.SeatConfirmation.GroupBy(x => new { x.pnrNumber,x.recevingBranch,x.newPnrNumber,x.id_Subscription}).Select(x => x.FirstOrDefault()).ToList();
-            List<StockTransfer> stocktransferlist = db.StockTransfer.Where(x=> x.recevingBranch != null).GroupBy(x=>new {x.pnrNumber,x.recevingBranch, x.id_Subscription }).Select(x=> x.FirstOrDefault()).ToList();
-            List<Dictionary<string,string>> pnrsList = new List<Dictionary<string, string>>();
-            seatconfirmations.ForEach(x => {
-                Dictionary<string, string> pnrdic = new Dictionary<string, string>();
-                if(!string.IsNullOrEmpty(x.newPnrNumber))
-                {
-                    pnrdic["pnr"] = x.newPnrNumber;
-                    pnrdic["branchName"] = x.recevingBranch;
-                    pnrdic["subscription"] = x.id_Subscription.ToString();
-                    pnrsList.Add(pnrdic);
-                }
-                else
-                {
-                    pnrdic["pnr"] = x.pnrNumber;
-                    pnrdic["branchName"] = x.recevingBranch;
-                    pnrdic["subscription"] = x.id_Subscription.ToString();
-                    pnrsList.Add(pnrdic);
+                List<Dictionary<string, string>> pnrsList = new List<Dictionary<string, string>>();
+                tasks.Add(Task.Factory.StartNew(()=> {
+                    db = new ApplicationDbContext();
+                    List<SeatConfirmation> seatconfirmations = new List<SeatConfirmation>();
+                    try
+                    {
 
-                }
-            });
+                        seatconfirmations = db.SeatConfirmation.GroupBy(x => new { x.pnrNumber, x.recevingBranch, x.newPnrNumber, x.id_Subscription }).Select(x => x.FirstOrDefault()).ToList();
+                    }
+                    catch (Exception)
+                    {
 
-                stocktransferlist.ForEach(x => {
-                    Dictionary<string, string> pnrdic = new Dictionary<string, string>();
-                    
+                        
+                    }
+                    seatconfirmations.ForEach(x => {
+                      
+                        Dictionary<string, string> pnrdic = new Dictionary<string, string>();
+                        if (!string.IsNullOrEmpty(x.newPnrNumber))
+                        {
+                            pnrdic["pnr"] = x.newPnrNumber;
+                            pnrdic["branchName"] = x.recevingBranch;
+                            pnrdic["subscription"] = x.id_Subscription.ToString();
+                            pnrsList.Add(pnrdic);
+                        }
+                        else
+                        {
+                            pnrdic["pnr"] = x.pnrNumber;
+                            pnrdic["branchName"] = x.recevingBranch;
+                            pnrdic["subscription"] = x.id_Subscription.ToString();
+                            pnrsList.Add(pnrdic);
+
+                        }
+                    });
+                   
+                }));
+                tasks.Add(Task.Factory.StartNew(() => {
+                    db = new ApplicationDbContext();
+                    List<StockTransfer> stocktransferlist = db.StockTransfer.Where(x => x.recevingBranch != null).GroupBy(x => new { x.pnrNumber, x.recevingBranch, x.id_Subscription }).Select(x => x.FirstOrDefault()).ToList();
+                    stocktransferlist.ForEach(x => {
+                        Dictionary<string, string> pnrdic = new Dictionary<string, string>();
+
                         pnrdic["pnr"] = x.pnrNumber;
                         pnrdic["branchName"] = x.recevingBranch;
-                    pnrdic["subscription"] = x.id_Subscription.ToString();
-                    var isExist = pnrsList.Contains(pnrdic);
+                        pnrdic["subscription"] = x.id_Subscription.ToString();
+                        var isExist = pnrsList.Contains(pnrdic);
                         if (!isExist)
                         {
-                        pnrsList.Add(pnrdic);
-                        }                    
-                });
-
-
-                pnrsList.ForEach(pnr => {
-                    pnrCalculator.caluclateStats(pnr["pnr"], pnr["branchName"],Convert.ToInt32(pnr["subscription"]));
+                            pnrsList.Add(pnrdic);
+                        }
+                    });
                   
-                });
-           
+                }));
+                Task.WaitAll(tasks.ToArray());
 
-         
+
+                tasks = new List<Task>();
+                int i = 0;
+                pnrsList.ForEach(pnr => {
+
+                    tasks.Add(Task.Factory.StartNew(() => {
+                        pnrCalculator.caluclateStats(pnr["pnr"], pnr["branchName"], Convert.ToInt32(pnr["subscription"]));
+                    }));
+                    
+                });
+                Task.WaitAll(tasks.ToArray());
+
+
             }
             catch (Exception ex)
             {
