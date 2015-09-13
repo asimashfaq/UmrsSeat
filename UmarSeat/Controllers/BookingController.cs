@@ -603,52 +603,6 @@ namespace UmarSeat.Controllers
                     });
 
 
-                    /*
-                      
-                  pnrAvaliable.ForEach(x =>
-                  {
-
-                          
-                      
-                      if (pnrCalculator.isPnrAvaliable(x.pnrNumber, sb, "Avaliable", "Sold"))
-                      sc.ListPNR.Add(new SelectListItem { Text = x.pnrNumber, Value = x.pnrNumber.ToString() });
-                  });
-                  if (string.IsNullOrEmpty(Session["branchName"].ToString()))
-                  {
-                      Seatconfirmations = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubcription && x.newPnrNumber != null && x.pnrStatus == "Avaliable").OrderBy(x => x.id_SeatConfirmation).ToList();
-                  }
-                  else
-                  {
-                      string sb = Session["branchName"].ToString();
-                      Seatconfirmations = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubcription && x.newPnrNumber != null && x.pnrStatus == "Avaliable" && x.recevingBranch == sb).OrderBy(x => x.id_SeatConfirmation).ToList();
-                  }
-
-                  Seatconfirmations.ForEach(x =>
-                  {
-                      string sb = Session["branchName"].ToString();
-                      if (pnrCalculator.isPnrAvaliable(x.newPnrNumber, sb, "Avaliable", "Sold"))
-                      sc.ListPNR.Add(new SelectListItem { Text = x.newPnrNumber, Value = x.newPnrNumber.ToString() });
-                  });
-                  List<StockTransfer> stockList = new List<StockTransfer>();
-                   if (string.IsNullOrEmpty(Session["branchName"].ToString()))
-                  {
-                      stockList = db1.StockTransfer.Where(x => x.id_Subscription == idSubcription).GroupBy(x=> x.pnrNumber ).Select(x=> x.FirstOrDefault()).ToList();
-                  }
-                  else
-                  {
-                      string sb = Session["branchName"].ToString();
-                      stockList = db1.StockTransfer.Where(x => x.id_Subscription == idSubcription).GroupBy(x => x.pnrNumber).Select(x => x.FirstOrDefault()).ToList();
-                  }
-
-                   stockList.ForEach(x =>
-                  {
-                      string sb = Session["branchName"].ToString();
-                      if (pnrCalculator.isPnrAvaliable1(x.pnrNumber, sb, "Avaliable", "Sold"))
-                          sc.ListPNR.Add(new SelectListItem { Text = x.pnrNumber, Value = x.pnrNumber.ToString() });
-                  });
-                    
-                  */
-
                     
                     db1.Dispose();
 

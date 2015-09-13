@@ -26,6 +26,11 @@
             @Html.AntiForgeryToken()
 
             @Html.ValidationSummary(true)
+             <div class="form-group form-group-default ">
+                @Html.LabelFor(m => m.CompanyName)
+                @Html.TextBoxFor(m => m.CompanyName, new { @requied = "required", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CompanyName)
+            </div>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group form-group-default">

@@ -167,7 +167,8 @@ namespace UmarSeat.Controllers
                         else
                         {
                             rr.isSuccess = false;
-                            rr.Message = "Email already exists";
+                            rr.ErrorMessage= rr.Message = "Email already exists";
+                            
                             errors.Add(rr);
                         }
 

@@ -1744,7 +1744,6 @@
     <Content Include="Views\Booking\GroupSplit.cshtml" />
     <Content Include="Views\Agents\Create.cshtml" />
     <Content Include="Views\Agents\Delete.cshtml" />
-    <Content Include="Views\Agents\Details.cshtml" />
     <Content Include="Views\Agents\Edit.cshtml" />
     <Content Include="Views\Agents\Index.cshtml" />
     <Content Include="Views\Stock\sellingcreate.cshtml" />

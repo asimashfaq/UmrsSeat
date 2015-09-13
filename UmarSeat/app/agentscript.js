@@ -20,6 +20,7 @@ function updatedata() {
         playload["Person.firstName"] = $("#Person_firstName").val();
         playload["Person.lastName"] = $("#Person_lastName").val();
         playload["Person.email"] = $("#Person_email").val();
+        playload["CompanyName"] = $("#CompanyName").val();
         
         playload["Person.mobileNumber"] = $("#Person_mobileNumber").val().replace(/\D/g, '');
        

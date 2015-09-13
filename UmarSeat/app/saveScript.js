@@ -17,7 +17,7 @@
         playload["Person.firstName"] = $("#Person_firstName").val();
         playload["Person.lastName"] = $("#Person_lastName").val();
         playload["Person.email"] = $("#Person_email").val();
-
+        playload["CompanyName"] = $("#CompanyName").val();
         playload["Person.mobileNumber"] = $("#Person_mobileNumber").val().replace(/\D/g, '');
 
         $.ajax({
@@ -28,9 +28,12 @@
             contentType: "application/json",
             success: function (data) {
                 $("#dv2").html("");
+                console.log("Asda");
+                console.log(data);
                 if (data.length != 0) {
 
                     var response = JSON.parse(data);
+                    
                     $.each(response, function (index, row) {
                         if (row.isSuccess == true) {
                             $("#dv2").append('<div class="alert alert-success" role="alert"><button class="close" data-dismiss="alert"></button><strong>Success: </strong>' + row.Message + '</div>');

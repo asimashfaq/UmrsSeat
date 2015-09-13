@@ -12,6 +12,9 @@
                     @Html.DisplayNameFor(model => model.id_Agent)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.CompanyName)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Person.firstName)
                 </th>
                 <th>
@@ -36,6 +39,9 @@
 
                     <td>
                         @Html.DisplayFor(modelItem => item.id_Agent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompanyName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Person.firstName)
