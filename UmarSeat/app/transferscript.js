@@ -2,7 +2,7 @@
 function updatedata() {
 
     if ($('#entry-form').valid() == true) {
-        alert("Asd");
+     
         $("#dv1").append('<div id="aaa" class="panel-default-overlay-down">\
                         <div class="col-sm-12 text-center" style="height:100%">\
                             <div class="progress-circle-indeterminate m-t-45">\

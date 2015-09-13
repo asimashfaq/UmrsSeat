@@ -123,7 +123,7 @@
                 <div class="col-sm-6">
                     <div class="form-group  form-group-default form-group-default-select2 ">
                         @Html.LabelFor(model => model.transferingBranch)
-                        @Html.DropDownListFor(model => model.transferingBranch, Model.ListBranches, "Select Transfering Branch", new { @id = "tb", @class = "full-width" })
+                        @Html.DropDownListFor(model => model.transferingBranch, Model.ListBranches, "Select Transfering Branch", new { @id = "tb", @class = "full-width", @disabled = "disabled" })
                         @Html.ValidationMessageFor(model => model.transferingBranch)
 
 
@@ -132,7 +132,7 @@
                 <div class="col-sm-6">
                     <div class="form-group  form-group-default form-group-default-select2 ">
                         @Html.LabelFor(model => model.recevingBranch)
-                        @Html.DropDownListFor(model => model.recevingBranch, Model.ListBranches, "Select Receving Branch", new { @id = "rb", @class = "full-width" })
+                        @Html.DropDownListFor(model => model.recevingBranch, Model.ListBranches, "Select Receving Branch", new { @id = "rb", @class = "full-width", @disabled = "disabled" })
                         @Html.ValidationMessageFor(model => model.recevingBranch)
 
                     </div>

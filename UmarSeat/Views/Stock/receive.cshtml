@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<UmarSeat.Models.StockTransfer>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Receove";
 }
 
 <link href="~/Content/overlay-bootstrap.css" rel="stylesheet" />
@@ -45,7 +45,7 @@
 
 
         </div>
-        
+
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group form-group-default">
@@ -53,7 +53,7 @@
                     @Html.TextBox("airline", "", new { @class = "form-control" })
                 </div>
             </div>
-        
+
             <div class="col-sm-4">
                 <div class="form-group form-group-default">
                     @Html.LabelFor(model => model.First().recevingBranch)
@@ -87,7 +87,7 @@
 
 
         </div>
-        
+
         <br />
         <div class="row">
             <button type="button" class="btn btn-primary" onclick="avsearch()"><i class="pg-search"></i> Search</button>
@@ -103,7 +103,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="panel-title">
-            Record
+           Stock Receive
         </div>
         <div class="pull-right">
             <button type="button" class="btn btn-default"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
@@ -112,7 +112,7 @@
     </div>
     <div class="panel-body" id="dv1">
 
-        @{Html.RenderPartial("_nstlist", Model);}
+        @{Html.RenderPartial("_srlist", Model);}
 
 
     </div>
@@ -180,55 +180,55 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<style>
-    .table > tfoot > tr > th, .table > thead > tr > th {
-        border-top: 0px !important;
-    }
+    <style>
+        .table > tfoot > tr > th, .table > thead > tr > th {
+            border-top: 0px !important;
+        }
 
-    .TableTools {
-        display: inline-block !important;
-    }
+        .TableTools {
+            display: inline-block !important;
+        }
 
-    .ColVis.TableTools .btn {
-        margin-top: -2px;
-        margin-right: 2px;
-    }
+        .ColVis.TableTools .btn {
+            margin-top: -2px;
+            margin-right: 2px;
+        }
 
-    .TableTools_Button, .fix {
-        background: white;
-        border: 1px solid #F1F1F1;
-        text-align: left;
-        /* border-top: 1px; */
-        margin-bottom: -1px;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        font-weight: normal;
-        letter-spacing: 0.01em;
-        -webkit-font-smoothing: antialiased;
-        padding: 6px 12px;
-    }
+        .TableTools_Button, .fix {
+            background: white;
+            border: 1px solid #F1F1F1;
+            text-align: left;
+            /* border-top: 1px; */
+            margin-bottom: -1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            letter-spacing: 0.01em;
+            -webkit-font-smoothing: antialiased;
+            padding: 6px 12px;
+        }
 
-    .TableTools_catcher {
-        display: none !important;
-    }
+        .TableTools_catcher {
+            display: none !important;
+        }
 
-    .TableTools_collectionBackground {
-        max-width: 95%;
-    }
+        .TableTools_collectionBackground {
+            max-width: 95%;
+        }
 
-    #reportrange span, #reportrange2 span, #reportrange3 span {
-        display: inline-block;
-        width: 99%;
-    }
-</style>
+        #reportrange span, #reportrange2 span, #reportrange3 span {
+            display: inline-block;
+            width: 99%;
+        }
+    </style>
 
-   <script src="~/Content/assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="~/Content/assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
 
-<script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
-<script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/lodash.min.js"></script>
-<script src="~/Content/assets/asimdatabtable/js/ColVis.js"></script>
-<script src="~/Scripts/excellentexport.js"></script>
+    <script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
+    <script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+    <script src="~/Content/assets/asimdatabtable/js/ColVis.js"></script>
+    <script src="~/Scripts/excellentexport.js"></script>
     <script src="~/Scripts/moment.js"></script>
 
     <script>
@@ -241,11 +241,11 @@
         function avclear() {
             $("#pnrNumber").val("");
             $("#airline").val("");
-         
+
             $("#stockId").val("");
             $("#recevingBranch").val("");
             $("#transferingBranch").val("");
-          
+
             $("#reportrange3 span").text("");
         }
 
@@ -264,14 +264,14 @@
             pdata["transferingBranch"] = $("#transferingBranch").val();
             pdata["stockId"] = $("#stockId").val();
             pdata["recevingBranch"] = $("#recevingBranch").val();
-         
+
             pdata["creationRange"] = $("#reportrange3 span").text();
 
 
 
             $.ajax({
                 type: "post",
-                url: "/stock/nadvanceSearch",
+                url: "/stock/radvanceSearch",
                 data: JSON.stringify({ ssm: (pdata) }),
                 datatype: "json",
                 contentType: "application/json",
@@ -352,7 +352,7 @@
 
 
           $(".visible  input:checkbox").each(function (index, thisCheck) {
-              
+
               var column = table1.column($(thisCheck).attr('data-colum'));
 
               if ($(thisCheck).is(':checked')) {
@@ -377,7 +377,7 @@
 
             // Add event listener for opening and closing details
             $('#detailedTable tbody').on('click', 'td', function () {
-           
+
                 if (!$(this).hasClass('action')) {
                     var row1 = $(this).parent()[0];
                     if ($(row1).hasClass('shown') && $(row1).next().hasClass('row-details')) {
@@ -416,8 +416,9 @@
                         '<tr>' +
                         '<td>Stock ID</td>' +
                            '<td>' + data.stockId + '</td>' +
-                             '<td># of Seats</td>' +
+                              '<td># of Seats</td>' +
                            '<td>' + data.noOfSeats + '</td>' +
+
                         '</tr>' +
                         '<tr>' +
                         '<td>Transfering Branch</td>' +
@@ -456,15 +457,15 @@
 
         $(function () {
             $('#myPortlet').portlet()
-           
+
             function cb3(start, end) {
 
                 $('#reportrange3 span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
-       
+
             cb3(moment().subtract(29, 'days'), moment());
 
-          
+
             $('#reportrange3').daterangepicker({
                 "opens": "center",
                 ranges: {
