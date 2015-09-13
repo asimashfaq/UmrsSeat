@@ -677,213 +677,36 @@ namespace UmarSeat.Controllers
                   
                 }
                 st.ptype = "Avalible Stock";
-                st.avaliableSeats = st.noOfSeats;
+                
                 string br = Session["branchName"].ToString();
-                if(br == st.recevingBranch)
+                if(!string.IsNullOrEmpty(br))
                 {
-                    List<Task> tasks = new List<Task>();
                     Dictionary<string, object> pnrdata = new Dictionary<string, object>();
                     pnrdata.Add("pnrInfo", st);
-                    int groupsp = 0;
-                    int ss = 0;
-                    int stt = 0;
-                    tasks.Add(Task.Factory.StartNew(() =>
+                   
+                    pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == pnr && x.branchName == br).SingleOrDefault();
+                    if(pl != null)
                     {
-                        ApplicationDbContext db1 = new ApplicationDbContext();
-                        List<SeatConfirmation> groupsplitlist = db1.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber != null).ToList();
-
-                        db1.Dispose();
-                        groupsplitlist = groupsplitlist.Select(s => new SeatConfirmation()
-                        {
-                            pnrNumber = s.pnrNumber,
-                            newPnrNumber = s.newPnrNumber,
-                            CreatedAt = s.CreatedAt,
-                            noOfSeats = s.noOfSeats,
-                            ptype = "Group Split"
-                        }).ToList();
-                        if (groupsplitlist.Count > 0)
-                        {
-                            groupsplitlist.ForEach(x =>
-                            {
-                                st.avaliableSeats = st.avaliableSeats - x.noOfSeats;
-                                groupsp = groupsp + x.noOfSeats;
-                            });
-                            pnrdata.Add("groupsplit", groupsplitlist);
-                        }
-
-
-                    }));
-                    tasks.Add(Task.Factory.StartNew(() =>
-                    {
-                        ApplicationDbContext db1 = new ApplicationDbContext();
-                        List<StockTransfer> sellinglist = db1.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.pnrNumber == pnr && x.id_Subscription == idSubcription).ToList();
-                        db1.Dispose();
-                        sellinglist = sellinglist.Select(s => new StockTransfer()
-                        {
-                            pnrNumber = s.pnrNumber,
-                            createAt = s.createAt,
-                            noOfSeats = s.noOfSeats,
-                            ptype = "Stock Selling"
-                        }).ToList();
-                        if (sellinglist.Count > 0)
-                        {
-                            sellinglist.ForEach(x =>
-                            {
-                                st.avaliableSeats = st.avaliableSeats - x.noOfSeats;
-                                ss = ss + x.noOfSeats;
-                            });
-                            pnrdata.Add("stocksold", sellinglist);
-                        }
-
-                    }));
-                    tasks.Add(Task.Factory.StartNew(() =>
-                    {
-                        ApplicationDbContext db1 = new ApplicationDbContext();
-                        List<StockTransfer> transferlist = db1.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.pnrNumber == pnr && x.id_Subscription == idSubcription).ToList();
-                        db1.Dispose();
-                        transferlist = transferlist.Select(s => new StockTransfer()
-                        {
-                            pnrNumber = s.pnrNumber,
-                            createAt = s.createAt,
-                            noOfSeats = s.noOfSeats,
-                            ptype = "Stock Transfer"
-                        }).ToList();
-                        if (transferlist.Count > 0)
-                        {
-                            transferlist.ForEach(x =>
-                            {
-                                st.avaliableSeats = st.avaliableSeats - x.noOfSeats;
-                                stt = stt + x.noOfSeats;
-                            });
-                            pnrdata.Add("stocktransfer", transferlist);
-                        }
-                    }));
-
-                    Task.WaitAll(tasks.ToArray());
-                    pnrdata.Add("tst", st.noOfSeats);
-                    pnrdata.Add("tgs", groupsp);
-                    pnrdata.Add("tss", ss);
-                    pnrdata.Add("tts", stt);
-                    pnrdata.Add("tsa", st.avaliableSeats);
+                      
+                        pnrdata.Add("tst", pl.totalSeats);
+                        pnrdata.Add("tgs", pl.groupSplit);
+                        pnrdata.Add("tss", pl.sellSeats);
+                        pnrdata.Add("tts", pl.transferSeats - pl.receiveSeats);
+                        pnrdata.Add("tsa", pl.avaliableSeats);
+                    }
+                    
+                   
                     return JsonConvert.SerializeObject(pnrdata);
 
                 }
                 else
                 {
-                    List<Task> tasks = new List<Task>();
-                    Dictionary<string, object> pnrdata = new Dictionary<string, object>();
-                    pnrdata.Add("pnrInfo", st);
-                    int groupsp = 0;
-                    int ss = 0;
-                    int stt = 0;
-                    st.avaliableSeats = 0;
-                    tasks.Add(Task.Factory.StartNew(() =>
-                    {
-                        ApplicationDbContext db1 = new ApplicationDbContext();
-                        List<StockTransfer> transferlist = db1.StockTransfer.Where(x =>  x.pnrNumber == pnr && x.id_Subscription == idSubcription && x.recevingBranch == br).ToList();
-                        db1.Dispose();
-                        transferlist = transferlist.Select(s => new StockTransfer()
-                        {
-                            pnrNumber = s.pnrNumber,
-                            createAt = s.createAt,
-                            noOfSeats = s.noOfSeats,
-                            ptype = "Stock Avaliable"
-                        }).ToList();
-                        if (transferlist.Count > 0)
-                        {
-                            transferlist.ForEach(x =>
-                            {
-                                st.avaliableSeats = st.avaliableSeats + x.noOfSeats;
-                             
-                            });
-                           
-                        }
-                    }));
+                 
 
 
 
 
-                    tasks.Add(Task.Factory.StartNew(() =>
-                    {
-                        ApplicationDbContext db1 = new ApplicationDbContext();
-                        List<SeatConfirmation> groupsplitlist = db1.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber != null && x.recevingBranch == br).ToList();
-
-                        db1.Dispose();
-                        groupsplitlist = groupsplitlist.Select(s => new SeatConfirmation()
-                        {
-                            pnrNumber = s.pnrNumber,
-                            newPnrNumber = s.newPnrNumber,
-                            CreatedAt = s.CreatedAt,
-                            noOfSeats = s.noOfSeats,
-                            ptype = "Group Split"
-                        }).ToList();
-                        if (groupsplitlist.Count > 0)
-                        {
-                            groupsplitlist.ForEach(x =>
-                            {
-                                st.avaliableSeats = st.avaliableSeats - x.noOfSeats;
-                                groupsp = groupsp + x.noOfSeats;
-                            });
-                            pnrdata.Add("groupsplit", groupsplitlist);
-                        }
-
-
-                    }));
-                    tasks.Add(Task.Factory.StartNew(() =>
-                    {
-                        ApplicationDbContext db1 = new ApplicationDbContext();
-                        List<StockTransfer> sellinglist = db1.StockTransfer.Where(x => x.pnrNumber == pnr && x.id_Subscription == idSubcription && (x.sellingBranch == br)).ToList();
-                        db1.Dispose();
-                        sellinglist = sellinglist.Select(s => new StockTransfer()
-                        {
-                            pnrNumber = s.pnrNumber,
-                            createAt = s.createAt,
-                            noOfSeats = s.noOfSeats,
-                            ptype = "Stock Selling"
-                        }).ToList();
-                        if (sellinglist.Count > 0)
-                        {
-                            sellinglist.ForEach(x =>
-                            {
-                                st.avaliableSeats = st.avaliableSeats - x.noOfSeats;
-                                ss = ss + x.noOfSeats;
-                            });
-                            pnrdata.Add("stocksold", sellinglist);
-                        }
-
-                    }));
-                    tasks.Add(Task.Factory.StartNew(() =>
-                    {
-                        ApplicationDbContext db1 = new ApplicationDbContext();
-                        List<StockTransfer> sellinglist = db1.StockTransfer.Where(x => x.pnrNumber == pnr && x.id_Subscription == idSubcription && (x.transferingBranch == br)).ToList();
-                        db1.Dispose();
-                        sellinglist = sellinglist.Select(s => new StockTransfer()
-                        {
-                            pnrNumber = s.pnrNumber,
-                            createAt = s.createAt,
-                            noOfSeats = s.noOfSeats,
-                            ptype = "Stock Transfering"
-                        }).ToList();
-                        if (sellinglist.Count > 0)
-                        {
-                            sellinglist.ForEach(x =>
-                            {
-                                st.avaliableSeats = st.avaliableSeats - x.noOfSeats;
-                                stt = stt + x.noOfSeats;
-                            });
-                            pnrdata.Add("stocktransfering", sellinglist);
-                        }
-
-                    }));
                    
-
-                    Task.WaitAll(tasks.ToArray());
-                    pnrdata.Add("tst", st.noOfSeats);
-                    pnrdata.Add("tgs", groupsp);
-                    pnrdata.Add("tss", ss);
-                    pnrdata.Add("tts", stt);
-                    pnrdata.Add("tsa", st.avaliableSeats);
-                    return JsonConvert.SerializeObject(pnrdata);
                 }
 
 
