@@ -18,6 +18,7 @@ function updatedata() {
         playload["pnrNumber"] = $("#pnrNumber").val();
         playload["airline"] = $("#airlineId").val();
         playload["country"] = $("#Country1").val();
+        playload["id_SeatConfirmation"] = $("#id_SeatConfirmation").val();
         playload["stockId"] = $("#stockId").val();
         playload["outbounddate"] = $("#outbounddate").val();
         playload["inbounddate"] = $("#inbounddate").val();

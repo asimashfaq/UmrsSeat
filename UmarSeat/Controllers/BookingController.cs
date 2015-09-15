@@ -1061,7 +1061,7 @@ namespace UmarSeat.Controllers
                     else if (seatconfirmation.pnrNumber != null)
                     {
                         int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-                        var sc = db.SeatConfirmation.Where(x => x.id_SeatConfirmation == seatconfirmation.id_SeatConfirmation && x.id_SeatConfirmation== idSubcription).FirstOrDefault();
+                        var sc = db.SeatConfirmation.Where(x => x.id_SeatConfirmation == seatconfirmation.id_SeatConfirmation && x.id_Subscription== idSubcription).FirstOrDefault();
 
                         
                         if (sc != null)

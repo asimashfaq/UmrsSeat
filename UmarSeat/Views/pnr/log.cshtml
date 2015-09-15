@@ -1,0 +1,114 @@
+﻿@model IEnumerable<UmarSeat.Models.pnrLog>
+
+@{
+    ViewBag.Title = "log";
+}
+
+
+<table class="table table-condensed table-detailed pnrlog" >
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.pnrNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.totalSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.avaliableSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.groupSplit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sellSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.transferSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.receiveSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.branchName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idSubscription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pnrStatus)
+            </th>
+            <th>
+              
+                @Html.DisplayNameFor(model => model.sc.timeLimit)
+            </th>
+            <th>
+                Created At
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.pnrNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.totalSeats)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.avaliableSeats)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.groupSplit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sellSeats)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.transferSeats)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.receiveSeats)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.branchName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.idSubscription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pnrStatus)
+        </td>
+        <td>
+           
+            @Html.DisplayFor(modelItem => item.sc.timeLimit)
+        </td>
+        <td>
+
+            @Html.DisplayFor(modelItem => item.sc.CreatedAt)
+        </td>
+      
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.pnrLogId }) |
+           
+        </td>
+    </tr>
+}
+
+</table>
+@section Scripts{
+   <script src="~/Scripts/moment.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.pnrlog tr td:nth-child(11),.pnrlog tr td:nth-child(12)').each(function (i) {
+                var t = ($(this).text());
+                $(this).text(moment(t).fromNow())
+            })
+        })
+    </script>
+
+    
+     }

@@ -34,13 +34,14 @@
                 </div>
             </div>
         </div>
-        @using (Html.BeginForm("entry", "booking", FormMethod.Post, htmlAttributes: new { id = "entry-form", style = "visibility:hidden" }))
+        @using (Html.BeginForm("entry", "booking", FormMethod.Post, htmlAttributes: new { id = "booking-entry-form", style = "visibility:hidden" }))
         {
             @Html.AntiForgeryToken()
 
 
             <div class="">
                 @Html.ValidationSummary(true)
+                @Html.HiddenFor(x=> x.id_SeatConfirmation)
             </div>
             <div class="row">
                 <div class="col-sm-6">
@@ -53,7 +54,7 @@
 
             RouteValues["class"] = "full-width";
             RouteValues["data-init-plugin"] = "select2";
-            RouteValues["id"] = "Country";
+            RouteValues["id"] = "Country1";
 
 
                         }
@@ -234,7 +235,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
-    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+   <script src="~/Scripts/jquery.inputmask/jquery.inputmask.bundle.js"></script>
     <script src="~/Content/assets/plugins/jquery-autonumeric/autoNumeric.js" type="text/javascript"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/additional-methods.js"></script>
 
@@ -261,11 +262,8 @@
 
     <script>
 
-        $("#stockId").select2({
-                    placeholder: "Select a City",
-                    allowClear: true
-                });
+        
                 $("#dv1").html('');
-                $("#entry-form").css('visibility', 'visible')
+                $("#booking-entry-form").css('visibility', 'visible')
     </script>
 }

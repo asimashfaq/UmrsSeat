@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -21,6 +22,10 @@ namespace UmarSeat.Models
         public int idSubscription { get; set; }
         public string pnrStatus { get; set; }
         public string pnrLock { get; set; }
+        [NotMapped]
+        public SeatConfirmation sc { get; set; }
+        [NotMapped]
+        public StockTransfer st { get; set; }
         [Timestamp]
         [ConcurrencyCheck]
         public byte[] RowVersion { get; set; }
