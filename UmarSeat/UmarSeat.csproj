@@ -253,6 +253,7 @@
     <Compile Include="Helpers\JsonpResult.cs" />
     <Compile Include="Helpers\lowercase.cs" />
     <Compile Include="Helpers\pnrCalculator.cs" />
+    <Compile Include="Helpers\SessionExpire.cs" />
     <Compile Include="Hubs\BookingHub.cs" />
     <Compile Include="Hubs\MyHub1.cs" />
     <Compile Include="jobs\pnrStatsJob.cs" />

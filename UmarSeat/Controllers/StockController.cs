@@ -15,12 +15,14 @@ using System.Transactions;
 namespace UmarSeat.Controllers
 {
     [Authorize]
+    
     public class StockController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: /Stock/
         [ActionName("Selling")]
+        [CheckSessionOut]
         public async Task<ActionResult> Index(string pnr, string catalystinvoicenumber, string airline, string stockid, string agentid, string gdspnrnumber, string advancerange, string creationrange)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
