@@ -19,7 +19,7 @@ function updatedata() {
         playload["airline"] = $("#airlineId").val();
         playload["country"] = $("#Country").val();
         playload["stockId"] = $("#stockId").val();
-
+        playload["id_StockTransfer"] = $("#id_StockTransfer").val();
         playload["transferingBranch"] = $("#tb").val();
         playload["recevingBranch"] = $("#rb").val();
 

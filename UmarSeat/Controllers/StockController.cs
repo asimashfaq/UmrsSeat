@@ -39,11 +39,11 @@ namespace UmarSeat.Controllers
                 string bn = Session["branchName"].ToString();
                 if(string.IsNullOrEmpty(bn))
                 {
-                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription).ToList());
+                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription).OrderByDescending(x => x.id_StockTransfer).ToList());
                 }
                 else
                 {
-                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription && x.transferingBranch == bn).ToList());
+                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription && x.transferingBranch == bn).OrderByDescending(x => x.id_StockTransfer).ToList());
                 }
 
                 
@@ -51,7 +51,15 @@ namespace UmarSeat.Controllers
                 decimal pages = 1;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
-                ViewBag.start = 1;
+                if (count > 0)
+                {
+                    ViewBag.start = 1;
+                }
+                else
+                {
+                    ViewBag.start = 0;
+                }
+              
                 ViewBag.end = count;
                 ViewBag.prev = 1;
                 ViewBag.next = 1;
@@ -63,19 +71,26 @@ namespace UmarSeat.Controllers
                 string bn = Session["branchName"].ToString();
                 if (string.IsNullOrEmpty(bn))
                 {
-                    list = await db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription).ToListAsync();
+                    list = await db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription).OrderByDescending(x => x.id_StockTransfer).ToListAsync();
                 }
                 else
                 {
-                    list = await db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription && x.transferingBranch == bn).ToListAsync();
+                    list = await db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription && x.transferingBranch == bn).OrderByDescending(x => x.id_StockTransfer).ToListAsync();
                 }
                
                 decimal count = Convert.ToDecimal(list.Count.ToString());
-                list = list.OrderBy(x => x.id_StockTransfer).Skip(5 * (1 - 1)).Take(5).ToList();
+                list = list.Skip(5 * (1 - 1)).Take(5).ToList();
                 decimal pages = count / 5;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
-                ViewBag.start = 1;
+                if (count > 0)
+                {
+                    ViewBag.start = 1;
+                }
+                else
+                {
+                    ViewBag.start = 0;
+                }
                 int end = 5;
                 if (end >= count)
                 {
@@ -110,18 +125,25 @@ namespace UmarSeat.Controllers
                 string bn = Session["branchName"].ToString();
                 if (string.IsNullOrEmpty(bn))
                 {
-                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription).ToList());
+                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription).OrderByDescending(x => x.id_StockTransfer).ToList());
                 }
                 else
                 {
-                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription && x.transferingBranch == bn).ToList());
+                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription && x.transferingBranch == bn).OrderBy(x=> x.id_Subscription).ToList());
                 }
                 
                 decimal count = Convert.ToDecimal(list.Count.ToString());
                 decimal pages = 1;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
-                ViewBag.start = 1;
+                if (count > 0)
+                {
+                    ViewBag.start = 1;
+                }
+                else
+                {
+                    ViewBag.start = 0;
+                }
                 ViewBag.end = count;
                 ViewBag.prev = 1;
                 ViewBag.next = 1;
@@ -137,16 +159,23 @@ namespace UmarSeat.Controllers
                 }
                 else
                 {
-                    list = await db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription  && x.transferingBranch == bn).ToListAsync();
+                    list = await db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription  && x.transferingBranch == bn).OrderByDescending(x => x.id_StockTransfer).ToListAsync();
                 }
 
                
                  decimal count = Convert.ToDecimal(list.Count.ToString());
-                list = list.OrderBy(x => x.id_StockTransfer).Skip(5 * (1 - 1)).Take(5).ToList();
+                list = list.Skip(5 * (1 - 1)).Take(5).ToList();
                 decimal pages = count / 5;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
-                ViewBag.start = 1;
+                if (count > 0)
+                {
+                    ViewBag.start = 1;
+                }
+                else
+                {
+                    ViewBag.start = 0;
+                }
                 int end = 5;
                 if (end >= count)
                 {
@@ -181,18 +210,25 @@ namespace UmarSeat.Controllers
                 string bn = Session["branchName"].ToString();
                 if (string.IsNullOrEmpty(bn))
                 {
-                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription).ToList());
+                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription).OrderByDescending(x => x.id_StockTransfer).ToList());
                 }
                 else
                 {
-                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription && x.recevingBranch == bn).ToList());
+                    list = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription && x.recevingBranch == bn).OrderByDescending(x => x.id_StockTransfer).ToList());
                 }
 
                 decimal count = Convert.ToDecimal(list.Count.ToString());
                 decimal pages = 1;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
-                ViewBag.start = 1;
+                if (count > 0)
+                {
+                    ViewBag.start = 1;
+                }
+                else
+                {
+                    ViewBag.start = 0;
+                }
                 ViewBag.end = count;
                 ViewBag.prev = 1;
                 ViewBag.next = 1;
@@ -208,16 +244,23 @@ namespace UmarSeat.Controllers
                 }
                 else
                 {
-                    list = await db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription && x.recevingBranch == bn).ToListAsync();
+                    list = await db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription && x.recevingBranch == bn).OrderByDescending(x => x.id_StockTransfer).ToListAsync();
                 }
 
 
                 decimal count = Convert.ToDecimal(list.Count.ToString());
-                list = list.OrderBy(x => x.id_StockTransfer).Skip(5 * (1 - 1)).Take(5).ToList();
+                list = list.Skip(5 * (1 - 1)).Take(5).ToList();
                 decimal pages = count / 5;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
-                ViewBag.start = 1;
+                if (count > 0)
+                {
+                    ViewBag.start = 1;
+                }
+                else
+                {
+                    ViewBag.start = 0;
+                }
                 int end = 5;
                 if (end >= count)
                 {
@@ -350,15 +393,15 @@ namespace UmarSeat.Controllers
             return PartialView("_srlist", model);
         }
 
-        public async Task<ActionResult> stjson(string pnr)
+        public async Task<ActionResult> stjson(int stockTransferId)
         {
-            if (pnr == null || pnr == "")
+            if (stockTransferId == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-            StockTransfer st = await db.StockTransfer.Where(x => x.pnrNumber == pnr && x.id_Subscription == idSubcription).FirstOrDefaultAsync();
+            StockTransfer st = await db.StockTransfer.Where(x => x.id_StockTransfer == stockTransferId && x.id_Subscription == idSubcription).FirstOrDefaultAsync();
             if (st == null)
             {
                 return HttpNotFound();
@@ -374,11 +417,11 @@ namespace UmarSeat.Controllers
             string bn = Session["branchName"].ToString();
             if (string.IsNullOrEmpty(bn))
             {
-                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription).ToList());
+                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription).OrderByDescending(x => x.id_StockTransfer).ToList());
             }
             else
             {
-                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription && x.transferingBranch == bn).ToList());
+                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == true && x.id_Subscription == idSubcription && x.transferingBranch == bn).OrderByDescending(x => x.id_StockTransfer).ToList());
             }
             ss = ss.Where(x => x.advanceDate.HasValue == true).ToList();
             decimal count = Convert.ToDecimal(ss.Count.ToString());
@@ -401,11 +444,11 @@ namespace UmarSeat.Controllers
             string bn = Session["branchName"].ToString();
             if (string.IsNullOrEmpty(bn))
             {
-                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription).ToList());
+                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription).OrderByDescending(x => x.id_StockTransfer).ToList());
             }
             else
             {
-                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription && x.transferingBranch == bn).ToList());
+                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription && x.transferingBranch == bn).OrderByDescending(x => x.id_StockTransfer).ToList());
             }
             ss = ss.Where(x => x.advanceDate.HasValue == false).ToList();
             decimal count = Convert.ToDecimal(ss.Count.ToString());
@@ -429,11 +472,11 @@ namespace UmarSeat.Controllers
             string bn = Session["branchName"].ToString();
             if (string.IsNullOrEmpty(bn))
             {
-                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription).ToList());
+                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription).OrderByDescending(x => x.id_StockTransfer).ToList());
             }
             else
             {
-                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription && x.recevingBranch == bn).ToList());
+                ss = filterdata(ssm, db.StockTransfer.Where(x => x.advanceDate.HasValue == false && x.id_Subscription == idSubcription && x.recevingBranch == bn).OrderByDescending(x => x.id_StockTransfer).ToList());
             }
             ss = ss.Where(x => x.advanceDate.HasValue == false).ToList();
             decimal count = Convert.ToDecimal(ss.Count.ToString());
@@ -795,26 +838,70 @@ namespace UmarSeat.Controllers
                     {
                         errors.Add(new ResponseRequest() { isSuccess = false, Element = "stockId", ErrorMessage = "StockId Cannot be null " });
                     }
-                   
-                    
-
-
-                    if (errors.Count==0)
+                    if (stocktransfer.pnrNumber.Contains(','))
                     {
-                        int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-                       
+                        string[] splitPnr = stocktransfer.pnrNumber.Split(',');
+                        stocktransfer.pnrNumber = splitPnr[0];
+                    }
+
+                    pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.sellingBranch).SingleOrDefault();
+                    if(pl1 == null)
+                    {
+                        pl1 = new pnrLog();
+                    }
+
+                    if (pl1.avaliableSeats >= stocktransfer.noOfSeats)
+                    {
+                        if (errors.Count == 0)
+                        {
+                            int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+
                             stocktransfer.createAt = DateTime.Now;
                             stocktransfer.UpdateAt = DateTime.Now;
                             stocktransfer.id_Subscription = idSubcription;
-                        
-                            db.StockTransfer.Add(stocktransfer);
-                            await db.SaveChangesAsync();
-                            rr.isSuccess = true;
-                            rr.Message = "Insert Successfully";
-                            errors.Add(rr);
-                      
+                            using (TransactionScope ts = new TransactionScope())
+                            {
+                                db.StockTransfer.Add(stocktransfer);
+                                db.SaveChanges();
+                              
+                                if (pl1 != null)
+                                {
+                                    if ((pl1.avaliableSeats - stocktransfer.noOfSeats) == 0)
+                                    {
+                                        pl1.pnrStatus = "Sold";
+                                        pl1.avaliableSeats = 0;
+                                        pl1.sellSeats = pl1.sellSeats + stocktransfer.noOfSeats;
 
+                                        pl1.pnrLock = "";
+                                        db.Entry(pl1).OriginalValues["RowVersion"] = pl1.RowVersion;
+                                        db.SaveChanges();
+                                        
+
+                                        var st = db.SeatConfirmation.Where(x => (x.pnrNumber == stocktransfer.pnrNumber ||
+                                        x.newPnrNumber == stocktransfer.pnrNumber) && x.recevingBranch == stocktransfer.transferingBranch).SingleOrDefault();
+                                        if (st != null)
+                                        {
+                                            st.pnrStatus1 = st.pnrStatus = "Sold";
+                                            db.Entry(st).OriginalValues["RowVersion"] = st.RowVersion;
+                                            db.SaveChanges();
+                                        }
+                                    }
+                                }                                                            
+                                rr.isSuccess = true;
+                                rr.Message = "Insert Successfully";
+                                errors.Add(rr);
+                                ts.Complete();
+                            }
+
+
+                        }
                     }
+                    else
+                    {
+                        errors.Add(new ResponseRequest() { isSuccess = false, Element = "noOfSeats", ErrorMessage = "# of seats greater than # of seats avaliable" });
+                    }
+
+
                 }
                 catch (Exception ex)
                 {
@@ -868,6 +955,13 @@ namespace UmarSeat.Controllers
                     {
                         errors.Add(new ResponseRequest() { isSuccess = false, Element = "stockId", ErrorMessage = "StockId Cannot be null " });
                     }
+
+                    if(stocktransfer.pnrNumber.Contains(','))
+                    {
+                        string[] splitPnr = stocktransfer.pnrNumber.Split(',');
+                        stocktransfer.pnrNumber = splitPnr[0];
+                    }
+
                     pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.transferingBranch).SingleOrDefault();
                     if(pl1.avaliableSeats >= stocktransfer.noOfSeats)
                     {
@@ -1119,7 +1213,7 @@ namespace UmarSeat.Controllers
                     if (errors.Count == 0)
                     {
                         int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-                        var sc = db.StockTransfer.Where(x => x.pnrNumber.ToLower() == stocktransfer.pnrNumber.ToLower() && x.id_Subscription == idSubcription).FirstOrDefault();
+                        var sc = db.StockTransfer.Where(x => x.id_StockTransfer == stocktransfer.id_StockTransfer && x.id_Subscription == idSubcription).FirstOrDefault();
                         if (sc != null)
                         {
                            
@@ -1137,6 +1231,8 @@ namespace UmarSeat.Controllers
                             sc.advanceDate = stocktransfer.advanceDate;
                             sc.gdsPnrNumber = stocktransfer.gdsPnrNumber;
                             sc.catalystInvoiceNumber = stocktransfer.catalystInvoiceNumber;
+                            sc.isTickted = stocktransfer.isTickted;
+                            sc.isPackage = stocktransfer.isPackage;
                             db.Entry(sc).State = EntityState.Modified;
                             await db.SaveChangesAsync();
                             rr.isSuccess = true;
@@ -1214,7 +1310,7 @@ namespace UmarSeat.Controllers
                     if (errors.Count == 0)
                     {
                         int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-                        var sc = db.StockTransfer.Where(x => x.pnrNumber.ToLower() == stocktransfer.pnrNumber.ToLower() && x.id_Subscription == idSubcription).FirstOrDefault();
+                        var sc = db.StockTransfer.Where(x => x.id_StockTransfer== stocktransfer.id_StockTransfer && x.id_Subscription == idSubcription).FirstOrDefault();
                         if (sc != null)
                         {
 

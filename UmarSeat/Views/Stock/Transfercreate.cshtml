@@ -189,7 +189,7 @@
 
                                 }
 
-                                @Html.DropDownListFor(x => x.country, Model.ListCountry, "Choose Country", RouteValues)
+                                @Html.DropDownListFor(x => x.country, Model.ListCountry, "", RouteValues)
                                 @Html.ValidationMessageFor(model => model.country)
 
                             </div>
@@ -202,7 +202,7 @@
                         <div class="col-sm-12">
                             <div class="form-group  form-group-default form-group-default-select2 ">
                                 @Html.LabelFor(model => model.airLine)
-                                @Html.DropDownListFor(model => model.airLine, Model.ListAirline, new { @id = "airlineId", @class = "full-width" })
+                                @Html.DropDownListFor(model => model.airLine, Model.ListAirline,"", new { @id = "airlineId", @class = "full-width" })
                                 @Html.ValidationMessageFor(model => model.airLine)
 
                             </div>
@@ -241,7 +241,7 @@
                         Model.transferingBranch = br;
                         <div class="form-group  form-group-default">
                             @Html.LabelFor(model => model.transferingBranch)
-                            @Html.TextBoxFor(model => model.transferingBranch, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.TextBoxFor(model => model.transferingBranch,"", new { @class = "form-control", @disabled = "disabled" })
                             @Html.ValidationMessageFor(model => model.transferingBranch)
 
                         </div>

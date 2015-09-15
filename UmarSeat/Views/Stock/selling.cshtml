@@ -182,7 +182,7 @@
                         <label for="csellingprice">Selling Price</label>
                     </div>
                     <div class="checkbox check-primary checkbox-circle">
-                        <input data-colum="8" type="checkbox"  value="1" id="cnoofseats">
+                        <input data-colum="8" type="checkbox"  value="1" checked="checked" id="cnoofseats">
                         <label for="cnoofseats"># Of Seats</label>
                     </div>
                     <div class="checkbox check-primary checkbox-circle">
@@ -198,15 +198,19 @@
                         <label for="cadvancedate">Advance Date</label>
                     </div>
                     <div class="checkbox check-primary checkbox-circle">
-                        <input data-colum="12" type="checkbox" checked="checked" value="1" id="cgdspnr">
+                        <input data-colum="12" type="checkbox"  value="1" id="cgdspnr">
                         <label for="cgdspnr">GDS PNR #</label>
                     </div>
                     <div class="checkbox check-primary checkbox-circle">
-                        <input data-colum="12" type="checkbox" checked="checked" value="1" id="ccatlyst">
+                        <input data-colum="13" type="checkbox"  value="1" id="ccatlyst">
                         <label for="ccatlyst">Catalyst Invoice #</label>
                     </div>
                     <div class="checkbox check-primary checkbox-circle">
-                        <input data-colum="13" type="checkbox" checked="checked" value="1" id="caction">
+                        <input data-colum="14" type="checkbox" checked="checked" value="1" id="istickted">
+                        <label for="istickted">is Tickted?</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="15" type="checkbox" checked="checked" value="1" id="caction">
                         <label for="caction">Action</label>
                     </div>
                 </div>
@@ -431,14 +435,20 @@
                     $.ajax({
                         type: "GET",
                         url: "/stock/stjson",
-                        data: { pnr: $(row1).attr('id') },
+                        data: { stockTransferId: $(row1).attr('id') },
                         datatype: "json",
                         traditional: true,
                         success: function (data) {
-                            var re = /-?\d+/;
-                            var m = re.exec(data.advanceDate);
+                            if (data.advanceDate != null)
+                            {
+                                var re = /-?\d+/;
 
-                            data.advanceDate = moment(parseInt(m[0])).format('L');
+                                var m = re.exec(data.advanceDate);
+
+
+                                data.advanceDate = moment(parseInt(m[0])).format('L');
+                            }
+                           
 
 
 

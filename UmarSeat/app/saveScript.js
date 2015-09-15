@@ -550,7 +550,9 @@ function sellingsavedata() {
         playload["gdsPnrNumber"] = $("#gdsPnrNumber").val();
         playload["catalystInvoiceNumber"] = $("#catalystInvoiceNumber").val();
         playload["isPackage"] = $("#checkbox1").is(':checked');
+        playload["isTickted"] = $("#checkbox2").is(':checked');
 
+      
         $.ajax({
             type: "post",
             url: "/stock/sellingcreate",

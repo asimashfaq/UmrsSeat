@@ -399,7 +399,7 @@
                     $.ajax({
                         type: "GET",
                         url: "/stock/stjson",
-                        data: { pnr: $(row1).attr('id') },
+                        data: { stockTransferId: $(row1).attr('id') },
                         datatype: "json",
                         traditional: true,
                         success: function (data) {

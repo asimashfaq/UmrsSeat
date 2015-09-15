@@ -55,6 +55,9 @@
                  <th>
                      @Html.DisplayNameFor(model => model.catalystInvoiceNumber)
                  </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.isTickted)
+                 </th>
 
                  <th></th>
              </tr>
@@ -63,7 +66,7 @@
          <tbody>
              @foreach (var item in Model)
              {
-                 <tr id="@Html.Raw(item.pnrNumber)">
+                 <tr id="@Html.Raw(item.id_StockTransfer)">
                     
                      <td>
                          @Html.DisplayFor(modelItem => item.pnrNumber)
@@ -110,6 +113,9 @@
                      </td>
                      <td>
                          @Html.DisplayFor(modelItem => item.catalystInvoiceNumber)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.isTickted)
                      </td>
 
                      <td class="action">

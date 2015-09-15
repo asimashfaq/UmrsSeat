@@ -55,6 +55,7 @@
             <div class="form-horizontal">
 
                 @Html.ValidationSummary(true)
+                @Html.HiddenFor(x=> x.id_StockTransfer)
             </div>
 
               <div class="row">
@@ -84,7 +85,7 @@
 
                         }
 
-                        @Html.DropDownListFor(x => x.country, Model.ListCountry, "Choose Country", RouteValues)
+                        @Html.DropDownListFor(x => x.country, Model.ListCountry, "", RouteValues)
                         @Html.ValidationMessageFor(model => model.country)
 
                     </div>
@@ -97,7 +98,7 @@
                 <div class="col-sm-12">
                     <div class="form-group  form-group-default form-group-default-select2 ">
                         @Html.LabelFor(model => model.airLine)
-                        @Html.DropDownListFor(model => model.airLine, Model.ListAirline, new { @id = "airlineId", @class = "full-width" })
+                        @Html.DropDownListFor(model => model.airLine, Model.ListAirline,"", new { @id = "airlineId", @class = "full-width" })
                         @Html.ValidationMessageFor(model => model.airLine)
 
                     </div>

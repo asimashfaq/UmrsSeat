@@ -210,7 +210,7 @@
                         <div class="col-sm-6">
                             <div class="form-group  form-group-default form-group-default-select2 ">
                                 @Html.LabelFor(model => model.idAgent)
-                                @Html.DropDownListFor(model => model.idAgent, Model.ListAgents, "Select Agents", new { @id = "agentId", @class = "full-width" })
+                                @Html.DropDownListFor(model => model.idAgent, Model.ListAgents, "", new { @id = "agentId", @class = "full-width" })
                                 @Html.ValidationMessageFor(model => model.idAgent)
 
                             </div>
@@ -378,11 +378,23 @@
                     </div>
 
 
-                    <div class="checkbox check-primary">
-                        <input type="checkbox" name="isPackage" value="1" id="checkbox1">
-                        <label for="checkbox1">With Package</label>
-                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="checkbox check-primary">
+                                <input type="checkbox" name="isPackage" value="1" id="checkbox1">
+                                <label for="checkbox1">With Package</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
 
+                            <div class="checkbox check-primary">
+                                <input type="checkbox" name="isTickted" value="1" id="checkbox2">
+                                <label for="checkbox2">is Ticked?</label>
+
+                            </div>
+
+                        </div>
+                    </div>
 
 
                     <div class="row">
