@@ -638,13 +638,14 @@ namespace UmarSeat.Controllers
 
                 
 
-                    SeatConfirmation st = db.SeatConfirmation.Where(x => x.pnrNumber == pnr  && x.recevingBranch == br).FirstOrDefault();
+                    SeatConfirmation st = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.recevingBranch == br).FirstOrDefault();
                     if (st == null)
                     {
-                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
+                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr ).FirstOrDefault();
 
 
                     }
+                    st.recevingBranch = br;
                     st.ptype = "Avalible Stock";
                     st.avaliableSeats = st.noOfSeats;
                     Dictionary<string, object> pnrdata = new Dictionary<string, object>();
@@ -721,14 +722,20 @@ namespace UmarSeat.Controllers
                     {
                         errors.Add(new ResponseRequest() { isSuccess = false, Element = "inbounder", ErrorMessage = "Outbound Sector " + seatconfirmation.outBoundSector + " cannot be same as Inbound Sector " + seatconfirmation.inBoundSector });
                     }
-                    
-                    
 
 
-                    if(seatconfirmation.pnrNumber != null && errors.Count ==0)
+                    string br = Session["branchName"].ToString();
+                    if (seatconfirmation.pnrNumber.Contains(','))
+                    {
+                        string[] pnrbr = seatconfirmation.pnrNumber.Split(',');
+                        seatconfirmation.pnrNumber = pnrbr[0];
+                        seatconfirmation.recevingBranch = pnrbr[1];
+                    }
+
+                    if (seatconfirmation.pnrNumber != null && errors.Count ==0)
                     {
                         int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-                            var sc = db.SeatConfirmation.Where(x=> x.pnrNumber == seatconfirmation.pnrNumber && x.newPnrNumber == null).SingleOrDefault();
+                            var sc = db.SeatConfirmation.Where(x=> x.pnrNumber == seatconfirmation.pnrNumber && x.newPnrNumber == null &&x.recevingBranch == seatconfirmation.recevingBranch).SingleOrDefault();
                         if(sc == null)
                             {
                                  seatconfirmation.CreatedAt = DateTime.Now;
@@ -804,6 +811,14 @@ namespace UmarSeat.Controllers
                         errors.Add(new ResponseRequest() { isSuccess = false, Element = "inbounder", ErrorMessage = "Outbound Sector " + seatconfirmation.outBoundSector + " cannot be same as Inbound Sector " + seatconfirmation.inBoundSector });
                     }
 
+                    string br = Session["branchName"].ToString();
+                    if (seatconfirmation.pnrNumber.Contains(','))
+                    {
+                        string[] pnrbr = seatconfirmation.pnrNumber.Split(',');
+                        seatconfirmation.pnrNumber = pnrbr[0];
+                        seatconfirmation.recevingBranch = pnrbr[1];
+                    }
+
                     pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == seatconfirmation.pnrNumber && x.branchName == seatconfirmation.recevingBranch).SingleOrDefault();
                     if (pl1.avaliableSeats >= seatconfirmation.noOfSeats)
                     {
@@ -868,7 +883,7 @@ namespace UmarSeat.Controllers
                                         pl1.pnrStatus = "Avaliable";
                                         pl1.avaliableSeats = pl1.avaliableSeats - seatconfirmation.noOfSeats;
                                         pl1.groupSplit = pl1.groupSplit + seatconfirmation.noOfSeats;
-                                        db.Entry(pl1).OriginalValues["RowVersion"] = pl.RowVersion;
+                                        db.Entry(pl1).OriginalValues["RowVersion"] = pl1.RowVersion;
                                         db.SaveChanges();
                                     }
 

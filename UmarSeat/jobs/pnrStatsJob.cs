@@ -81,12 +81,12 @@ namespace UmarSeat.jobs
                 int i = 0;
                 pnrsList.ForEach(pnr => {
 
-                    tasks.Add(Task.Factory.StartNew(() => {
+                   // tasks.Add(Task.Factory.StartNew(() => {
                         pnrCalculator.caluclateStats(pnr["pnr"], pnr["branchName"], Convert.ToInt32(pnr["subscription"]));
-                    }));
+                 //   }));
                     
                 });
-                Task.WaitAll(tasks.ToArray());
+               // Task.WaitAll(tasks.ToArray());
 
 
             }
