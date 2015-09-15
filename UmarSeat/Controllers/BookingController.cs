@@ -16,6 +16,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Web.Script.Serialization;
 using System.Globalization;
+using System.Transactions;
 
 namespace UmarSeat.Controllers
 {
@@ -590,17 +591,20 @@ namespace UmarSeat.Controllers
                     sc.ListPNR = new List<SelectListItem>();
                     if (string.IsNullOrEmpty(Session["branchName"].ToString()))
                     {
-                     //   Seatconfirmations = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubcription && x.newPnrNumber == null && x.pnrStatus == "Avaliable" ).OrderBy(x => x.id_SeatConfirmation).ToList();
+                        pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable" ).OrderBy(x => x.pnrLogId).ToList();
+                        pnrAvaliable.ForEach(pr => {
+                            sc.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber+" ("+pr.branchName+")", Value = pr.pnrNumber+","+pr.branchName });
+                        });
                     }
                     else
                     {
                         string sb = Session["branchName"].ToString();
                         pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable" && x.branchName == sb).OrderBy(x => x.pnrLogId).ToList();
-                        
+                        pnrAvaliable.ForEach(pr => {
+                            sc.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber, Value = pr.pnrNumber.ToString() });
+                        });
                     }
-                    pnrAvaliable.ForEach(pr => {
-                        sc.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber, Value = pr.pnrNumber.ToString() });
-                    });
+                   
 
 
                     
@@ -634,10 +638,10 @@ namespace UmarSeat.Controllers
 
                 
 
-                    SeatConfirmation st = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null).FirstOrDefault();
+                    SeatConfirmation st = db.SeatConfirmation.Where(x => x.pnrNumber == pnr  && x.recevingBranch == br).FirstOrDefault();
                     if (st == null)
                     {
-                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
+                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
 
 
                     }
@@ -655,6 +659,7 @@ namespace UmarSeat.Controllers
                     else
                     pnrdata.Add("tts", pl.transferSeats);
                 pnrdata.Add("tsa", pl.avaliableSeats);
+                if (pl.avaliableSeats == 0) return null;
                     return JsonConvert.SerializeObject(pnrdata);
 
                
@@ -799,28 +804,99 @@ namespace UmarSeat.Controllers
                         errors.Add(new ResponseRequest() { isSuccess = false, Element = "inbounder", ErrorMessage = "Outbound Sector " + seatconfirmation.outBoundSector + " cannot be same as Inbound Sector " + seatconfirmation.inBoundSector });
                     }
 
-
-
-
-                    if (seatconfirmation.newPnrNumber != null)
+                    pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == seatconfirmation.pnrNumber && x.branchName == seatconfirmation.recevingBranch).SingleOrDefault();
+                    if (pl1.avaliableSeats >= seatconfirmation.noOfSeats)
                     {
-                        int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-                        
-                            seatconfirmation.CreatedAt = DateTime.Now;
-                            seatconfirmation.UpdatedAt = DateTime.Now;
-                            seatconfirmation.id_Subscription = idSubcription;
-                            seatconfirmation.pnrStatus = "Avaliable";
-                            db.SeatConfirmation.Add(seatconfirmation);
-                            await db.SaveChangesAsync();
+                        if (errors.Count == 0)
+                        {
+                           
+
+                            if (seatconfirmation.newPnrNumber != null)
+                            {
+                                int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+
+                                seatconfirmation.CreatedAt = DateTime.Now;
+                                seatconfirmation.UpdatedAt = DateTime.Now;
+                                seatconfirmation.id_Subscription = idSubcription;
+                                seatconfirmation.pnrStatus = "Avaliable";
+                              
+                                using (TransactionScope ts = new TransactionScope())
+                                {
+
+                                    db.SeatConfirmation.Add(seatconfirmation);
+                                    await db.SaveChangesAsync();
+
+                                    pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == seatconfirmation.newPnrNumber && x.branchName == seatconfirmation.recevingBranch).SingleOrDefault();
+                                    if (pl != null)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        pl = new pnrLog();
+                                        pl.pnrStatus = "Avaliable";
+                                        pl.branchName = seatconfirmation.recevingBranch;
+                                        pl.pnrNumber = seatconfirmation.newPnrNumber;
+                                        pl.idSubscription = seatconfirmation.id_Subscription;
+                                        pl.pnrLock = "";
+                                        pl.avaliableSeats = pl.totalSeats = seatconfirmation.noOfSeats;
+                                        db.pnrLogs.Add(pl);
+                                        db.SaveChanges();
+
+                                    }
+                                  
+                                    if ((pl1.avaliableSeats - seatconfirmation.noOfSeats) <= 0)
+                                    {   
+                                        pl1.pnrStatus = "Sold";
+                                        pl1.groupSplit = pl1.groupSplit + seatconfirmation.noOfSeats;
+                                        pl1.pnrLock = "Locked";
+                                        db.Entry(pl1).OriginalValues["RowVersion"] = pl.RowVersion;
+                                        db.SaveChanges();
 
 
-                            
-                            rr.isSuccess = true;
-                            rr.Message = "Insert Successfully";
-                            errors.Add(rr);
-                       
+                                        var st = db.SeatConfirmation.Where(x => (x.pnrNumber == seatconfirmation.pnrNumber ||
+                                        x.newPnrNumber == seatconfirmation.pnrNumber) && x.recevingBranch == seatconfirmation.recevingBranch).SingleOrDefault();
+                                        if (st != null)
+                                        {
+                                            st.pnrStatus1 = st.pnrStatus = "Sold";
+                                            db.Entry(st).OriginalValues["RowVersion"] = st.RowVersion;
+                                            db.SaveChanges();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        pl1.pnrStatus = "Avaliable";
+                                        pl1.avaliableSeats = pl1.avaliableSeats - seatconfirmation.noOfSeats;
+                                        pl1.groupSplit = pl1.groupSplit + seatconfirmation.noOfSeats;
+                                        db.Entry(pl1).OriginalValues["RowVersion"] = pl.RowVersion;
+                                        db.SaveChanges();
+                                    }
 
+                                    
+
+                                    rr.isSuccess = true;
+                                    rr.Message = "Insert Successfully";
+                                    errors.Add(rr);
+                                    ts.Complete();
+                                }
+
+
+                               
+
+
+                            }
+
+ 
+                        }
                     }
+                    else
+                    {
+                        errors.Add(new ResponseRequest() { isSuccess = false, Element = "noOfSeats", ErrorMessage = "# of seats greater than # of seats avaliable" });
+                    }
+
+
+
+                  
                 }
                 catch (Exception ex)
                 {

@@ -998,24 +998,16 @@ namespace UmarSeat.Controllers
                                     db.SaveChanges();
 
                                 }
-                                if ((pl1.avaliableSeats - stocktransfer.noOfSeats) == 0)
+                               
+                                if ((pl1.avaliableSeats - stocktransfer.noOfSeats) <= 0)
                                 {
-
-                                    pl = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.transferingBranch).SingleOrDefault();
-                                    if (pl != null)
-                                    {
-                                        pl.pnrStatus = "Avaliable";
-                                        if ((pl1.avaliableSeats - stocktransfer.noOfSeats) == 0)
-                                        {
-                                            pl.pnrStatus = "Sold";
-                                            pl.avaliableSeats = 0;
-                                            pl.transferSeats = pl.transferSeats + stocktransfer.noOfSeats;
-                                        }
-
-                                        pl.pnrLock = "";
-                                        db.Entry(pl).OriginalValues["RowVersion"] = pl.RowVersion;
-                                        db.SaveChanges();
-                                    }
+                                    pl1.pnrStatus = "Sold";
+                                    pl1.avaliableSeats = 0;
+                                    pl1.transferSeats = pl.transferSeats + stocktransfer.noOfSeats;
+                                    pl1.pnrLock = "Locked";
+                                    db.Entry(pl1).OriginalValues["RowVersion"] = pl.RowVersion;
+                                    db.SaveChanges();
+                                    
 
                                     var st = db.SeatConfirmation.Where(x => (x.pnrNumber == stocktransfer.pnrNumber ||
                                     x.newPnrNumber == stocktransfer.pnrNumber) && x.recevingBranch == stocktransfer.transferingBranch).SingleOrDefault();
@@ -1025,6 +1017,15 @@ namespace UmarSeat.Controllers
                                        db.Entry(st).OriginalValues["RowVersion"] = st.RowVersion;
                                        db.SaveChanges();
                                     }
+                                }
+                                else
+                                {
+                                    pl1.pnrStatus = "Avaliable";
+                                    pl1.avaliableSeats = pl.avaliableSeats- stocktransfer.noOfSeats;
+                                    pl1.transferSeats = pl.transferSeats + stocktransfer.noOfSeats;
+                                    pl1.pnrLock = "";
+                                    db.Entry(pl1).OriginalValues["RowVersion"] = pl.RowVersion;
+                                    db.SaveChanges();
                                 }
 
 

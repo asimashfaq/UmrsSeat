@@ -21,6 +21,7 @@ function updatedata() {
         playload["newPnrNumber"] = $("#newPnrNumber").val();
         playload["country"] = $("#Country").val();
         playload["stockId"] = $("#stockId").val();
+        playload["airline"] = $("#airlineId").val();
         playload["outbounddate"] = $("#outbounddate").val();
         playload["inbounddate"] = $("#inbounddate").val();
         playload["inboundsector"] = $("#inboundsector").val();
@@ -85,6 +86,7 @@ function clearall() {
     $("#emdNumber").val('');
     $("#timelimit").val('');
 }
+var maxNumber = 1;
 var form = $('#entry-form').validate({ // initialize the plugin
     onkeyup: function (element) {
 
@@ -110,10 +112,36 @@ var form = $('#entry-form').validate({ // initialize the plugin
         },
         noOfSeats: {
             required: true,
-            max: 99999,
-            min: 1
+            min: 1,
+            max: function () {
+                return maxNumber;
+            }
         },
         cost: {
+            required: true
+
+        },
+        stockId: {
+            required: true
+
+        },
+        airLine: {
+            required: true
+
+        },
+        inBoundSector: {
+            required: true
+
+        },
+        outBoundSector: {
+            required: true
+
+        },
+        inBoundDate: {
+            required: true
+
+        },
+        outBoundDate: {
             required: true
 
         }
@@ -142,17 +170,26 @@ var form = $('#entry-form').validate({ // initialize the plugin
     errorClass: "has-error",
 
     errorPlacement: function (error, element) {
-        var elem = $(element).parent().addClass('has-error');
+        if (error[0].innerText.length > 0) {
+            var elem = $(element).parent().addClass('has-error');
 
-        $('body').pgNotification({
+            $('body').pgNotification({
 
-            style: 'flip',
+                style: 'flip',
 
-            message: error[0].innerText,
-            timeout: 3000,
-            type: "danger"
-        }).show();
-    }
+                message: error[0].innerText,
+                timeout: 3000,
+                type: "danger"
+            }).show();
+        }
+        else {
+            $(element).closest('.has-error').parent().removeClass('has-error').addClass('has-success');
+        }
+
+    },
+    success: function (element) {
+        $(element).closest('.has-error').parent().removeClass('has-error').addClass('has-success');
+    },
 });
 $(document).ready(function () {
     $("#noOfSeats").inputmask('Regex', {
@@ -282,6 +319,10 @@ $(document).ready(function () {
         showClose: true,
         autoclose: true,
     });
+    $("#airlineId").select2({
+        placeholder: "Select Airline",
+        allowClear: true
+    });
     $("#inbounddate").datepicker({
         defaultDate: '@Model.inBoundDate',
         format: 'dd/mm/yyyy',
@@ -308,39 +349,24 @@ $('#pnrNumber').change(function () {
                 $("#stockId").select2('val', data.pnrInfo.stockId, true);
                 $("#outboundsector").select2('val', data.pnrInfo.outBoundSector, true);
                 $("#inboundsector").select2('val', data.pnrInfo.inBoundSector, true);
+                console.log(data.pnrInfo.recevingBranch);
                 $("#branches").select2('val', data.pnrInfo.recevingBranch, true);
                 $("#cat").select2('val', data.pnrInfo.category, true);
                 $("#noOfSeats").val(data.tsa);
                 $("#cost").val(data.pnrInfo.cost);
+                $("#airlineId").select2('val', data.pnrInfo.airLine, true);
                 $("#outbounddate").val(moment(data.pnrInfo.outBoundDate).format("DD/MM/YYYY"));
                 $("#inbounddate").val(moment(data.pnrInfo.inBoundDate).format("DD/MM/YYYY"));
                 $("#timelimit").val(moment(data.pnrInfo.timeLimit).format("DD/MM/YYYY"));
-
+                maxNumber = data.tsa;
+                $('#entry-form').valid();
                 var chartData = [];
                 chartData.push({ "noOfSeats": data.tsa, "Type": "Seats Avaliable", });
                 chartData.push({ "noOfSeats": data.tgs, "Type": "Seats Split/ Group Split", });
                 chartData.push({ "noOfSeats": data.tss, "Type": "Seats Sold", });
                 chartData.push({ "noOfSeats": data.tts, "Type": "Seats Transfer", });
 
-            /*    if (data.groupsplit.length > 0)
-                {
-                    $.each(data.groupsplit, function (index, row) {
-                        chartData.push({
-                            "Date": moment(row.CreatedAt).format("DD/MM/YYYY"),
-                            "noOfSeats": row.noOfSeats,
-                            "Type": row.ptype,
-                            "newPnrNumber": row.newPnrNumber
-                        });
-                    })
-                    
-                }*/
-                
-
-                 /*data = [{ "Date": "12/15/2015", "Value": 5165, "Rate": "1.25%", "Type": "CD1" },
-       { "Date": "05/01/2016", "Value": 2523, "Rate": "9.54%", "Type": "CD2" },
-       { "Date": "08/12/2016", "Value": 4435, "Rate": "21.25%", "Type": "CD1" },
-       { "Date": "03/11/2017", "Value": 1234, "Rate": "7.25%", "Type": "Ladder" }
-                ];*/
+          
                 drawchart(chartData);
             }
 

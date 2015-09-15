@@ -350,6 +350,7 @@ function groupsplitsavedata() {
         playload["pnrNumber"] = $("#pnrNumber").val();
         playload["newPnrNumber"] = $("#newPnrNumber").val();
         playload["country"] = $("#Country").val();
+        playload["airline"] = $("#airlineId").val();
         playload["stockId"] = $("#stockId").val();
         playload["outbounddate"] = $("#outbounddate").val();
         playload["inbounddate"] = $("#inbounddate").val();

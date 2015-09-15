@@ -204,6 +204,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+
+                        <div class="col-sm-12">
+                            <div class="form-group  form-group-default form-group-default-select2">
+                                @Html.LabelFor(model => model.airLine)
+
+                                @Html.DropDownListFor(x => x.airLine, Model.ListAirline, "", new { @id = "airlineId", @class = "full-width" })
+                                @Html.ValidationMessageFor(model => model.airLine)
+
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-sm-6">
@@ -236,7 +248,7 @@
                         <div class="col-sm-6">
                             <div class="form-group  form-group-default form-group-default-select2 ">
                                 @Html.LabelFor(model => model.inBoundSector)
-                                @Html.DropDownListFor(model => model.inBoundSector, Model.ListSectors, new { @id = "inboundsector", @class = "full-width" })
+                                @Html.DropDownListFor(model => model.inBoundSector, Model.ListSectors,"", new { @id = "inboundsector", @class = "full-width" })
                                 @Html.ValidationMessageFor(model => model.inBoundSector)
 
                             </div>
@@ -245,7 +257,7 @@
                         <div class="col-sm-6">
                             <div class="form-group  form-group-default form-group-default-select2 ">
                                 @Html.LabelFor(model => model.outBoundSector)
-                                @Html.DropDownListFor(model => model.outBoundSector, Model.ListSectors, new { @id = "outboundsector", @class = "full-width" })
+                                @Html.DropDownListFor(model => model.outBoundSector, Model.ListSectors,"", new { @id = "outboundsector", @class = "full-width" })
                                 @Html.ValidationMessageFor(model => model.outBoundSector)
 
                             </div>
@@ -288,7 +300,7 @@
                         <div class="col-sm-6">
                             <div class="form-group  form-group-default form-group-default-select2 ">
                                 @Html.LabelFor(model => model.category)
-                                @Html.DropDownListFor(model => model.category, Model.ListCategory, new { @id = "cat", @class = "full-width" })
+                                @Html.DropDownListFor(model => model.category, Model.ListCategory,"", new { @id = "cat", @class = "full-width" })
                                 @Html.ValidationMessageFor(model => model.category)
 
                             </div>
@@ -312,7 +324,7 @@
                     {
                           <div class="form-group  form-group-default form-group-default-select2 ">
                                 @Html.LabelFor(model => model.recevingBranch)
-                                @Html.DropDownListFor(model => model.recevingBranch, Model.ListBranches, new { @id = "branches", @class = "full-width" })
+                                @Html.DropDownListFor(model => model.recevingBranch, Model.ListBranches,"", new { @id = "branches", @class = "full-width" })
                                 @Html.ValidationMessageFor(model => model.recevingBranch)
 
                             </div>
