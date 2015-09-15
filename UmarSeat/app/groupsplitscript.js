@@ -19,6 +19,7 @@ function updatedata() {
         var playload = {};
         playload["pnrNumber"] = $("#pnrNumber").val();
         playload["newPnrNumber"] = $("#newPnrNumber").val();
+        playload["id_SeatConfirmation"] = $("#id_SeatConfirmation").val();
         playload["country"] = $("#Country").val();
         playload["stockId"] = $("#stockId").val();
         playload["airline"] = $("#airlineId").val();
@@ -282,10 +283,12 @@ $(document).ready(function () {
         placeholder: "Select a Country",
         allowClear: true
     });
-    $("#pnrNumber").select2({
-        placeholder: "Select PNR #",
-        allowClear: true
-    });
+    if ($("select#pnrNumber") != []) {
+        $("select#pnrNumber").select2({
+            placeholder: "Select PNR #",
+            allowClear: true
+        });
+    }
     
     $("#stockId").select2({
         placeholder: "Select a Stock",
@@ -332,7 +335,7 @@ $(document).ready(function () {
 
     //The url we will send our get request to
 });
-$('#pnrNumber').change(function () {
+$('select#pnrNumber').change(function () {
     $.ajax({
         type: "get",
         url: "/booking/getPnr",

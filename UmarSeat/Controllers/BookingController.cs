@@ -307,12 +307,12 @@ namespace UmarSeat.Controllers
             var model = new List<SeatConfirmation>();
             if (string.IsNullOrEmpty(Session["branchName"].ToString()))
             {
-                model = await db.SeatConfirmation.Where(x => x.newPnrNumber != null && x.id_Subscription == idSubcription).OrderBy(x => x.id_SeatConfirmation).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
+                model = await db.SeatConfirmation.Where(x => x.newPnrNumber != null && x.id_Subscription == idSubcription).OrderByDescending(x => x.id_SeatConfirmation).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
             }
             else
             {
                 string sb = Session["branchName"].ToString();
-                model = await db.SeatConfirmation.Where(x => x.newPnrNumber != null && x.id_Subscription == idSubcription && x.recevingBranch == sb).OrderBy(x => x.id_SeatConfirmation).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
+                model = await db.SeatConfirmation.Where(x => x.newPnrNumber != null && x.id_Subscription == idSubcription && x.recevingBranch == sb).OrderByDescending(x => x.id_SeatConfirmation).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
             }
             decimal count = Convert.ToDecimal(db.SeatConfirmation.Where(x => x.newPnrNumber != null && x.id_Subscription == idSubcription).ToList().Count.ToString());
             decimal pages = count / 5;
@@ -1061,7 +1061,7 @@ namespace UmarSeat.Controllers
                     else if (seatconfirmation.pnrNumber != null)
                     {
                         int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-                        var sc = db.SeatConfirmation.Where(x => x.pnrNumber == seatconfirmation.pnrNumber && x.id_SeatConfirmation== idSubcription).FirstOrDefault();
+                        var sc = db.SeatConfirmation.Where(x => x.id_SeatConfirmation == seatconfirmation.id_SeatConfirmation && x.id_SeatConfirmation== idSubcription).FirstOrDefault();
 
                         
                         if (sc != null)
@@ -1183,6 +1183,17 @@ namespace UmarSeat.Controllers
                     tasks.Add(Task.Factory.StartNew(() =>
                     {
                         ApplicationDbContext db1 = new ApplicationDbContext();
+                        List<Stock> Stocks = db1.Stock.Where(x => x.id_Subscription == idSubcription).OrderBy(x => x.id_Stock).ToList(); db1.Dispose();
+                        sc.ListStockId = new List<SelectListItem>();
+                        Stocks.ForEach(x =>
+                        {
+                            sc.ListStockId.Add(new SelectListItem { Text = x.stockName, Value = x.stockName.ToString() });
+                        });
+                    }));
+
+                    tasks.Add(Task.Factory.StartNew(() =>
+                    {
+                        ApplicationDbContext db1 = new ApplicationDbContext();
                         List<pnrLog> pnrAvaliable = new List<pnrLog>();
                         sc.ListPNR = new List<SelectListItem>();
                         if (string.IsNullOrEmpty(Session["branchName"].ToString()))
@@ -1235,12 +1246,18 @@ namespace UmarSeat.Controllers
                     }
 
 
-
+                    string br = Session["branchName"].ToString();
+                    if (seatconfirmation.pnrNumber.Contains(','))
+                    {
+                        string[] pnrbr = seatconfirmation.pnrNumber.Split(',');
+                        seatconfirmation.pnrNumber = pnrbr[0];
+                        seatconfirmation.recevingBranch = pnrbr[1];
+                    }
 
                     else if (seatconfirmation.newPnrNumber != null)
                     {
                         int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-                        var sc = db.SeatConfirmation.Where(x => x.newPnrNumber == seatconfirmation.newPnrNumber && x.id_Subscription == idSubcription).FirstOrDefault();
+                        var sc = db.SeatConfirmation.Where(x => x.id_SeatConfirmation == seatconfirmation.id_SeatConfirmation && x.id_Subscription == idSubcription).FirstOrDefault();
 
 
                         if (sc != null)
