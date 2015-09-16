@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using UmarSeat.Models;
+using UmarSeat.Helpers;
 
 namespace UmarSeat.Controllers
 {
@@ -16,15 +17,27 @@ namespace UmarSeat.Controllers
         {
             return View();
         }
+        [CheckSessionOut]
         public ActionResult log()
         {
             List<pnrLog> pnrList2 = new List<pnrLog>();
             List<Task> task = new List<Task>();
             int idSubscription = 1002;
+            string br = Session["branchName"].ToString();
+
 
             task.Add(Task.Factory.StartNew(()=>{
                 ApplicationDbContext db1 = new ApplicationDbContext();
-               int totalpnr = db1.pnrLogs.Where(x => x.idSubscription == idSubscription).Count();
+                int totalpnr = 0;
+                if(string.IsNullOrEmpty(br))
+                {
+                    totalpnr = db1.pnrLogs.Where(x => x.idSubscription == idSubscription).Count();
+                }
+                else
+                {
+                    totalpnr = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.branchName == br).Count();
+                }
+               
                 ViewBag.totalpnr = totalpnr;
                
 
@@ -35,31 +48,74 @@ namespace UmarSeat.Controllers
                 DateTime today = DateTime.Today;                    // earliest time today 
                 DateTime tomorrow = DateTime.Today.AddDays(1);      // earliest time tomorrow
                 ViewBag.todate = today;
-                var todayexpires = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubscription  && x.timeLimit >= today &&  x.timeLimit < tomorrow).Count();
+                var todayexpires = 0;
+               
+                if (string.IsNullOrEmpty(br))
+                {
+                    todayexpires = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubscription && x.timeLimit >= today && x.timeLimit < tomorrow).Count();
+                }
+                else
+                {
+                    todayexpires = db1.SeatConfirmation.Where(x => x.id_Subscription == idSubscription && x.timeLimit >= today && x.timeLimit < tomorrow && x.recevingBranch == br).Count();
+                }
+
                 ViewBag.totaltodayexpire = todayexpires;
             }));
             task.Add(Task.Factory.StartNew(() => {
                 ApplicationDbContext db1 = new ApplicationDbContext();
-                ViewBag.totalavalible = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Avaliable").Count();
+                
+                if (string.IsNullOrEmpty(br))
+                {
+                    ViewBag.totalavalible = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Avaliable").Count();
+                }
+                else
+                {
+                    ViewBag.totalavalible = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Avaliable" && x.branchName == br).Count();
+                }
 
             }));
             task.Add(Task.Factory.StartNew(() => {
                 ApplicationDbContext db1 = new ApplicationDbContext();
-                ViewBag.totalsold = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Sold").Count();
-
+               
+                if (string.IsNullOrEmpty(br))
+                {
+                    ViewBag.totalsold = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Sold").Count();
+                }
+                else
+                {
+                    ViewBag.totalsold = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Sold" && x.branchName == br).Count();
+                }
             }));
             task.Add(Task.Factory.StartNew(() => {
                ApplicationDbContext db1 = new ApplicationDbContext();
-                var seatsavaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Avaliable")
+                
+                if (string.IsNullOrEmpty(br))
+                {
+                    var seatsavaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Avaliable")
+                                       .GroupBy(x => x.idSubscription).Select(x => new { ts = x.Sum(y => y.avaliableSeats) }).Single();
+                    ViewBag.totalseatsAvaliable = seatsavaliable.ts;
+                }
+                else
+                {
+                    var seatsavaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Avaliable" && x.branchName == br)
                                    .GroupBy(x => x.idSubscription).Select(x => new { ts = x.Sum(y => y.avaliableSeats) }).Single();
-                ViewBag.totalseatsAvaliable = seatsavaliable.ts;
+                    ViewBag.totalseatsAvaliable = seatsavaliable.ts;
+                }
+                
             }));
 
 
             task.Add(Task.Factory.StartNew(() => {
                 ApplicationDbContext db1 = new ApplicationDbContext();
-                List<pnrLog> pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year).ToList();
-              
+                List<pnrLog> pnrList = new List<pnrLog>();
+                if (string.IsNullOrEmpty(br))
+                {
+                    pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year).ToList();
+                }
+                else
+                {
+                    pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year && x.branchName == br).ToList();
+                }
                 pnrList.ForEach(x => {
                     db = new ApplicationDbContext();
                     x.sc = db.SeatConfirmation.Where(sc => sc.pnrNumber == x.pnrNumber && sc.newPnrNumber == null && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month).FirstOrDefault();
@@ -68,10 +124,15 @@ namespace UmarSeat.Controllers
                         x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month).FirstOrDefault();
                         if (x.sc == null)
                         {
-                            x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber && x.createdAt.Month == DateTime.Now.Month).FirstOrDefault();
+                            x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber).FirstOrDefault();
                             if (x.sc == null)
                             {
-                                x.sc = db.SeatConfirmation.Where(sc => sc.pnrNumber == x.pnrNumber && x.createdAt.Month == DateTime.Now.Month).FirstOrDefault();
+                                x.sc = db.SeatConfirmation.Where(sc => sc.pnrNumber == x.pnrNumber).FirstOrDefault();
+                                if(x.sc != null)
+                                {
+                                    x.sc.recevingBranch = x.branchName;
+                                    pnrList2.Add(x);
+                                }
 
                             }
                             else
@@ -131,6 +192,7 @@ namespace UmarSeat.Controllers
             Task.WaitAll(task.ToArray());
             return View(pnrList2);
         }
+        [CheckSessionOut]
         public ActionResult getlog(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
