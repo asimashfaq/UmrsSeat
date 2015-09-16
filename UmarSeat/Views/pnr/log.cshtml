@@ -131,32 +131,32 @@
         <div class="panel-body" id="dv3">
            <div class="col-sm-2">
                <div class="center text-center">
-                   <h1>09</h1>
+                   <h1>@Html.Raw(ViewBag.totalpnr)</h1>
                    <p>Total PNR</p>
                </div>
            </div>
             <div class="col-sm-2">
                 <div class="center text-center">
-                    <h1>09</h1>
+                    <h1>@Html.Raw(ViewBag.totalavalible)</h1>
                     <p>Total PNR Avaliable</p>
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="center text-center">
-                    <h1>09</h1>
+                    <h1>@Html.Raw(ViewBag.totalsold)</h1>
                     <p>Total PNR Sold</p>
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="center text-center">
-                    <h1>09</h1>
+                    <h1>@Html.Raw(ViewBag.totalseatsAvaliable)</h1>
                     <p>Total Seats Avaliable</p>
                 </div>
             </div>
             <div class="col-sm-2">
                 <div class="center text-center">
-                    <h1>09</h1>
-                    <p>PNR Expire at 07/11/2014</p>
+                    <h1>@Html.Raw(ViewBag.totaltodayexpire)</h1>
+                    <p>PNR Expire at <h1></h1></p>
                 </div>
             </div>
         </div>
@@ -558,8 +558,8 @@
                 $('#reportrange2 span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             }
 
-            cb3(moment().subtract(29, 'days'), moment());
-            cb2(moment().subtract(29, 'days'), moment());
+          //  cb3(moment().subtract(29, 'days'), moment());
+           // cb2(moment().subtract(29, 'days'), moment());
 
 
             $('#reportrange3').daterangepicker({
@@ -590,9 +590,13 @@
    
     <script>
         $(document).ready(function () {
-            $('.sp').each(function (i) {
-                var t = ($(this).text());
-                $(this).text(moment(t).fromNow())
+            $('.sp').each(function (i,row) {
+                
+                var t = ($(this).text().trim());
+               
+                t = t.split('/');
+                console.log(t[2]);
+                $(this).text(moment.utc(new Date([t[2], t[1], t[0]])).fromNow());
             })
         })
     </script>

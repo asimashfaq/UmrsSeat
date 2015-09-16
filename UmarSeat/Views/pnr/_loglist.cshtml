@@ -83,11 +83,11 @@
                     </td>
                     <td class="sp">
 
-                        @Html.DisplayFor(modelItem => item.sc.timeLimit)
+                        @string.Format("{0:dd/MM/yyyy}", item.sc.timeLimit)
                     </td>
                     <td class="sp">
 
-                        @Html.DisplayFor(modelItem => item.sc.CreatedAt)
+                        @string.Format("{0:dd/MM/yyyy}", item.sc.CreatedAt)
                     </td>
 
 
