@@ -457,7 +457,7 @@
                 $.ajax({
                     type: "GET",
                     url: "/booking/scjson",
-                    data: { pnr: $(row1).attr('id') },
+                    data: { stockConfirmationId: $(row1).attr('id') },
                     datatype: "json",
                     traditional: true,
                     success: function (data) {

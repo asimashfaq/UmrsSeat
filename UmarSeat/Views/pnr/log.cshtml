@@ -4,106 +4,593 @@
     ViewBag.Title = "log";
 }
 
+<link href="~/Content/overlay-bootstrap.css" rel="stylesheet" />
+<div id="myPortlet" class="panel panel-transparent">
 
-<table class="table table-condensed table-detailed pnrlog" >
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.pnrNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.totalSeats)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.avaliableSeats)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.groupSplit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.sellSeats)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.transferSeats)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.receiveSeats)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.branchName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.idSubscription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.pnrStatus)
-            </th>
-            <th>
-              
-                @Html.DisplayNameFor(model => model.sc.timeLimit)
-            </th>
-            <th>
-                Created At
-            </th>
 
-            <th></th>
-        </tr>
-    </thead>
+    <div class="panel-heading">
+        <div class="panel-title">
+            Advance Filter
+        </div>
+        <div class="panel-controls">
+            <ul>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.pnrNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.totalSeats)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.avaliableSeats)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.groupSplit)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.sellSeats)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.transferSeats)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.receiveSeats)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.branchName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.idSubscription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.pnrStatus)
-        </td>
-        <td>
+                <li>
+                    <a href="#" class="portlet-collapse" data-toggle="collapse"><i class="portlet-icon portlet-icon-collapse"></i></a>
+                </li>
+
+                <li>
+                    <a href="#" class="portlet-close" data-toggle="close"><i class="portlet-icon portlet-icon-close"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body form-group-attached">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group form-group-default">
+                    <label>Pnr #</label>
+                    @Html.TextBox("pnrNumber", "", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group form-group-default">
+                    <label>Pnr Status</label>
+                    @Html.TextBox("pnrStatus", "", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group form-group-default">
+                    <label>Branch Name</label>
+                    @Html.TextBox("branchName", "", new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group form-group-default">
+                    <label>Total Seats</label>
+                    @Html.TextBox("tseats", "", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-group-default av">
+                    <label>Seat Avaliable</label>
+                    @Html.TextBox("seatsa", "", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group form-group-default gs">
+                    <label>Seat Split</label>
+                    @Html.TextBox("seatsgs", "", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-group-default ss">
+                    <label>Seat Sell</label>
+                    @Html.TextBox("seatss", "", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group form-group-default st">
+                    <label>Seat Transfer</label>
+                    @Html.TextBox("seatst", "", new { @class = "form-control" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-6">
+                <div class="form-group form-group-default">
+                    <label>Time Limit</label>
+                    <div id="reportrange3" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 0px solid #ccc; width: 100%">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span></span> <b class="caret"></b>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group form-group-default">
+                    <label>Creation Date</label>
+                    <div id="reportrange3" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 0px solid #ccc; width: 100%">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;<span></span> <b class="caret"></b>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+        <br />
+        <div class="row">
+            <button type="button" class="btn btn-primary" onclick="avsearch()"><i class="pg-search"></i> Search</button>
+            <button type="reset" class="btn btn-default" onclick="avclear()"><i class="pg-close"></i> Clear</button>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div>
+    <!-- START PANEL -->
+    <div class="panel  panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+              PNR Stats as of Feb - 12 2014
+            </div>
            
-            @Html.DisplayFor(modelItem => item.sc.timeLimit)
-        </td>
-        <td>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body" id="dv3">
+           <div class="col-sm-2">
+               <div class="center text-center">
+                   <h1>09</h1>
+                   <p>Total PNR</p>
+               </div>
+           </div>
+            <div class="col-sm-2">
+                <div class="center text-center">
+                    <h1>09</h1>
+                    <p>Total PNR Avaliable</p>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="center text-center">
+                    <h1>09</h1>
+                    <p>Total PNR Sold</p>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="center text-center">
+                    <h1>09</h1>
+                    <p>Total Seats Avaliable</p>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="center text-center">
+                    <h1>09</h1>
+                    <p>PNR Expire at 07/11/2014</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END PANEL -->
+</div>
 
-            @Html.DisplayFor(modelItem => item.sc.CreatedAt)
-        </td>
-      
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.pnrLogId }) |
-           
-        </td>
-    </tr>
-}
 
-</table>
+<div>
+    <!-- START PANEL -->
+    <div class="panel  panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                PNR # Logs
+            </div>
+            <div class="pull-right">
+                
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body" id="dv1">
+            @{Html.RenderPartial("_loglist", Model);}
+
+        </div>
+    </div>
+    <!-- END PANEL -->
+</div>
+
+<div class="quickview-wrapper builder hidden-sm hidden-xs" id="builder">
+    <div class="p-l-30 p-t-40 p-r-30 ">
+        <a class="builder-close quickview-toggle pg-close" data-toggle="quickview" data-toggle-element="#builder" href="#"></a>
+        <a class="builder-toggle" data-toggle="quickview" data-toggle-element="#builder"><i class="pg pg-settings"></i></a>
+        <div class="scrollable full-height">
+            <div class="p-l-10 p-r-50">
+                <h5 class="semi-bold">
+                    Advance Settings
+                </h5>
+                <p class=" hint-text no-margin">
+                    Customize table preview
+                </p>
+                <p class="small hint-text m-b-20">
+                    Customize columns for export.
+                </p>
+                <div class="visible">
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="0" type="checkbox" checked="checked" value="1" id="cpnr">
+                        <label for="cpnr">pnrNumber</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="1" type="checkbox" checked="checked" value="1" id="ts">
+                        <label for="ts">Total Seats</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="2" type="checkbox" checked="checked" value="1" id="as">
+                        <label for="as">Avaliable Seats</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="3" type="checkbox" checked="checked" value="1" id="gs">
+                        <label for="gs">Group Split</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="4" type="checkbox" checked="checked" value="1" id="ss">
+                        <label for="ss">Seats Sell</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="5" type="checkbox" checked="checked" value="1" id="ts">
+                        <label for="ts">Transfer Seat</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="6" type="checkbox"  checked="checked" value="1" id="rs">
+                        <label for="rs">Receive Seat</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="7" type="checkbox" checked="checked" value="1" id="br">
+                        <label for="br">Branch Name</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="8" type="checkbox"  value="1" id="subscription">
+                        <label for="subscription">Subscription</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="9" type="checkbox" checked="checked" value="1" id="tm">
+                        <label for="tm">Time Limit</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="10" type="checkbox" checked="checked" value="1" id="ca">
+                        <label for="ca">Created At</label>
+                    </div>
+                    <div class="checkbox check-primary checkbox-circle">
+                        <input data-colum="11" type="checkbox" checked="checked" value="1" id="ac">
+                        <label for="ac">Action</label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts{
-   <script src="~/Scripts/moment.js"></script>
+
+<style>
+    .table > tfoot > tr > th, .table > thead > tr > th {
+        border-top: 0px !important;
+    }
+
+    .TableTools {
+        display: inline-block !important;
+    }
+
+    .ColVis.TableTools .btn {
+        margin-top: -2px;
+        margin-right: 2px;
+    }
+
+    .TableTools_Button, .fix {
+        background: white;
+        border: 1px solid #F1F1F1;
+        text-align: left;
+        /* border-top: 1px; */
+        margin-bottom: -1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        letter-spacing: 0.01em;
+        -webkit-font-smoothing: antialiased;
+        padding: 6px 12px;
+    }
+
+    .TableTools_catcher {
+        display: none !important;
+    }
+
+    .TableTools_collectionBackground {
+        max-width: 95%;
+    }
+
+    #reportrange2 span, #reportrange3 span {
+        display: inline-block;
+        width: 95%;
+    }
+     .av {
+        border-left: 4px solid #6D5CAE;
+    }
+
+    .gs {
+        border-left: 4px solid #E2DEEF;
+    }
+
+    .ss {
+        border-left: 4px solid #48B0F7;
+    }
+
+    .st {
+        border-left: 4px solid #6DC0F9;
+    }
+</style>
+
+<script src="~/Content/assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
+<script type="text/javascript" src="~/Content/assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+<script src="~/Content/assets/asimdatabtable/js/ColVis.js"></script>
+<script src="~/Scripts/excellentexport.js"></script>
+<script src="~/Scripts/moment.js"></script>
+
+<script>
+
+        $("#pnrNumber,#airline,#stockId,#recevingBranch,#transferingBranch").keyup(function (event) {
+            if (event.keyCode == 13) {
+                avsearch();
+            }
+        });
+        function avclear() {
+            $("#pnrNumber").val("");
+            $("#airline").val("");
+
+            $("#stockId").val("");
+            $("#recevingBranch").val("");
+            $("#transferingBranch").val("");
+
+            $("#reportrange3 span").text("");
+        }
+
+        function avsearch() {
+            $("#dv1").append('<div id="aaa" class="panel-default-overlay-down">\
+                        <div class="col-sm-12 text-center" style="height:100%">\
+                            <div class="progress-circle-indeterminate m-t-45">\
+                            </div>\
+                            <br>\
+                            <p class="small hint-text">Loading data</p>\
+                        </div>\
+                    </div>');
+            var pdata = {};
+            pdata["pnrnumber"] = $("#pnrNumber").val();
+            pdata["airline"] = $("#airline").val();
+            pdata["transferingBranch"] = $("#transferingBranch").val();
+            pdata["stockId"] = $("#stockId").val();
+            pdata["recevingBranch"] = $("#recevingBranch").val();
+
+            pdata["creationRange"] = $("#reportrange3 span").text();
+
+
+
+            $.ajax({
+                type: "post",
+                url: "/stock/nadvanceSearch",
+                data: JSON.stringify({ ssm: (pdata) }),
+                datatype: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    $("#dv1").html(data);
+                    $("#detailedTable").dataTable().fnDestroy();
+                    table = $('#detailedTable');
+                    _handelDatatable();
+                }
+            });
+
+        }
+        var table = $('#detailedTable');
+        var _handleNavigation = function (d) {
+            console.log($(d).attr('href'));
+            $("#dv1").load($(d).attr('href'), function (text, status, xhr) {
+                $("#detailedTable").dataTable().fnDestroy();
+                table = $('#detailedTable');
+                _handelDatatable();
+
+                $("#table_paginate a").click(function (e) {
+
+                    e.preventDefault();
+
+                    _handleNavigation($(this));
+                });
+            });
+        };
+
+        $("#table_paginate a").click(function (e) {
+
+            e.preventDefault();
+
+            _handleNavigation($(this));
+
+
+
+        });
+
+        var _format = function (d) {
+            // `d` is the original data object for the row
+            return '     <div id="dv" > <div class="col-sm-12 text-center">\
+                        <div class="progress-circle-indeterminate m-t-45">\
+                        </div>\
+                        <br>\
+                        <p class="small hint-text">Loading data</p>\
+                      </div></div>';
+
+
+
+        }
+
+        var table1;
+        var _handelDatatable = function () {
+
+          table1 =  table.DataTable({
+                "sDom": "t",
+                "scrollCollapse": true,
+                "paging": false,
+                "bSort": false,
+                "bDestory": false,
+                fnDrawCallback: function (oSettings) {
+
+                    $('#exv').on('click', function (e) {
+
+                        // Get the column API object
+                        var column = table1.column(9);
+                        column.visible(false);
+                        var todaysDate = moment().format('DD-MM-YYYY');
+
+                        $(this).attr('download', todaysDate + '.xls')
+                        ExcellentExport.excel(this, 'detailedTable', 'Sheet 1');
+
+                        column.visible(true);
+                    });
+                }
+            });
+
+
+          $(".visible  input:checkbox").each(function (index, thisCheck) {
+
+              var column = table1.column($(thisCheck).attr('data-colum'));
+
+              if ($(thisCheck).is(':checked')) {
+                  console.log(column);
+                  column.visible(true);
+              }
+              else {
+                  column.visible(false);
+              }
+
+          });
+          $(".visible input[type=checkbox]").change(function () {
+              console.log($(this).attr('data-colum'));
+              column = table1.column($(this).attr('data-colum'));
+              if ($(this).is(':checked')) {
+                  column.visible(true);
+              }
+              else {
+                  column.visible(false);
+              }
+          });
+
+            // Add event listener for opening and closing details
+            $('#detailedTable tbody').on('click', 'td', function () {
+
+                if (!$(this).hasClass('action')) {
+                    var row1 = $(this).parent()[0];
+                    if ($(row1).hasClass('shown') && $(row1).next().hasClass('row-details')) {
+                        $(row1).removeClass('shown');
+                        $(row1).next().remove();
+                        return;
+                    }
+                    var tr = $(row1).closest('tr');
+                    var row = table.DataTable().row(tr);
+
+                    $(row1).parents('tbody').find('.shown').removeClass('shown');
+                    $(row1).parents('tbody').find('.row-details').remove();
+
+
+                    row.child(_format($(row1).attr('id'))).show();
+                    tr.addClass('shown');
+                    tr.next().addClass('row-details');
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/booking/scjson",
+                        data: { stockConfirmationId: $(row1).attr('id') },
+                        datatype: "json",
+                        traditional: true,
+                        success: function (data) {
+
+
+
+                            $("#dv").html('<table class="table table-inline ">' +
+                        '<tr>' +
+                        '<td>PNR #</td>' +
+                          '<td>' + data.pnrNumber + '</td>' +
+                        '<td>Airline</td>' +
+                          '<td>' + data.airLine + '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>Stock ID</td>' +
+                           '<td>' + data.stockId + '</td>' +
+                             '<td># of Seats</td>' +
+                           '<td>' + data.noOfSeats + '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>Transfering Branch</td>' +
+                         '<td>' + data.transferingBranch + '</td>' +
+                         '<td>Receving Branch</td>' +
+                         '<td>' + data.recevingBranch + '</td>' +
+
+                        '</tr>' +
+                         '<tr>' +
+                        '<td>Costs</td>' +
+                           '<td>' + data.cost + '</td>' +
+                         '<td>Margin</td>' +
+                           '<td>' + data.margin + '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>Selling Price</td>' +
+                          '<td>' + data.sellingPrice + '</td>' +
+
+                        '</tr>' +
+
+                        '</table>');
+                        }
+                    });
+                }
+            });
+        };
+
+        _handelDatatable();
+
+
+</script>
+
+
+<script src="~/Content/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript">
+
+        $(function () {
+            $('#myPortlet').portlet()
+
+            function cb3(start, end) {
+
+                $('#reportrange3 span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+            function cb2(start, end) {
+
+                $('#reportrange2 span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
+            cb3(moment().subtract(29, 'days'), moment());
+            cb2(moment().subtract(29, 'days'), moment());
+
+
+            $('#reportrange3').daterangepicker({
+                "opens": "center",
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb3);
+            $('#reportrange2').daterangepicker({
+                "opens": "center",
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb2);
+            $('#reportrange span,#reportrange2 span,#reportrange3 span').html("");
+        });
+</script>
+   
     <script>
         $(document).ready(function () {
-            $('.pnrlog tr td:nth-child(11),.pnrlog tr td:nth-child(12)').each(function (i) {
+            $('.sp').each(function (i) {
                 var t = ($(this).text());
                 $(this).text(moment(t).fromNow())
             })

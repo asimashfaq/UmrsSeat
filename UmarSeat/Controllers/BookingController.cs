@@ -423,14 +423,14 @@ namespace UmarSeat.Controllers
             return View(seatconfirmation);
         }
 
-        public async Task<ActionResult> scjson(string pnr)
+        public async Task<ActionResult> scjson(int stockConfirmationId)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-            if (pnr == null || pnr == "")
+            if (stockConfirmationId <=0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SeatConfirmation seatconfirmation = await db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.id_Subscription == idSubcription).FirstOrDefaultAsync();
+            SeatConfirmation seatconfirmation = await db.SeatConfirmation.Where(x => x.id_SeatConfirmation == stockConfirmationId && x.id_Subscription == idSubcription).FirstOrDefaultAsync();
             if (seatconfirmation == null)
             {
                 return HttpNotFound();
