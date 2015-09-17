@@ -29,6 +29,11 @@ namespace UmarSeat.Helpers
                         if (skt != null)
                         {
                             st = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                            st.recevingBranch = skt.recevingBranch;
+                            st.noOfSeats = skt.noOfSeats;
+                            st.cost = skt.sellingPrice;
+                            
+                           
                         }
                     }
 

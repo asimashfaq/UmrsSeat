@@ -648,11 +648,14 @@ namespace UmarSeat.Controllers
                             if (skt != null)
                             {
                                 st = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                                 st.noOfSeats = skt.noOfSeats;
+                                  st.cost = skt.sellingPrice;
+                            
                             }
                         }
 
                 }
-                    st.recevingBranch = br;
+                   
                     st.ptype = "Avalible Stock";
                     st.avaliableSeats = pl.totalSeats - pl.transferSeats + pl.receiveSeats;
                     Dictionary<string, object> pnrdata = new Dictionary<string, object>();
@@ -708,6 +711,9 @@ namespace UmarSeat.Controllers
                             if(skt != null)
                             {
                                 st = db1.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                                st.noOfSeats = skt.noOfSeats;
+                                st.cost = skt.sellingPrice;
+
                             }
                         }
 

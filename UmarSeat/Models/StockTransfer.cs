@@ -29,11 +29,11 @@ namespace UmarSeat.Models
          [Display(Name = "Sellling Branch")]
         public string sellingBranch { get; set; }
          [Display(Name = "Cost")]
-        public float cost { get; set; }
+        public int cost { get; set; }
          [Display(Name = "Margin")]
-        public float margin { get; set; }
+        public int margin { get; set; }
          [Display(Name = "Selling Price")]
-        public float sellingPrice { get; set; }
+        public int sellingPrice { get; set; }
          [Display(Name = "# of Seats")]
         public int noOfSeats { get; set; }
          [Display(Name = "Package ?")]
@@ -43,7 +43,7 @@ namespace UmarSeat.Models
 
 
          [Display(Name = "Advance Amount")]
-        public float advanceAmount { get; set; }
+        public int advanceAmount { get; set; }
          [Display(Name = "Advance Date")]
         public DateTime? advanceDate { get; set; }
          [Display(Name = "GDS PNR #")]
