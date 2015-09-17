@@ -106,7 +106,7 @@
     <div class="panel  panel-default">
         <div class="panel-heading">
             <div class="panel-title">
-                PNR Stats
+               <h1> PNR Stats</h1>
             </div>
 
             <div class="clearfix"></div>
@@ -333,7 +333,7 @@
                                 $("#info").append('<tr><td>Outbound Date</td><td>' + moment(data.pnrInfo.outBoundDate).format("DD/MM/YYYY") + '</td></tr>');
                                 $("#info").append('<tr><td>Inbound Date</td><td>' + moment(data.pnrInfo.inBoundDate).format("DD/MM/YYYY") + '</td></tr>');
                                 $("#info").append('<tr><td>Receving Branch</td><td>' + data.pnrInfo.recevingBranch + '</td></tr>');
-                                $("#info").append('<tr><td># of Seats</td><td>' + data.pnrInfo.noOfSeats + '</td></tr>');
+                                $("#info").append('<tr><td># of Seats</td><td>' + data.noOfSeats + '</td></tr>');
                                 $("#info").append('<tr><td>Cost</td><td>' + data.pnrInfo.cost + '</td></tr>');
                                 $("#info").append('<tr><td>Margin</td><td>' + data.pnrInfo.margin + '</td></tr>');
                                 $("#info").append('<tr><td>Selling Price</td><td>' + data.pnrInfo.sellingPrice + '</td></tr>');
@@ -356,8 +356,11 @@
                                 if (data.selllist != null) {
 
                                     $.each(data.selllist, function (index, row) {
+                                        var name = row.agent.CompanyName
+                                        if (name== null)
+                                          name=  row.agent.Person.firstName + " " + row.agent.Person.lastName;
 
-                                        $("#sell tbody").append('<tr><td>' + row.idAgent + '</td><td>' + row.noOfSeats + '</td><td>' + row.margin + '</td><td>' + row.sellingPrice + '</td></tr>');
+                                        $("#sell tbody").append('<tr><td>' + name + '</td><td>' + row.noOfSeats + '</td><td>' + row.margin + '</td><td>' + row.sellingPrice + '</td></tr>');
 
 
                                     });

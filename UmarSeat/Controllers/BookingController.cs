@@ -748,6 +748,10 @@ namespace UmarSeat.Controllers
                 {
                     ApplicationDbContext db1 = new ApplicationDbContext();
                     List<StockTransfer> selllist = db1.StockTransfer.Where(x => x.pnrNumber == pnr && x.sellingBranch == br).ToList();
+                    selllist.ForEach(ag =>
+                    {
+                        ag.agent = db.Agent.Include(p =>p.Person).Where(a => ag.idAgent == a.id_Agent.ToString() && idSubcription == a.id_Subscription).FirstOrDefault(); 
+                    });
                     pnrdata.Add("selllist", selllist);
                     db1.Dispose();
                 }));

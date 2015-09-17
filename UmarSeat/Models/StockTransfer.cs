@@ -77,6 +77,8 @@ namespace UmarSeat.Models
         [NotMapped]
         public string ptype { get; set; }
         public string pnrStatus { get; set; }
+        [NotMapped]
+        public Agents agent { get; set; }
 
     }
     public class SearchStockModel
