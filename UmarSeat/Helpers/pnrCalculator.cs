@@ -23,7 +23,14 @@ namespace UmarSeat.Helpers
                 if (st == null)
                 {
                     st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
-
+                    if (st == null)
+                    {
+                        StockTransfer skt = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == branchName).FirstOrDefault();
+                        if (skt != null)
+                        {
+                            st = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                        }
+                    }
 
                 }
                 

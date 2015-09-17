@@ -1822,6 +1822,7 @@
     <Content Include="Views\Stock\receive.cshtml" />
     <Content Include="Views\pnr\log.cshtml" />
     <Content Include="Views\pnr\_loglist.cshtml" />
+    <Content Include="Views\pnr\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

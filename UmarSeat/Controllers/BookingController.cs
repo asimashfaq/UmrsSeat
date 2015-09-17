@@ -642,17 +642,24 @@ namespace UmarSeat.Controllers
                     if (st == null)
                     {
                         st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr ).FirstOrDefault();
+                        if (st == null)
+                        {
+                            StockTransfer skt = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
+                            if (skt != null)
+                            {
+                                st = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                            }
+                        }
 
-
-                    }
+                }
                     st.recevingBranch = br;
                     st.ptype = "Avalible Stock";
-                    st.avaliableSeats = st.noOfSeats;
+                    st.avaliableSeats = pl.totalSeats - pl.transferSeats + pl.receiveSeats;
                     Dictionary<string, object> pnrdata = new Dictionary<string, object>();
                     pnrdata.Add("pnrInfo", st);
 
 
-                    pnrdata.Add("tst", pl.totalSeats-pl.groupSplit-pl.sellSeats-pl.transferSeats);
+                    pnrdata.Add("tst", pl.totalSeats-pl.transferSeats+ pl.receiveSeats);
                     pnrdata.Add("tgs", pl.groupSplit);
                     pnrdata.Add("tss", pl.sellSeats);
                     if(pl.transferSeats>pl.receiveSeats)
@@ -660,10 +667,115 @@ namespace UmarSeat.Controllers
                     else
                     pnrdata.Add("tts", pl.transferSeats);
                 pnrdata.Add("tsa", pl.avaliableSeats);
-                if (pl.avaliableSeats == 0) return null;
+              //  if (pl.avaliableSeats == 0) return null;
                     return JsonConvert.SerializeObject(pnrdata);
 
                
+
+
+            }
+            return "";
+        }
+        public string getPnrdt(string pnr)
+        {
+            if (!String.IsNullOrEmpty(pnr))
+            {
+
+                string br = Session["branchName"].ToString();
+                if (pnr.Contains(','))
+                {
+                    string[] pnrbr = pnr.Split(',');
+                    pnr = pnrbr[0];
+                    br = pnrbr[1];
+                }
+                int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+                Dictionary<string, object> pnrdata = new Dictionary<string, object>();
+                List<Task> tasks = new List<Task>();
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    ApplicationDbContext db1 = new ApplicationDbContext();
+                    pnrLog pl = pnrCalculator.caluclateStats(pnr, br, idSubcription);
+
+
+
+                    SeatConfirmation st = db1.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.recevingBranch == br).FirstOrDefault();
+                    if (st == null)
+                    {
+                        st = db1.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
+                        if(st == null)
+                        {
+                            StockTransfer skt = db1.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
+                            if(skt != null)
+                            {
+                                st = db1.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                            }
+                        }
+
+
+                    }
+
+                    st.recevingBranch = br;
+                    st.ptype = "Avalible Stock";
+                    st.avaliableSeats = pl.totalSeats - pl.transferSeats + pl.receiveSeats;
+
+                    pnrdata.Add("pnrInfo", st);
+                    pnrdata.Add("tst", pl.totalSeats - pl.transferSeats + pl.receiveSeats);
+                    pnrdata.Add("tgs", pl.groupSplit);
+                    pnrdata.Add("tss", pl.sellSeats);
+                    if (pl.transferSeats > pl.receiveSeats)
+                        pnrdata.Add("tts", pl.transferSeats - pl.receiveSeats);
+                    else
+                        pnrdata.Add("tts", pl.transferSeats);
+                    pnrdata.Add("tsa", pl.avaliableSeats);
+
+
+                    db1.Dispose();
+                }));
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    ApplicationDbContext db1 = new ApplicationDbContext();
+                    List<SeatConfirmation> groupSplitList = db1.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.recevingBranch == br).ToList();
+                    pnrdata.Add("groupsplit", groupSplitList);
+                    db1.Dispose();
+                }));
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    ApplicationDbContext db1 = new ApplicationDbContext();
+                    List<StockTransfer> selllist = db1.StockTransfer.Where(x => x.pnrNumber == pnr && x.sellingBranch == br).ToList();
+                    pnrdata.Add("selllist", selllist);
+                    db1.Dispose();
+                }));
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    ApplicationDbContext db1 = new ApplicationDbContext();
+                    List<StockTransfer> transferlist = db1.StockTransfer.Where(x => x.pnrNumber == pnr && x.transferingBranch == br).ToList();
+                    pnrdata.Add("transferlist", transferlist);
+                    db1.Dispose();
+                }));
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    ApplicationDbContext db1 = new ApplicationDbContext();
+                    List<StockTransfer> receivelist = db1.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == br).ToList();
+                    pnrdata.Add("receivelist", receivelist);
+
+                    db1.Dispose();
+                }));
+
+
+
+
+
+
+                Task.WaitAll(tasks.ToArray());
+              
+
+
+
+              
+                //  if (pl.avaliableSeats == 0) return null;
+                return JsonConvert.SerializeObject(pnrdata);
+
+
 
 
             }

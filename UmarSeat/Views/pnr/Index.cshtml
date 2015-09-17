@@ -1,0 +1,406 @@
+﻿@model UmarSeat.Models.pnrLog
+@{
+    ViewBag.Title = "Index";
+}
+<link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css" rel="stylesheet" data-semver="3.0.1" />
+<style>
+    #chart { /* NEW */
+        height: 280px; /* NEW */
+        position: relative; /* NEW */
+        width: 280px; /* NEW */
+    }
+    /* NEW */
+    .tooltip { /* NEW */
+        color: #333; /* NEW */
+        display: none; /* NEW */
+        font-size: 12px; /* NEW */
+        left: 57px; /* NEW */
+        padding: 10px; /* NEW */
+        position: absolute; /* NEW */
+        text-align: center; /* NEW */
+        top: 95px; /* NEW */
+        width: 167px; /* NEW */
+        z-index: 10; /* NEW */
+        background: #fff;
+        border: 1px solid #efefef;
+        box-shadow: 0px 1px 0px #ccc;
+    }
+    /* NEW */
+
+    .legend {
+        font-size: 12px;
+    }
+
+    rect {
+        stroke-width: 2;
+    }
+
+    .onm {
+        margin: 0px !important;
+    }
+
+    .count {
+        font-size: 40px;
+        font-weight: bold;
+    }
+
+    .dataRow1:nth-child(1) , #info ,#recieve{
+        border-left: 4px solid #6D5CAE;
+    }
+
+    .dataRow1:nth-child(2) ,#split{
+        border-left: 4px solid #E2DEEF;
+    }
+
+    .dataRow1:nth-child(3) ,#sell{
+        border-left: 4px solid #48B0F7;
+    }
+
+    .dataRow1:nth-child(4),#transfer {
+        border-left: 4px solid #6DC0F9;
+    }
+
+
+    .tasb {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        background: #6D5CAE;
+        margin-right: 10px;
+    }
+
+    .tgst {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        background: #E2DEEF;
+        margin-right: 10px;
+    }
+
+    .tsst {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        background: #48B0F7;
+        margin-right: 10px;
+    }
+
+    .legend1 label {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    
+
+    .ttst {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        background: #6DC0F9;
+        margin-right: 10px;
+    }
+</style>
+
+<div>
+    <!-- START PANEL -->
+    <div class="panel  panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">
+                PNR Stats
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body" >
+            <div id="dv1">
+                <div id="aaa" class="panel-default-overlay-down">
+
+                    <div class="col-sm-12 text-center" style="height:100%">
+
+                        <div class="progress-circle-indeterminate m-t-45">
+
+                        </div>
+                        <br>
+                        <p class="small hint-text">Loading data</p>
+                    </div>
+                </div>
+            </div>
+            <div id="entry-form" style="visibility:hidden">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group  form-group-default form-group-default-select2 ">
+                            @Html.LabelFor(model => model.pnrNumber)
+                            @Html.DropDownListFor(model => model.pnrNumber, Model.ListPNR, "", new { @class = "full-width" })
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row" id="mega" style="display:none">
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    Info
+                                </div>
+
+                            </div>
+                            <table class="table table-hover table-condensed" id="info"></table>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12" id="pinfo" style="display:none">
+                        <div style="width: 100%; overflow: hidden;">
+                            <div id="svgContent" style="width: 350px; float:left "> </div>
+                            <div class="">
+                                <div class="row legend1">
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <span class="tasb"></span><label>Avaliable Seats</label>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <span class="tgst"></span><label>Seats Split</label>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="row legend1">
+
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <span class="tsst"></span><label>Seats Sold</label>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <span class="ttst"></span><label>Seats Transfer</label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    Stats
+                                </div>
+
+                            </div>
+                            <table class="table table-hover table-condensed" id="testtable"></table>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    Split
+                                </div>
+
+                            </div>
+                            <table class="table table-hover table-condensed" id="split">
+                                <thead>
+                                    <tr>
+                                        <th>New PNR #</th>
+                                        <th># of Seats</th>
+                                        <th>Cost</th>
+                                        <th>Outbound Date</th>
+                                        <th>Inbound Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    Sell
+                                </div>
+
+
+                            </div>
+                            <table class="table table-hover table-condensed" id="sell">
+                                <thead>
+                                    <tr> 
+                                        <th>Agent Name</th>
+                                        <th># of Seats</th>
+                                        <th>Margin</th>
+                                        <th>Selling Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    Transfer
+                                </div>
+
+                            </div>
+                            <table class="table table-hover table-condensed" id="transfer">
+                                <thead>
+                                    <tr>
+                                        <th>Branch</th>
+                                        <th># of Seats</th>
+                                        <th>Selling Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    Receive
+                                </div>
+
+
+                            </div>
+                            <table class="table table-hover table-condensed" id="recieve">
+                                <thead>
+                                    <tr>
+
+                                        <th># of Seats</th>
+                                        <th>Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                   
+
+                </div>
+            </div>
+         
+           
+            
+        </div>
+    </div>
+    <!-- END PANEL -->
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script data-semver="3.4.6" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.6/d3.min.js"></script>
+    <script src="~/app/pnrchart.js"></script>
+<script src="~/Content/assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
+<script src="~/Scripts/moment.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#dv1").html('');
+            $("#entry-form").css('visibility', 'visible')
+            
+            if ($("select#pnrNumber") != []) {
+                $("select#pnrNumber").select2({
+                    placeholder: "Select PNR #",
+                    allowClear: true
+                });
+            }
+            $('select#pnrNumber').change(function () {
+                $("#info,#svgContent,#testtable").html('');
+                $("#mega").hide();
+                $("#split tbody").html('');
+                $("#sell tbody").html('');
+                $("#transfer tbody").html('');
+                $("#recieve tbody").html('');
+                if ($('#pnrNumber').val() != "")
+                {
+                    $.ajax({
+                        type: "get",
+                        url: "/booking/getPnrdt",
+                        data: { pnr: $('#pnrNumber').val() },
+                        datatype: "json",
+                        traditional: true,
+                        success: function (data) {
+
+                            if (data.length > 0) {
+                                data = JSON.parse(data);
+                                $("#info").append('<tr><td>PNR #</td><td>' + data.pnrInfo.pnrNumber + '</td></tr>');
+                                $("#info").append('<tr><td>New PNR # </td><td>' + data.pnrInfo.newPnrNumber + '</td></tr>');
+                                $("#info").append('<tr><td>Country</td><td>' + data.pnrInfo.country + '</td></tr>');
+                                $("#info").append('<tr><td>Stock Id</td><td>' + data.pnrInfo.stockId + '</td></tr>');
+                                $("#info").append('<tr><td>Airline</td><td>' + data.pnrInfo.airLine + '</td></tr>');
+                                $("#info").append('<tr><td>Outbound Sector</td><td>' + data.pnrInfo.outBoundSector + '</td></tr>');
+                                $("#info").append('<tr><td>Inbound Sector</td><td>' + data.pnrInfo.inBoundSector + '</td></tr>');
+                                $("#info").append('<tr><td>Outbound Date</td><td>' + moment(data.pnrInfo.outBoundDate).format("DD/MM/YYYY") + '</td></tr>');
+                                $("#info").append('<tr><td>Inbound Date</td><td>' + moment(data.pnrInfo.inBoundDate).format("DD/MM/YYYY") + '</td></tr>');
+                                $("#info").append('<tr><td>Receving Branch</td><td>' + data.pnrInfo.recevingBranch + '</td></tr>');
+                                $("#info").append('<tr><td># of Seats</td><td>' + data.pnrInfo.noOfSeats + '</td></tr>');
+                                $("#info").append('<tr><td>Cost</td><td>' + data.pnrInfo.cost + '</td></tr>');
+                                $("#info").append('<tr><td>Margin</td><td>' + data.pnrInfo.margin + '</td></tr>');
+                                $("#info").append('<tr><td>Selling Price</td><td>' + data.pnrInfo.sellingPrice + '</td></tr>');
+                                $("#info").append('<tr><td>Time Limit</td><td>' + moment(data.pnrInfo.timeLimit).format("DD/MM/YYYY") + '</td></tr>');
+                                data.pnrInfo.CreatedAt = moment(data.pnrInfo.CreatedAt).format("DD/MM/YYYY");
+                                data.pnrInfo.CreatedAt = data.pnrInfo.CreatedAt.split('/');
+                               
+                                
+                                $("#info").append('<tr><td>Added</td><td>' + moment.utc(new Date([data.pnrInfo.CreatedAt[2], data.pnrInfo.CreatedAt[1], data.pnrInfo.CreatedAt[0]])).fromNow() + '</td></tr>');
+
+                                if (data.groupsplit != null) {
+
+                                    $.each(data.groupsplit, function (index, row) {
+                                        if (row.newPnrNumber != null)
+                                            $("#split tbody").append('<tr><td>' + row.newPnrNumber + '</td><td>' + row.cost + '</td><td>' + row.noOfSeats + '</td><td>' + moment(row.outBoundDate).format("DD/MM/YYYY") + '</td><td>' + moment(row.inBoundDate).format("DD/MM/YYYY") + '</td></tr>');
+
+
+                                    });
+                                }
+                                if (data.selllist != null) {
+
+                                    $.each(data.selllist, function (index, row) {
+
+                                        $("#sell tbody").append('<tr><td>' + row.idAgent + '</td><td>' + row.noOfSeats + '</td><td>' + row.margin + '</td><td>' + row.sellingPrice + '</td></tr>');
+
+
+                                    });
+                                }
+                                if (data.transferlist != null) {
+
+                                    $.each(data.transferlist, function (index, row) {
+
+                                        $("#transfer tbody").append('<tr><td>' + row.recevingBranch + '</td><td>' + row.noOfSeats + '</td><td>' + row.sellingPrice + '</td></tr>');
+
+
+                                    });
+                                }
+
+                                if (data.receivelist != null) {
+
+                                    $.each(data.receivelist, function (index, row) {
+
+                                        $("#recieve tbody").append('<tr><td>' + row.noOfSeats + '</td><td>' + row.sellingPrice + '</td></tr>');
+
+
+                                    });
+                                }
+                                $("#mega").show();
+                                var chartData = [];
+                                chartData.push({ "noOfSeats": data.tsa, "Type": "Seats Avaliable", });
+                                chartData.push({ "noOfSeats": data.tgs, "Type": "Seats Split/ Group Split", });
+                                chartData.push({ "noOfSeats": data.tss, "Type": "Seats Sold", });
+                                chartData.push({ "noOfSeats": data.tts, "Type": "Seats Transfer", });
+
+
+                                drawchart(chartData);
+
+                            }
+
+
+                        }
+                    });
+                }
+                
+            });
+        });
+
+
+</script>
+    }
