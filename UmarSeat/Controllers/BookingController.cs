@@ -650,6 +650,7 @@ namespace UmarSeat.Controllers
                                 st = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
                                  st.noOfSeats = skt.noOfSeats;
                                   st.cost = skt.sellingPrice;
+                            st.recevingBranch = skt.transferingBranch;
                             
                             }
                         }
@@ -713,14 +714,14 @@ namespace UmarSeat.Controllers
                                 st = db1.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
                                 st.noOfSeats = skt.noOfSeats;
                                 st.cost = skt.sellingPrice;
-
+                                st.recevingBranch = skt.transferingBranch;
                             }
                         }
 
 
                     }
 
-                    st.recevingBranch = br;
+                 
                     st.ptype = "Avalible Stock";
                     st.avaliableSeats = pl.totalSeats - pl.transferSeats + pl.receiveSeats;
 

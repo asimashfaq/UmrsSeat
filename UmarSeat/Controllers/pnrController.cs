@@ -154,12 +154,20 @@ namespace UmarSeat.Controllers
                             x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber).FirstOrDefault();
                             if (x.sc == null)
                             {
-                                x.sc = db.SeatConfirmation.Where(sc => sc.pnrNumber == x.pnrNumber).FirstOrDefault();
-                                if(x.sc != null)
+
+
+                                StockTransfer skt = db.StockTransfer.Where(sx => sx.pnrNumber == x.pnrNumber && sx.recevingBranch == br).FirstOrDefault();
+                                if (skt != null)
                                 {
+                                    x.sc = db.SeatConfirmation.Where(scx => (scx.pnrNumber == x.pnrNumber || scx.newPnrNumber == x.pnrNumber) && scx.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                                    x.sc.noOfSeats = skt.noOfSeats;
+                                    x.sc.cost = skt.sellingPrice;
                                     x.sc.recevingBranch = x.branchName;
                                     pnrList2.Add(x);
+
                                 }
+
+                                
 
                             }
                             else
