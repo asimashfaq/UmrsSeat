@@ -883,7 +883,7 @@ namespace UmarSeat.Controllers
                                         pl1.sellSeats = pl1.sellSeats + stocktransfer.noOfSeats;
 
                                         pl1.pnrLock = "";
-                                        db.Entry(pl1).OriginalValues["RowVersion"] = pl1.RowVersion;
+                                        db.Entry(pl1).State = EntityState.Modified;
                                         db.SaveChanges();
                                         
 
@@ -892,7 +892,7 @@ namespace UmarSeat.Controllers
                                         if (st != null)
                                         {
                                             st.pnrStatus1 = st.pnrStatus = "Sold";
-                                            db.Entry(st).OriginalValues["RowVersion"] = st.RowVersion;
+                                            db.Entry(st).State = EntityState.Modified;
                                             db.SaveChanges();
                                         }
                                     }
@@ -1013,7 +1013,7 @@ namespace UmarSeat.Controllers
                                     pl1.avaliableSeats = 0;
                                     pl1.transferSeats = pl.transferSeats + stocktransfer.noOfSeats;
                                     pl1.pnrLock = "Locked";
-                                    db.Entry(pl1).OriginalValues["RowVersion"] = pl.RowVersion;
+                                    db.Entry(pl1).State = EntityState.Modified;
                                     db.SaveChanges();
                                     
 
@@ -1022,8 +1022,8 @@ namespace UmarSeat.Controllers
                                     if(st != null)
                                     {
                                        st.pnrStatus1 = st.pnrStatus = "Sold";
-                                       db.Entry(st).OriginalValues["RowVersion"] = st.RowVersion;
-                                       db.SaveChanges();
+                                        db.Entry(st).State = EntityState.Modified;
+                                        db.SaveChanges();
                                     }
                                 }
                                 else
@@ -1032,7 +1032,7 @@ namespace UmarSeat.Controllers
                                     pl1.avaliableSeats = pl.avaliableSeats- stocktransfer.noOfSeats;
                                     pl1.transferSeats = pl.transferSeats + stocktransfer.noOfSeats;
                                     pl1.pnrLock = "";
-                                    db.Entry(pl1).OriginalValues["RowVersion"] = pl.RowVersion;
+                                    db.Entry(pl1).State = EntityState.Modified;
                                     db.SaveChanges();
                                 }
 

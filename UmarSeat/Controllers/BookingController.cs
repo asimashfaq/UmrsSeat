@@ -679,7 +679,7 @@ namespace UmarSeat.Controllers
                     SeatConfirmation st = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.recevingBranch == br).FirstOrDefault();
                     if (st == null)
                     {
-                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr ).FirstOrDefault();
+                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
                         if (st == null)
                         {
                             StockTransfer skt = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
@@ -688,7 +688,7 @@ namespace UmarSeat.Controllers
                                 st = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
                                  st.noOfSeats = skt.noOfSeats;
                                   st.cost = skt.sellingPrice;
-                            st.recevingBranch = skt.transferingBranch;
+                            st.recevingBranch = br;
                             
                             }
                         }
@@ -744,8 +744,8 @@ namespace UmarSeat.Controllers
                     SeatConfirmation st = db1.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.recevingBranch == br).FirstOrDefault();
                     if (st == null)
                     {
-                        st = db1.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
-                        if(st == null)
+                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
+                        if (st == null)
                         {
                             StockTransfer skt = db1.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
                             if(skt != null)
@@ -753,7 +753,7 @@ namespace UmarSeat.Controllers
                                 st = db1.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
                                 st.noOfSeats = skt.noOfSeats;
                                 st.cost = skt.sellingPrice;
-                                st.recevingBranch = skt.transferingBranch;
+                                st.recevingBranch = br;
                             }
                         }
 
@@ -1028,8 +1028,8 @@ namespace UmarSeat.Controllers
                                         pl1.pnrStatus = "Sold";
                                         pl1.groupSplit = pl1.groupSplit + seatconfirmation.noOfSeats;
                                         pl1.pnrLock = "Locked";
-                                        db.Entry(pl1).OriginalValues["RowVersion"] = pl1.RowVersion;
-                                     //   db.SaveChanges();
+                                        db.Entry(pl1).State = EntityState.Modified;
+                                        //   db.SaveChanges();
 
 
                                         var st = db.SeatConfirmation.Where(x => (x.pnrNumber == seatconfirmation.pnrNumber ||
@@ -1037,8 +1037,8 @@ namespace UmarSeat.Controllers
                                         if (st != null)
                                         {
                                             st.pnrStatus1 = st.pnrStatus = "Sold";
-                                            db.Entry(st).OriginalValues["RowVersion"] = st.RowVersion;
-                                       //     db.SaveChanges();
+                                            db.Entry(st).State = EntityState.Modified;
+                                            //     db.SaveChanges();
                                         }
                                     }
                                     else
@@ -1046,8 +1046,8 @@ namespace UmarSeat.Controllers
                                         pl1.pnrStatus = "Avaliable";
                                         pl1.avaliableSeats = pl1.avaliableSeats - seatconfirmation.noOfSeats;
                                         pl1.groupSplit = pl1.groupSplit + seatconfirmation.noOfSeats;
-                                        db.Entry(pl1).OriginalValues["RowVersion"] = pl1.RowVersion;
-                                     
+                                        db.Entry(pl1).State = EntityState.Modified;
+
                                     }
 
 
