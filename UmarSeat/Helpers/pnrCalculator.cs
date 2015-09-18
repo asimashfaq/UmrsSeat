@@ -249,6 +249,19 @@ namespace UmarSeat.Helpers
                 }
                 if (seatconfirmations == null)
                 {
+        //            StockTransfer skt = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == branch).FirstOrDefault();
+          //          if (skt != null)
+                    {
+      //                  seatconfirmations = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+    //                    seatconfirmations.recevingBranch = skt.recevingBranch;
+   //                     seatconfirmations.noOfSeats = skt.noOfSeats;
+ //                       seatconfirmations.cost = skt.sellingPrice;
+
+//                        SeatConfirmation s1 = new 
+
+
+
+                    }
                     seatconfirmations = new SeatConfirmation();
                 }
 
@@ -312,7 +325,7 @@ namespace UmarSeat.Helpers
                     pl.pnrLock = "Locked";
                 }
 
-                using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.RepeatableRead }))
+                using (TransactionScope scope = new TransactionScope())
                 {
                     var plf = db.pnrLogs.Where(y => y.pnrNumber == pl.pnrNumber && y.branchName == pl.branchName).FirstOrDefault();
                     if (plf == null)
@@ -385,7 +398,7 @@ namespace UmarSeat.Helpers
                     {
                         sc.pnrStatus = "Sold";
                         sc.pnrStatus1 = "Sold";
-                        db.Entry(sc).State = System.Data.Entity.EntityState.Modified;
+                        db.Entry(sc).OriginalValues["RowVersion"] = sc.RowVersion;
                         try
                         {
                             db.SaveChanges();
@@ -415,7 +428,8 @@ namespace UmarSeat.Helpers
                         {
                             sc.pnrStatus = "";
                             sc.pnrStatus1 = "";
-                            db.Entry(sc).State = System.Data.Entity.EntityState.Modified;
+              
+                            db.Entry(sc).OriginalValues["RowVersion"] = sc.RowVersion;
                             db.SaveChanges();
 
                         }

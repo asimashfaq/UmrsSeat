@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.Web.Script.Serialization;
 using System.Globalization;
 using System.Transactions;
+using System.Data.Entity.Infrastructure;
 
 namespace UmarSeat.Controllers
 {
@@ -990,7 +991,8 @@ namespace UmarSeat.Controllers
                             if (seatconfirmation.newPnrNumber != null)
                             {
                                 int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-
+                                seatconfirmation.newPnrNumber = seatconfirmation.newPnrNumber.ToUpper();
+                                seatconfirmation.pnrNumber = seatconfirmation.pnrNumber.ToUpper();
                                 seatconfirmation.CreatedAt = DateTime.Now;
                                 seatconfirmation.UpdatedAt = DateTime.Now;
                                 seatconfirmation.id_Subscription = idSubcription;
@@ -1026,7 +1028,7 @@ namespace UmarSeat.Controllers
                                         pl1.pnrStatus = "Sold";
                                         pl1.groupSplit = pl1.groupSplit + seatconfirmation.noOfSeats;
                                         pl1.pnrLock = "Locked";
-                                        db.Entry(pl1).OriginalValues["RowVersion"] = pl.RowVersion;
+                                        db.Entry(pl1).OriginalValues["RowVersion"] = pl1.RowVersion;
                                      //   db.SaveChanges();
 
 
@@ -1073,6 +1075,31 @@ namespace UmarSeat.Controllers
 
 
                   
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    rr.isSuccess = false;
+                    rr.Message = "Exception occur: " + ex.ToString() + " " + ex.InnerException.ToString();
+                    errors.Add(rr);
+                }
+                catch (DbUpdateException ex)
+                {
+                    rr.isSuccess = false;
+                    rr.Message = "Exception occur: " + ex.ToString() + " " + ex.InnerException.ToString();
+                    errors.Add(rr);
+                }
+                catch (RetryLimitExceededException ex)
+                {
+                    rr.isSuccess = false;
+                    rr.Message = "Exception occur: " + ex.ToString() + " " + ex.InnerException.ToString();
+                    errors.Add(rr);
+
+                }
+                catch (TransactionAbortedException ex)
+                {
+                    rr.isSuccess = false;
+                    rr.Message = "Exception occur: " + ex.ToString() + " " + ex.InnerException.ToString();
+                    errors.Add(rr);
                 }
                 catch (Exception ex)
                 {
@@ -1239,6 +1266,8 @@ namespace UmarSeat.Controllers
                             sc.cost = seatconfirmation.cost;
                             sc.category = seatconfirmation.category;
                             sc.emdNumber = seatconfirmation.emdNumber;
+                            sc.newPnrNumber = seatconfirmation.newPnrNumber.ToUpper();
+                            sc.pnrNumber = seatconfirmation.pnrNumber.ToUpper();
                             sc.timeLimit = seatconfirmation.timeLimit;
                             db.Entry(sc).State = EntityState.Modified;
                             await db.SaveChangesAsync();
@@ -1436,6 +1465,8 @@ namespace UmarSeat.Controllers
                             sc.category = seatconfirmation.category;
                             sc.emdNumber = seatconfirmation.emdNumber;
                             sc.timeLimit = seatconfirmation.timeLimit;
+                            sc.newPnrNumber = seatconfirmation.newPnrNumber.ToUpper();
+                            sc.pnrNumber = seatconfirmation.pnrNumber.ToUpper();
                             db.Entry(sc).State = EntityState.Modified;
                             await db.SaveChangesAsync();
                             rr.isSuccess = true;
