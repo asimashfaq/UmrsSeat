@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using UmarSeat.Models;
 using Newtonsoft.Json;
+using UmarSeat.Helpers;
 
 namespace UmarSeat.Controllers
 {
@@ -18,6 +19,7 @@ namespace UmarSeat.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: /Airline/
+        [CheckSessionOut]
         public async Task<ActionResult> Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -28,7 +30,14 @@ namespace UmarSeat.Controllers
             decimal pages = count / 5;
             ViewBag.pages = (int)Math.Ceiling(pages); ;
             ViewBag.total = count;
-            ViewBag.start = 1;
+            if (count > 0)
+            {
+                ViewBag.start = 1;
+            }
+            else
+            {
+                ViewBag.start = 0;
+            }
             int end = 5;
             if (end >= count)
             {
@@ -46,6 +55,7 @@ namespace UmarSeat.Controllers
             return View(list);
         }
         [HttpGet]
+        [CheckSessionOut]
         public async Task<ActionResult> getairlines(string length, string pageNum)
         {
             var pageSize = int.Parse(length);
@@ -78,6 +88,7 @@ namespace UmarSeat.Controllers
             return PartialView("_airlinelist", list);
         }
         [HttpPost]
+        [CheckSessionOut]
         public ActionResult advanceSearch(airLine airline)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -95,7 +106,7 @@ namespace UmarSeat.Controllers
 
             return PartialView("_airlinelist", ss);
         }
-
+        [CheckSessionOut]
         private List<airLine> filterdata(airLine airline, List<airLine> ss)
         {
 
@@ -113,7 +124,7 @@ namespace UmarSeat.Controllers
             return ss;
         }
 
-       
+        [CheckSessionOut]
         public async Task<ActionResult> Create()
         {
             airLine ar = new airLine();
@@ -136,7 +147,7 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-       
+        [CheckSessionOut]
         public async Task<string> Create( airLine airline)
         {
            
@@ -209,6 +220,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Airline/Edit/5
+        [CheckSessionOut]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -240,7 +252,7 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-       
+        [CheckSessionOut]
         public async Task<string> Edit(airLine airline)
         {
            
@@ -314,6 +326,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Airline/Delete/5
+        [CheckSessionOut]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -331,7 +344,7 @@ namespace UmarSeat.Controllers
 
         // POST: /Airline/Delete/5
         [HttpPost, ActionName("Delete")]
-       
+        [CheckSessionOut]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());

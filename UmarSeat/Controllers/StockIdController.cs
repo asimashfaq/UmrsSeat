@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using UmarSeat.Helpers;
 using UmarSeat.Models;
 
 namespace UmarSeat.Controllers
@@ -14,6 +15,7 @@ namespace UmarSeat.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: /StockId/
+        [CheckSessionOut]
         public ActionResult Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -49,6 +51,7 @@ namespace UmarSeat.Controllers
 
         
               [HttpGet]
+        [CheckSessionOut]
         public ActionResult getstocks(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -87,6 +90,7 @@ namespace UmarSeat.Controllers
             return PartialView("_stocksIdlist", list);
         }
         [HttpPost]
+        [CheckSessionOut]
         public ActionResult advanceSearch(Stock st)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -118,7 +122,7 @@ namespace UmarSeat.Controllers
             return ss;
         }
 
-       
+        [CheckSessionOut]
         public ActionResult Create()
         {
             Stock st = new Stock();
@@ -128,6 +132,7 @@ namespace UmarSeat.Controllers
         //
         // POST: /StockId/Create
         [HttpPost]
+        [CheckSessionOut]
         public String Create(Stock stockId)
         {
 
@@ -197,7 +202,7 @@ namespace UmarSeat.Controllers
         }
 
         //
-        // GET: /StockId/Edit/5
+        // GET: /StockId/Edit/5    [CheckSessionOut]
         public ActionResult Edit(int id)
         {
             if (id == null)
@@ -217,6 +222,7 @@ namespace UmarSeat.Controllers
         //
        
         [HttpPost]
+        [CheckSessionOut]
         public string Edit(Stock stockId)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -286,6 +292,7 @@ namespace UmarSeat.Controllers
 
         //
         // GET: /StockId/Delete/5
+        [CheckSessionOut]
         public ActionResult Delete(int id)
         {
             if (id == null)
@@ -303,6 +310,7 @@ namespace UmarSeat.Controllers
 
         //
         // POST: /StockId/Delete/5
+        [CheckSessionOut]
         [HttpPost][ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {

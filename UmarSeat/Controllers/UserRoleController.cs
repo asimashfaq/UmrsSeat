@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using System.Net.Mail;
+using UmarSeat.Helpers;
 
 namespace UmarSeat.Controllers
 {
@@ -22,6 +23,7 @@ namespace UmarSeat.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: /UserRole/
+        [CheckSessionOut]
         public async Task<ActionResult> Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -30,6 +32,7 @@ namespace UmarSeat.Controllers
 
 
         // GET: /UserRole/Create
+        [CheckSessionOut]
         public ActionResult Create()
         {
             List<IdentityRole> roles = db.Database.SqlQuery<IdentityRole>("SELECT Name ,Id FROM [dbo].[AspNetRoles] where Name!= 'SuperAdmin' order by  RIGHT(RTRIM(Name), 5) ").ToList<IdentityRole>();
@@ -87,6 +90,7 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CheckSessionOut]
         public async Task<ActionResult> Create([Bind(Include="id_UserRroles,userRolesType,userRolesName")] UserRoles userroles)
         {
             var rp = Request.Form["rp"];
@@ -117,6 +121,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /UserRole/Edit/5
+        [CheckSessionOut]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -182,6 +187,7 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CheckSessionOut]
         public async Task<ActionResult> Edit([Bind(Include="id_UserRroles,userRolesType,userRolesName")] UserRoles userroles)
         {
             if (ModelState.IsValid)
@@ -198,7 +204,7 @@ namespace UmarSeat.Controllers
 
         // POST: /UserRole/Delete/5
         [HttpPost, ActionName("Delete")]
-       
+        [CheckSessionOut]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             UserRoles userroles = await db.UserRole.FindAsync(id);

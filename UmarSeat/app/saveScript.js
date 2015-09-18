@@ -174,7 +174,10 @@ function bookingsavedata() {
                     var response = JSON.parse(data);
                     $.each(response, function (index, row) {
                         if (row.isSuccess == true) {
-                            $("#dv1").append('<div class="alert alert-success" role="alert"><button class="close" data-dismiss="alert"></button><strong>Success: </strong>' + row.Message + '</div>');
+                            $("#dv1").append('<div class="alert alert-success" role="alert"><button class="close" data-dismiss="alert"></button><strong>Success: </strong>' + row.Message + ' Please wait window will reload in 2 seconds...</div>');
+                            setTimeout(function () {
+                                window.location.reload(true);
+                            }, 2000);
                         }
                         else {
                             $("#dv1").append('<div class="alert alert-danger" role="alert"><button class="close" data-dismiss="alert"></button><strong>Error: </strong>' + row.ErrorMessage + '</div>');
@@ -386,7 +389,7 @@ function groupsplitsavedata() {
                     $.each(response, function (index, row) {
                         if (row.isSuccess == true) {
                             $("#dv1").append('<div class="alert alert-success" role="alert"><button class="close" data-dismiss="alert"></button><strong>Success: </strong>' + row.Message + ' Please wait window will reload in 2 seconds...</div>');
-                            settimeout(function () {
+                            setTimeout(function () {
                                 window.location.reload(true);
                             }, 2000);
                         }
@@ -567,7 +570,10 @@ function sellingsavedata() {
                     var response = JSON.parse(data);
                     $.each(response, function (index, row) {
                         if (row.isSuccess == true) {
-                            $("#dv1").append('<div class="alert alert-success" role="alert"><button class="close" data-dismiss="alert"></button><strong>Success: </strong>' + row.Message + '</div>');
+                            $("#dv1").append('<div class="alert alert-success" role="alert"><button class="close" data-dismiss="alert"></button><strong>Success: </strong>' + row.Message + ' Please wait window will reload in 2 seconds...</div>');
+                            setTimeout(function () {
+                                window.location.reload(true);
+                            }, 2000);
                         }
                         else {
                             $("#dv1").append('<div class="alert alert-danger" role="alert"><button class="close" data-dismiss="alert"></button><strong>Error: </strong>' + row.ErrorMessage + '</div>');
@@ -703,7 +709,10 @@ function transfersavedata() {
                     var response = JSON.parse(data);
                     $.each(response, function (index, row) {
                         if (row.isSuccess == true) {
-                            $("#dv1").append('<div class="alert alert-success" role="alert"><button class="close" data-dismiss="alert"></button><strong>Success: </strong>' + row.Message + '</div>');
+                            $("#dv1").append('<div class="alert alert-success" role="alert"><button class="close" data-dismiss="alert"></button><strong>Success: </strong>' + row.Message + '  Please wait window will reload in 2 seconds...</div>');
+                            setTimeout(function () {
+                                window.location.reload(true);
+                            }, 2000);
                         }
                         else {
                             $("#dv1").append('<div class="alert alert-danger" role="alert"><button class="close" data-dismiss="alert"></button><strong>Error: </strong>' + row.ErrorMessage + '</div>');

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using UmarSeat.Models;
 using Newtonsoft.Json;
+using UmarSeat.Helpers;
 
 namespace UmarSeat.Controllers
 {
@@ -16,7 +17,7 @@ namespace UmarSeat.Controllers
     public class CategoryController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        [CheckSessionOut]
         // GET: /Category/
         public async Task<ActionResult> Index()
         {
@@ -24,8 +25,8 @@ namespace UmarSeat.Controllers
             return View(await db.Category.Where(x=> x.id_Subscription  == idSubcription).ToListAsync());
         }
 
-       
 
+        [CheckSessionOut]
         // GET: /Category/Create
         public ActionResult Create()
         {
@@ -36,7 +37,8 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-     
+        [CheckSessionOut]
+
         public async Task<string> Create(Category category)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -82,6 +84,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Category/Edit/5
+        [CheckSessionOut]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,7 +104,7 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-      
+        [CheckSessionOut]
         public async Task<string> Edit( Category category)
         {
             if (ModelState.IsValid)
@@ -153,6 +156,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Category/Delete/5
+        [CheckSessionOut]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -170,7 +174,7 @@ namespace UmarSeat.Controllers
 
         // POST: /Category/Delete/5
         [HttpPost, ActionName("Delete")]
-      
+        [CheckSessionOut]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());

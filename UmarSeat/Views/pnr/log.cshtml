@@ -598,6 +598,11 @@
                 console.log(t[2]);
                 $(this).text(moment.utc(new Date([t[2], t[1], t[0]])).fromNow());
             })
+
+            setTimeout(function () {
+                window.location.reload(true);
+            }, 2000);
+
         })
     </script>
 

@@ -111,6 +111,7 @@ namespace UmarSeat.Controllers
           
             return View(list);
         }
+        [CheckSessionOut]
         public async Task<ActionResult> Transferlist(string pnr, string transferingbranch, string recevingbranch, string airline, string stockid, string creationrange)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -195,7 +196,7 @@ namespace UmarSeat.Controllers
            
             return View(list);
         }
-
+        [CheckSessionOut]
         public async Task<ActionResult> receive(string pnr, string transferingbranch, string recevingbranch, string airline, string stockid, string creationrange)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -283,6 +284,7 @@ namespace UmarSeat.Controllers
 
 
         [HttpGet]
+        [CheckSessionOut]
         public async Task<ActionResult> GetStock(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -321,6 +323,7 @@ namespace UmarSeat.Controllers
         }
 
         [HttpGet]
+        [CheckSessionOut]
         public async Task<ActionResult> nGetStock(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -359,6 +362,7 @@ namespace UmarSeat.Controllers
 
 
         [HttpGet]
+        [CheckSessionOut]
         public async Task<ActionResult> rGetStock(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -394,7 +398,7 @@ namespace UmarSeat.Controllers
             ViewBag.current = numPage;
             return PartialView("_srlist", model);
         }
-
+        [CheckSessionOut]
         public async Task<ActionResult> stjson(int stockTransferId)
         {
             if (stockTransferId == 0)
@@ -412,6 +416,7 @@ namespace UmarSeat.Controllers
         }
 
         [HttpPost]
+        [CheckSessionOut]
         public ActionResult advanceSearch(SearchStockModel ssm)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -439,6 +444,7 @@ namespace UmarSeat.Controllers
 
             return PartialView("_stlist", ss);
         }
+        [CheckSessionOut]
         public ActionResult nadvanceSearch(SearchStockModel ssm)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -466,7 +472,7 @@ namespace UmarSeat.Controllers
 
             return PartialView("_nstlist", ss);
         }
-
+        [CheckSessionOut]
         public ActionResult radvanceSearch(SearchStockModel ssm)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -550,8 +556,8 @@ namespace UmarSeat.Controllers
            
             return ss;
         }
-       
 
+        [CheckSessionOut]
         // GET: /Stock/Create
         public async Task<ActionResult> sellingcreate()
         {
@@ -657,6 +663,7 @@ namespace UmarSeat.Controllers
             });
             return View(st);
         }
+        [CheckSessionOut]
         public async Task<ActionResult> Transfercreate()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -747,7 +754,7 @@ namespace UmarSeat.Controllers
             });
             return View(st);
         }
-
+        [CheckSessionOut]
         public async Task<ActionResult> TransferEdit(int? id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -819,6 +826,7 @@ namespace UmarSeat.Controllers
         }
         
         [HttpPost]
+        [CheckSessionOut]
         public async Task<string> sellingcreate(StockTransfer stocktransfer)
         {
             
@@ -936,7 +944,7 @@ namespace UmarSeat.Controllers
             return JsonConvert.SerializeObject(errors); ;
         }
         [HttpPost]
-   
+        [CheckSessionOut]
         public async Task<string> Transfercreate( StockTransfer stocktransfer)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -1081,6 +1089,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Stock/Edit/5
+        [CheckSessionOut]
         public async Task<ActionResult> sellingEdit(int? id)
         {
             if (id == null)
@@ -1187,7 +1196,7 @@ namespace UmarSeat.Controllers
         }
 
         [HttpPost]
-
+        [CheckSessionOut]
         public async Task<string> sellingEdit(StockTransfer stocktransfer)
         {
 
@@ -1284,6 +1293,7 @@ namespace UmarSeat.Controllers
         }
 
         [HttpPost]
+        [CheckSessionOut]
 
         public async Task<string> transferEdit(StockTransfer stocktransfer)
         {
@@ -1374,7 +1384,7 @@ namespace UmarSeat.Controllers
 
             return JsonConvert.SerializeObject(errors); ;
         }
-
+        [CheckSessionOut]
 
         public async Task<ActionResult> sellingdelete(int? id)
         {
@@ -1389,7 +1399,7 @@ namespace UmarSeat.Controllers
             }
             return View(stocktransfer);
         }
-
+        [CheckSessionOut]
         public async Task<ActionResult> transferdelete(int? id)
         {
             if (id == null)
@@ -1406,7 +1416,7 @@ namespace UmarSeat.Controllers
         }
         // POST: /Stock/Delete/5
         [HttpPost, ActionName("Delete")]
-        
+        [CheckSessionOut]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());

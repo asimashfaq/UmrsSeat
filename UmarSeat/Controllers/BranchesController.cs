@@ -21,6 +21,7 @@ namespace UmarSeat.Controllers
 
         // GET: /Branches/
         [Authorize(Roles="ReadBranches")]
+        [CheckSessionOut]
         public async Task<ActionResult> Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -31,7 +32,14 @@ namespace UmarSeat.Controllers
             decimal pages = count / 5;
             ViewBag.pages = (int)Math.Ceiling(pages); ;
             ViewBag.total = count;
-            ViewBag.start = 1;
+            if (count > 0)
+            {
+                ViewBag.start = 1;
+            }
+            else
+            {
+                ViewBag.start = 0;
+            }
             int end = 5;
             if (end >= count)
             {
@@ -52,6 +60,7 @@ namespace UmarSeat.Controllers
         // GET: /Branches/Details/5
         [Authorize(Roles = "ReadBranches")]
         [HttpGet]
+        [CheckSessionOut]
         public async Task<ActionResult> getbranches(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -85,6 +94,7 @@ namespace UmarSeat.Controllers
         }
          [Authorize(Roles = "ReadBranches")]
         [HttpPost]
+        [CheckSessionOut]
         public ActionResult advanceSearch(branches branch)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -122,6 +132,7 @@ namespace UmarSeat.Controllers
 
         // GET: /Branches/Create
         [Authorize(Roles = "CreateBranches")]
+        [CheckSessionOut]
         public async Task<ActionResult> Create()
         {
             branches br = new branches();
@@ -181,7 +192,8 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "CreateBranches")]
         [HttpPost]
-       
+        [CheckSessionOut]
+
         public async Task<string> Create( branches branches)
         {
            
@@ -255,6 +267,7 @@ namespace UmarSeat.Controllers
 
         // GET: /Branches/Edit/5
         [Authorize(Roles = "UpdateBranches")]
+        [CheckSessionOut]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -288,6 +301,7 @@ namespace UmarSeat.Controllers
         [HttpPost]
       
         [Authorize(Roles = "UpdateBranches")]
+        [CheckSessionOut]
         public async Task<string> Edit( branches branches)
         {
            
@@ -364,6 +378,7 @@ namespace UmarSeat.Controllers
 
         // GET: /Branches/Delete/5
         [Authorize(Roles = "DeleteBranches")]
+        [CheckSessionOut]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -381,7 +396,8 @@ namespace UmarSeat.Controllers
         // POST: /Branches/Delete/5
         [Authorize(Roles = "DeleteBranches")]
         [HttpPost, ActionName("Delete")]
-     
+        [CheckSessionOut]
+
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());

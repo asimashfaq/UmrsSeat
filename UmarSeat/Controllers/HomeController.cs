@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UmarSeat.Helpers;
 using UmarSeat.Models;
 
 namespace UmarSeat.Controllers
@@ -11,18 +12,12 @@ namespace UmarSeat.Controllers
     public class HomeController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
+        [CheckSessionOut]
         public ActionResult Index()
         {
             int idSubcription = 0;
-            try
-            {
+            
                  idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-            }
-            catch (Exception)
-            {
-
-                return RedirectToAction("Login", "Account");
-            }
             
             ViewBag.latestRecord = db.SeatConfirmation.Where(x=>  x.id_Subscription == idSubcription).OrderByDescending(x => x.id_SeatConfirmation).Take(5).ToList();
             ViewBag.expriysoon = db.SeatConfirmation.Where(x => x.timeLimit >= DateTime.Now && x.id_Subscription == idSubcription).OrderBy(x => x.timeLimit).Take(5).ToList();

@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using UmarSeat.Helpers;
 using UmarSeat.Models;
 
 namespace UmarSeat.Controllers
@@ -19,7 +20,7 @@ namespace UmarSeat.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: /UserManagement/
-
+        [CheckSessionOut]
         public ActionResult Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -29,7 +30,7 @@ namespace UmarSeat.Controllers
         }
 
 
-
+        [CheckSessionOut]
         public ActionResult Addroletouser(string id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -84,7 +85,7 @@ namespace UmarSeat.Controllers
         }
 
         [HttpPost]
-        
+        [CheckSessionOut]
         public string Addroletouser(ManageUserRoles mur)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -192,7 +193,7 @@ namespace UmarSeat.Controllers
         }
 
         [HttpPost]
-      
+        [CheckSessionOut]
         public string InviteUser(string email)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -245,6 +246,7 @@ namespace UmarSeat.Controllers
             client.Send(newMessage);
         }
         [HttpPost]
+        [CheckSessionOut]
         public ActionResult approved(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -270,6 +272,7 @@ namespace UmarSeat.Controllers
 
         }
         [HttpPost]
+        [CheckSessionOut]
         public ActionResult blocked(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -300,6 +303,7 @@ namespace UmarSeat.Controllers
 
         }
         [HttpPost]
+        [CheckSessionOut]
         public ActionResult delete(string id)
         {
             if (!string.IsNullOrEmpty(id))

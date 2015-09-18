@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using UmarSeat.Models;
 using Newtonsoft.Json;
+using UmarSeat.Helpers;
 
 namespace UmarSeat.Controllers
 {
@@ -18,6 +19,7 @@ namespace UmarSeat.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: /Agents/
+        [CheckSessionOut]
         public async Task<ActionResult> Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -28,7 +30,14 @@ namespace UmarSeat.Controllers
             decimal pages = count / 5;
             ViewBag.pages = (int)Math.Ceiling(pages); ;
             ViewBag.total = count;
-            ViewBag.start = 1;
+            if (count > 0)
+            {
+                ViewBag.start = 1;
+            }
+            else
+            {
+                ViewBag.start = 0;
+            }
             int end = 5;
             if (end >= count)
             {
@@ -48,6 +57,7 @@ namespace UmarSeat.Controllers
 
 
         [HttpGet]
+        [CheckSessionOut]
         public async Task<ActionResult> GetAgents(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -80,6 +90,7 @@ namespace UmarSeat.Controllers
             return PartialView("_agentlist", list);
         }
         [HttpPost]
+        [CheckSessionOut]
         public ActionResult advanceSearch(Agents agent)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -133,7 +144,8 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-       
+        [CheckSessionOut]
+
         public async Task<string> Create( Agents agents)
         {
            
@@ -205,7 +217,7 @@ namespace UmarSeat.Controllers
 
             return JsonConvert.SerializeObject(errors); ;
         }
-
+        [CheckSessionOut]
         // GET: /Agents/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -227,7 +239,7 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-       
+        [CheckSessionOut]
         public async Task<string> Edit(Agents agents)
         {
                       ResponseRequest rr = new ResponseRequest();
@@ -298,6 +310,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Agents/Delete/5
+        [CheckSessionOut]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -315,7 +328,7 @@ namespace UmarSeat.Controllers
 
         // POST: /Agents/Delete/5
         [HttpPost, ActionName("Delete")]
-       
+        [CheckSessionOut]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());

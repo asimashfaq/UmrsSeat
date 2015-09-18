@@ -15,6 +15,7 @@ namespace UmarSeat.Controllers
         //
         // GET: /Invitation/
          [AllowAnonymous]
+
         public ActionResult Request(int Id)
         {
             RegisterViewModel rvm = new RegisterViewModel();

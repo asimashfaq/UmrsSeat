@@ -24,7 +24,7 @@ namespace UmarSeat.Controllers
     public class BookingController : ControllerWithHub<BookingHub>
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        [CheckSessionOut]
         // GET: /Booking/
         public async Task<ActionResult> Index(string pnr = "", string airline = "", string category = "", string recevingBranch = "", string stockId = "", string creationRange = "", string outboundRange = "", string timeLimitRange = "")
         {
@@ -55,7 +55,14 @@ namespace UmarSeat.Controllers
                 decimal pages = 1;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
-                ViewBag.start = 1;
+                if (count > 0)
+                {
+                    ViewBag.start = 1;
+                }
+                else
+                {
+                    ViewBag.start = 0;
+                }
                 ViewBag.end = count;
                 ViewBag.prev = 1;
                 ViewBag.next = 1;
@@ -79,8 +86,15 @@ namespace UmarSeat.Controllers
                 decimal pages = count / 5;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
-                ViewBag.start = 1;
-             
+                if (count > 0)
+                {
+                    ViewBag.start = 1;
+                }
+                else
+                {
+                    ViewBag.start = 0;
+                }
+
                 ViewBag.prev = 1;
                 ViewBag.next = 2;
                 ViewBag.current = 1;
@@ -100,6 +114,7 @@ namespace UmarSeat.Controllers
             
             return View(list);
         }
+        [CheckSessionOut]
         public async Task<ActionResult> groupsplitlist(string pnr = "", string newpnrnumber = "", string category = "", string recevingBranch = "", string stockId = "", string creationRange = "", string outboundRange = "", string timeLimitRange = "")
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -130,7 +145,14 @@ namespace UmarSeat.Controllers
                 decimal pages = 1;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
-                ViewBag.start = 1;
+                if (count > 0)
+                {
+                    ViewBag.start = 1;
+                }
+                else
+                {
+                    ViewBag.start = 0;
+                }
                 ViewBag.end = count;
                 ViewBag.prev = 1;
                 ViewBag.next = 1;
@@ -154,7 +176,14 @@ namespace UmarSeat.Controllers
                 decimal pages = count / 5;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
-                ViewBag.start = 1;
+                if (count > 0)
+                {
+                    ViewBag.start = 1;
+                }
+                else
+                {
+                    ViewBag.start = 0;
+                }
                 int end = 5;
                 if (end >= count)
                 {
@@ -176,6 +205,7 @@ namespace UmarSeat.Controllers
 
         
         [HttpGet]
+        [CheckSessionOut]
         public async Task<ActionResult> GetSeats(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -214,6 +244,7 @@ namespace UmarSeat.Controllers
             return PartialView("_sclist", model);
         }
         [HttpPost]
+        [CheckSessionOut]
         public ActionResult advanceSearch(SearchSeatModel ssm)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -299,6 +330,7 @@ namespace UmarSeat.Controllers
 
 
         [HttpGet]
+        [CheckSessionOut]
         public async Task<ActionResult> nGetSeats(string length, string pageNum)
         {
             var pageSize = int.Parse(length);
@@ -336,6 +368,7 @@ namespace UmarSeat.Controllers
             return PartialView("_nsclist", model);
         }
         [HttpPost]
+        [CheckSessionOut]
         public ActionResult nadvanceSearch(SearchSeatModel ssm)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -409,6 +442,7 @@ namespace UmarSeat.Controllers
             return PartialView("_nsclist", ss);
         }
         // GET: /Booking/Details/5
+        [CheckSessionOut]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -422,7 +456,7 @@ namespace UmarSeat.Controllers
             }
             return View(seatconfirmation);
         }
-
+        [CheckSessionOut]
         public async Task<ActionResult> scjson(int stockConfirmationId)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -437,7 +471,7 @@ namespace UmarSeat.Controllers
             }
             return Json(seatconfirmation,JsonRequestBehavior.AllowGet);
         }
-
+        [CheckSessionOut]
         // GET: /Booking/Create
         public ActionResult Entry()
         {
@@ -512,7 +546,7 @@ namespace UmarSeat.Controllers
             
             return View(sc);
         }
-
+        [CheckSessionOut]
         public async Task<ActionResult> GroupSplit()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -623,7 +657,7 @@ namespace UmarSeat.Controllers
             });
             return View(sc);
         }
-
+        [CheckSessionOut]
         public string getPnr(string pnr)
         {
             if(!String.IsNullOrEmpty(pnr))
@@ -683,6 +717,7 @@ namespace UmarSeat.Controllers
             }
             return "";
         }
+        [CheckSessionOut]
         public string getPnrdt(string pnr)
         {
             if (!String.IsNullOrEmpty(pnr))
@@ -795,7 +830,7 @@ namespace UmarSeat.Controllers
             }
             return "";
         }
-
+        [CheckSessionOut]
         private Dictionary<string, object> getPnrStats(string pnr, string br)
         {
             Dictionary<string, object> pnrdata = new Dictionary<string, object>();
@@ -817,7 +852,7 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-      
+        [CheckSessionOut]
         public async Task<string> Entry(SeatConfirmation seatconfirmation)
         {
 
@@ -918,7 +953,7 @@ namespace UmarSeat.Controllers
         }
 
         [HttpPost]
-        
+        [CheckSessionOut]
         public async Task<string> GroupSplit( SeatConfirmation seatconfirmation)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -1071,6 +1106,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Booking/Edit/5
+        [CheckSessionOut]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -1162,7 +1198,7 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-      
+        [CheckSessionOut]
         public async Task<string> Edit(SeatConfirmation seatconfirmation)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -1247,7 +1283,7 @@ namespace UmarSeat.Controllers
             return JsonConvert.SerializeObject(errors); ;
         }
 
-
+        [CheckSessionOut]
         public async Task<ActionResult> groupsplitedit(int? id)
         {
             if (id == null)
@@ -1352,7 +1388,7 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-
+        [CheckSessionOut]
         public async Task<string> groupsplitedit(SeatConfirmation seatconfirmation)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -1444,6 +1480,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Booking/Delete/5
+        [CheckSessionOut]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -1459,7 +1496,7 @@ namespace UmarSeat.Controllers
             return View(seatconfirmation);
         }
 
-
+        [CheckSessionOut]
         public async Task<ActionResult> groupsplitdelete(int? id)
         {
             if (id == null)
@@ -1476,6 +1513,7 @@ namespace UmarSeat.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [CheckSessionOut]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());

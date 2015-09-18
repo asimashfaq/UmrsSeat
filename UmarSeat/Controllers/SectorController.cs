@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using UmarSeat.Models;
 using Newtonsoft.Json;
+using UmarSeat.Helpers;
 
 namespace UmarSeat.Controllers
 {
@@ -18,13 +19,14 @@ namespace UmarSeat.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: /Sector/
+        [CheckSessionOut]
         public ActionResult Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
             List<Sector> lsecotr = db.Database.SqlQuery<Sector>(String.Format("SELECT dbo.Countries.id, dbo.Countries.name, dbo.Sectors.id_Sector, dbo.Sectors.sectorName, dbo.Sectors.id_Subscription, dbo.Sectors.airline, dbo.Sectors.category, dbo.Countries.name AS country FROM     dbo.Countries RIGHT OUTER JOIN  dbo.Sectors ON dbo.Countries.id = dbo.Sectors.country where dbo.Sectors.id_Subscription = {0} order by dbo.Sectors.id_Sector DESC",idSubcription)).ToList<Sector>();
             return View(lsecotr);
         }
-
+        [CheckSessionOut]
         public string getSectors(Sector sector)
         {
             
@@ -58,7 +60,7 @@ namespace UmarSeat.Controllers
 
             return JsonConvert.SerializeObject(sdata);
         }
-       
+        [CheckSessionOut]
         public ActionResult Create(string country, string airline)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -112,6 +114,7 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [CheckSessionOut]
 
         public async Task<string> Create(Sector sector)
         {
@@ -155,6 +158,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Sector/Edit/5
+        [CheckSessionOut]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -205,7 +209,7 @@ namespace UmarSeat.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-     
+        [CheckSessionOut]
         public async Task<string> Edit( Sector sector)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -252,6 +256,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Sector/Delete/5
+        [CheckSessionOut]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -269,7 +274,8 @@ namespace UmarSeat.Controllers
 
         // POST: /Sector/Delete/5
         [HttpPost, ActionName("Delete")]
-      
+        [CheckSessionOut]
+
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
