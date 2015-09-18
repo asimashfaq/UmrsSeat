@@ -532,6 +532,7 @@ namespace UmarSeat.Controllers
                     {
                         sc.ListAirline.Add(new SelectListItem { Text = x.airlineName, Value = x.airlineName.ToString() });
                     });
+                  
                 }));
                 tasks.Add(Task.Factory.StartNew(() =>
                 {
@@ -553,6 +554,7 @@ namespace UmarSeat.Controllers
                     {
                         sc.ListBranches.Add(new SelectListItem { Text = x.branchName, Value = x.branchName.ToString() });
                     });
+                    db1.Dispose();
                 }));
                 tasks.Add(Task.Factory.StartNew(() =>
                 {
@@ -563,6 +565,7 @@ namespace UmarSeat.Controllers
                     {
                         sc.ListCategory.Add(new SelectListItem { Text = x.categoryName, Value = x.categoryName.ToString() });
                     });
+                 
                 }));
                 tasks.Add(Task.Factory.StartNew(() =>
                 {
@@ -962,7 +965,7 @@ namespace UmarSeat.Controllers
                                 {
 
                                     db.SeatConfirmation.Add(seatconfirmation);
-                                    await db.SaveChangesAsync();
+                                  //  await db.SaveChangesAsync();
 
                                     pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == seatconfirmation.newPnrNumber && x.branchName == seatconfirmation.recevingBranch).SingleOrDefault();
                                     if (pl != null)
@@ -979,7 +982,7 @@ namespace UmarSeat.Controllers
                                         pl.pnrLock = "";
                                         pl.avaliableSeats = pl.totalSeats = seatconfirmation.noOfSeats;
                                         db.pnrLogs.Add(pl);
-                                        db.SaveChanges();
+                                   //     db.SaveChanges();
 
                                     }
                                   
@@ -989,7 +992,7 @@ namespace UmarSeat.Controllers
                                         pl1.groupSplit = pl1.groupSplit + seatconfirmation.noOfSeats;
                                         pl1.pnrLock = "Locked";
                                         db.Entry(pl1).OriginalValues["RowVersion"] = pl.RowVersion;
-                                        db.SaveChanges();
+                                     //   db.SaveChanges();
 
 
                                         var st = db.SeatConfirmation.Where(x => (x.pnrNumber == seatconfirmation.pnrNumber ||
@@ -998,7 +1001,7 @@ namespace UmarSeat.Controllers
                                         {
                                             st.pnrStatus1 = st.pnrStatus = "Sold";
                                             db.Entry(st).OriginalValues["RowVersion"] = st.RowVersion;
-                                            db.SaveChanges();
+                                       //     db.SaveChanges();
                                         }
                                     }
                                     else
@@ -1007,11 +1010,11 @@ namespace UmarSeat.Controllers
                                         pl1.avaliableSeats = pl1.avaliableSeats - seatconfirmation.noOfSeats;
                                         pl1.groupSplit = pl1.groupSplit + seatconfirmation.noOfSeats;
                                         db.Entry(pl1).OriginalValues["RowVersion"] = pl1.RowVersion;
-                                        db.SaveChanges();
+                                     
                                     }
 
-                                    
 
+                                    db.SaveChanges();
                                     rr.isSuccess = true;
                                     rr.Message = "Insert Successfully";
                                     errors.Add(rr);
