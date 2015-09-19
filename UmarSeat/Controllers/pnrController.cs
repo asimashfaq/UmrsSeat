@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using UmarSeat.Models;
 using UmarSeat.Helpers;
+using Newtonsoft.Json;
 
 namespace UmarSeat.Controllers
 {
@@ -44,6 +45,62 @@ namespace UmarSeat.Controllers
             }
             return View(pl);
         }
+        List<Dictionary<string, object>> childrens = new List<Dictionary<string, object>>();
+        public ActionResult tree(string pnr)
+        {
+            ViewBag.data = JsonConvert.SerializeObject(generateTree(pnr));
+
+            return View();
+        }
+
+        public string treedata(string pnr)
+        {
+           
+            return JsonConvert.SerializeObject(generateTree(pnr));
+        }
+
+
+        private Dictionary<string, object> generateTree(string pnr)
+        {
+           
+
+            Dictionary<string, object> tdata = new Dictionary<string, object>();
+
+            SeatConfirmation sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null).FirstOrDefault();
+            if(sc == null)
+            {
+                sc = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
+            }
+            tdata.Add("name", pnr + " (" + sc.noOfSeats + ")");
+            tdata.Add("branchName", sc.recevingBranch);
+            
+
+
+            List<SeatConfirmation> children = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber != null).ToList();
+            
+            if(children.Count>0)
+            {
+                List<Dictionary<string, object>> dd = new List<Dictionary<string, object>>();
+                children.ForEach(x =>
+                {
+
+
+                    Dictionary<string, object> d = generateTree(x.newPnrNumber );
+
+                    dd.Add(d);
+
+
+                });
+                tdata.Add("children", dd);
+            }
+          
+
+            
+            return tdata;
+
+
+        }
+
         [CheckSessionOut]
         public ActionResult log()
         {

@@ -1827,6 +1827,7 @@
     <Content Include="Views\pnr\log.cshtml" />
     <Content Include="Views\pnr\_loglist.cshtml" />
     <Content Include="Views\pnr\Index.cshtml" />
+    <Content Include="Views\pnr\tree.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
