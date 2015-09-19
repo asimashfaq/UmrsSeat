@@ -69,15 +69,102 @@ namespace UmarSeat.Controllers
                     }
                 }
                 while (sc != null);
-                return JsonConvert.SerializeObject(generateTree(pnr));
+                return JsonConvert.SerializeObject(generateTree2(pnr));
             }
             else
             {
-                return JsonConvert.SerializeObject(generateTree(pnr));
+                return JsonConvert.SerializeObject(generateTree2(pnr));
             }
             
         }
 
+        private Dictionary<string, object> generateTree2(string pnr)
+        {
+
+
+            Dictionary<string, object> tdata = new Dictionary<string, object>();
+
+            SeatConfirmation sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null).FirstOrDefault();
+            if (sc == null)
+            {
+                sc = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
+            }
+            tdata.Add("name", pnr+ " ("+sc.noOfSeats+")");
+            tdata.Add("branchName", sc.recevingBranch);
+            
+
+            List<Dictionary<string, object>> dd1 = new List<Dictionary<string, object>>();
+            List<pnrLog> subbranchs = db.pnrLogs.Where(x => x.pnrNumber == pnr).ToList();
+            subbranchs.ForEach(sbb =>{
+
+                Dictionary<string, object> d = new Dictionary<string, object>();
+                List<Dictionary<string, object>> dd3 = new List<Dictionary<string, object>>();
+                List<Dictionary<string, object>> dd4 = new List<Dictionary<string, object>>();
+                int total = 0;
+                if(sbb.totalSeats != 0)
+                {
+                    total = sbb.totalSeats;
+                }
+                else
+                {
+                    total = sbb.receiveSeats;
+                }
+                 d.Add("name", sbb.branchName+ " ("+total+")");
+                List<SeatConfirmation> children = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber != null && x.recevingBranch== sbb.branchName).ToList();
+                children.ForEach(ch =>
+                {
+                    Dictionary<string, object> d1 = generateTree2(ch.newPnrNumber);
+
+                    dd4.Add(d1);
+                });
+                List<Dictionary<string, object>> dd5 = new List<Dictionary<string, object>>();
+                List<StockTransfer> transferbrances = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.transferingBranch == sbb.branchName).ToList();
+                transferbrances.ForEach(tfb=> {
+                    dd5.Add(new Dictionary<string, object>() { { "name",tfb.recevingBranch + " (" + (tfb.noOfSeats) + ")" } });
+                });
+
+
+                if(sbb.groupSplit>0)
+                dd3.Add(new Dictionary<string, object>() { { "name", "Split" + " (" + sbb.groupSplit+")" }, { "children",dd4} });
+                if (sbb.transferSeats > 0)
+                    dd3.Add(new Dictionary<string, object>() { { "name", "Transfer" + " (" +  (sbb.transferSeats ) + ")" }, { "children", dd5 } });
+                if (sbb.sellSeats > 0)
+                    dd3.Add(new Dictionary<string, object>() { { "name", "Sale" + " (" + sbb.sellSeats + ")" } });
+                if (sbb.receiveSeats > 0)
+                    dd3.Add(new Dictionary<string, object>() { { "name", "Receive" + " (" + sbb.receiveSeats + ")" } });
+                if (sbb.avaliableSeats > 0)
+                    dd3.Add(new Dictionary<string, object>() { { "name", "Avaliable" + " (" + sbb.avaliableSeats + ")" } });
+                d.Add("children", dd3);
+
+                dd1.Add(d);
+            });
+            tdata.Add("children", dd1);
+
+            /*
+       
+
+            if (children.Count > 0)
+            {
+                List<Dictionary<string, object>> dd = new List<Dictionary<string, object>>();
+                children.ForEach(x =>
+                {
+
+
+                    Dictionary<string, object> d = generateTree(x.newPnrNumber);
+
+                    dd.Add(d);
+
+
+                });
+                tdata.Add("children", dd);
+            }
+            */
+
+
+            return tdata;
+
+
+        }
 
         private Dictionary<string, object> generateTree(string pnr)
         {
