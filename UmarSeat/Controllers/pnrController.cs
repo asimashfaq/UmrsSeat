@@ -48,15 +48,34 @@ namespace UmarSeat.Controllers
         List<Dictionary<string, object>> childrens = new List<Dictionary<string, object>>();
         public ActionResult tree(string pnr)
         {
-            ViewBag.data = JsonConvert.SerializeObject(generateTree(pnr));
+           
+         
 
             return View();
         }
 
         public string treedata(string pnr)
         {
-           
-            return JsonConvert.SerializeObject(generateTree(pnr));
+            SeatConfirmation sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null).FirstOrDefault();
+            if (sc == null)
+            {
+
+                do
+                {
+                    sc = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
+                    if (sc != null)
+                    {
+                        pnr = sc.pnrNumber;
+                    }
+                }
+                while (sc != null);
+                return JsonConvert.SerializeObject(generateTree(pnr));
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(generateTree(pnr));
+            }
+            
         }
 
 
