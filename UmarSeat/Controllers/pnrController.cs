@@ -45,13 +45,41 @@ namespace UmarSeat.Controllers
             }
             return View(pl);
         }
-        List<Dictionary<string, object>> childrens = new List<Dictionary<string, object>>();
+        
+
+        [CheckSessionOut]
         public ActionResult tree(string pnr)
         {
-           
-         
 
-            return View();
+
+
+            ApplicationDbContext db1 = new ApplicationDbContext();
+            int idSubscription = 1002;
+            pnrLog pl = new pnrLog();
+            List<pnrLog> pnrAvaliable = new List<pnrLog>();
+            pl.ListPNR = new List<SelectListItem>();
+            if (string.IsNullOrEmpty(Session["branchName"].ToString()))
+            {
+                pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubscription).OrderBy(x => x.pnrLogId).ToList();
+                pnrAvaliable.ForEach(pr =>
+                {
+
+
+                    pl.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber + "(" + pr.branchName + ")", Value = pr.pnrNumber + "," + pr.branchName });
+                });
+            }
+            else
+            {
+                string sb = Session["branchName"].ToString();
+                pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.branchName == sb).OrderBy(x => x.pnrLogId).ToList();
+                pnrAvaliable.ForEach(pr =>
+                {
+
+                    pl.ListPNR.Add(new SelectListItem { Text = pr.pnrNumber, Value = pr.pnrNumber });
+                });
+
+            }
+            return View(pl);
         }
 
         public string treedata(string pnr)

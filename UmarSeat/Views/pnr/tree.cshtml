@@ -35,14 +35,15 @@
     #body svg{ overflow-x : scroll ;}
 </style>
 <br />
-
+<link href="~/Content/overlay-bootstrap.css" rel="stylesheet" />
 
 <div>
     <!-- START PANEL -->
     <div class="panel  panel-default">
+       
         <div class="panel-heading">
             <div class="panel-title">
-                <h1> PNR Stats</h1>
+                <h1> PNR Tree View</h1>
             </div>
 
             <div class="clearfix"></div>
@@ -62,38 +63,23 @@
                 </div>
             </div>
             <div id="entry-form" style="visibility:hidden">
+
                 <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12">
                         <div class="form-group  form-group-default form-group-default-select2 ">
                             @Html.LabelFor(model => model.pnrNumber)
-                            @Html.DropDownListFor(model => model.pnrNumber, new List<SelectListItem>(), "", new { @class = "full-width" })
+                            @Html.DropDownListFor(model => model.pnrNumber, Model.ListPNR, "", new { @class = "full-width" })
 
                         </div>
 
                     </div>
 
                 </div>
-                <div class="row" id="mega">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    Info
-                                </div>
-
-                            </div>
-
-                            <div id="body">
-
-                            </div>
-                        </div>
-                    </div>
-                 
-
-
+                <div id="body">
 
                 </div>
             </div>
+           
 
 
 
@@ -113,6 +99,42 @@
                 $("select#pnrNumber").select2({
                     placeholder: "Select PNR #",
                     allowClear: true
+                });
+
+                $('select#pnrNumber').change(function () {
+                    var pnval = $(this).val();
+                    if (pnval != null)
+                    {
+
+                    }
+                    if (pnval.indexOf(',') != -1)
+                    {
+                        pnval = pnval.split(',');
+                        pnval = pnval[0];
+                    }
+                    var paths;
+                    if (root != null)
+                    {
+                        paths = searchTree(root, pnval, []);
+                    }
+                    
+
+                    if (typeof (paths) !== "undefined") {
+                        openPaths(paths);
+                    }
+                    else {
+                      
+                        $("#body").html('');
+                        $("#dv1").append('<div id="aaa" class="panel-default-overlay-down">\
+                        <div class="col-sm-12 text-center" style="height:100%">\
+                            <div class="progress-circle-indeterminate m-t-45">\
+                            </div>\
+                            <br>\
+                            <p class="small hint-text">Loading data</p>\
+                        </div>\
+                    </div>');
+                        generatechart(pnval);
+                    }
                 });
             }
             function searchTree(obj, search, path) {
@@ -149,52 +171,67 @@
                 }
                 return [index, leaves];
             }
-
-            var m = [20, 120, 20, 120],
+            var pnr = "@(Request.QueryString["pnr"])";
+            if (pnr != "" && pnr != undefined && pnr != null)
+            {
+                generatechart(pnr);
+            }
+            else
+            {
+                $("#dv1").html('');
+                $("#entry-form").css('visibility', 'visible')
+            }
+            var tree, diagonal, vis, root,
+                i = 0, h = 0, w = 0;
+            var m = [20, 120, 20, 120]
+            function generatechart(pnr) {
+               
                 w = 1280 - m[1] - m[3],
-                h = 800 - m[0] - m[2],
-                i = 0,
-                root;
+                h = 800 - m[0] - m[2];
+                 tree = d3.layout.tree()
+                    .size([h, w]);
 
-            var tree = d3.layout.tree()
-                .size([h, w]);
+                 diagonal = d3.svg.diagonal()
+                    .projection(function (d) { return [d.y, d.x]; });
 
-            var diagonal = d3.svg.diagonal()
-                .projection(function (d) { return [d.y, d.x]; });
+                 vis = d3.select("#body").append("svg:svg")
+                    .attr("width", w + m[1] + m[3])
+                    .attr("height", h + m[0] + m[2])
+                        .style("overflow", "scroll")
+                    .style("background-color", "#fff")
+                  .append("svg:g")
+                    .attr("class", "drawarea")
+                  .append("svg:g")
+                    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-            var vis = d3.select("#body").append("svg:svg")
-                .attr("width", w + m[1] + m[3])
-                .attr("height", h + m[0] + m[2])
-                    .style("overflow", "scroll")
-                .style("background-color", "#fff")
-              .append("svg:g")
-                .attr("class", "drawarea")
-              .append("svg:g")
-                .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+                d3.json("/pnr/treedata?pnr="+pnr, function (json) {
+                    root = json;
 
-            d3.json("/pnr/treedata?pnr=@(Request.QueryString["pnr"])", function (json) {
-                root = json;
-
-                root.x0 = h / 2;
-                root.y0 = 0;
+                    root.x0 = h / 2;
+                    root.y0 = 0;
 
 
 
-                update(root);
-                setTimeout(function () {
+                    update(root);
+                    setTimeout(function () {
 
-                    var paths = searchTree(root, "@(Request.QueryString["pnr"])", []);
+                        var paths = searchTree(root, pnr, []);
 
-                    if (typeof (paths) !== "undefined") {
-                        openPaths(paths);
-                    }
-                    else {
-                        alert(" not found!");
-                    }
-                    $("#dv1").html('');
-                    $("#entry-form").css('visibility', 'visible')
-                }, 2000);
-            });
+                        if (typeof (paths) !== "undefined") {
+                            openPaths(paths);
+                        }
+                        else {
+                            alert(" not found!");
+                        }
+                        $("#dv1").html('');
+                        $("#entry-form").css('visibility', 'visible')
+                    }, 2000);
+                });
+
+
+
+            }
+
             function openPaths(paths) {
 
                 for (var i = 0; i < paths.length; i++) {
