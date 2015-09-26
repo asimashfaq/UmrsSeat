@@ -13,29 +13,37 @@
 <link href="~/Content/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
 
 
+<body oncontextmenu="return false">
 
-
-<div class="col-md-6">
-    <!-- START PANEL -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-title">
-                Drag n' drop your excel files here
-            </div>
-            
-        </div>
-        <div class="panel-body no-scroll no-padding">
-            <form action="~/Excel/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
-                <div class="fallback">
-
-                    <input name="file" type="file" multiple />
+    <div class="col-md-6">
+        <!-- START PANEL -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    Drag n' drop your excel files here
                 </div>
-            </form>
-        </div>
-    </div>
-    <!-- END PANEL -->
-</div>
+
             </div>
+            <div class="panel-body no-scroll no-padding">
+                <form action="~/Excel/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
+                    <div class="fallback">
+
+                        <input name="file" type="file" multiple />
+                    </div>
+                </form>
+                <div id="stats2" style="display:none">
+                    <div id="stats">Please wait</div>
+                    <div>Rows Added (<span id="rows">0</span>)</div>
+                    <div id="in"></div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <!-- END PANEL -->
+    </div>
+</body>       
 <style type="text/css">
     
 </style>
@@ -47,7 +55,20 @@
 
 <script src="~/Content/assets/plugins/dropzone/dropzone.js"></script>
     <script type="text/javascript">
+        document.onmousedown = disableclick;
+       
+        function disableclick(event) {
+            if (event.button == 2) {
+              
+                return false;
+            }
+        }
 
+        function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault(); };
+
+        $(document).ready(function () {
+            $(document).on("keydown", disableF5);
+        });
         //File Upload response from the server
         Dropzone.options.dropzoneForm = {
             maxFiles: 1,
@@ -56,6 +77,61 @@
                     var res = eval('(' + data.xhr.responseText + ')');
 
                 });
+            },
+            success: function (file, response) {
+                $("#dropzoneForm").hide();
+                $("#stats").show();
+                console.log(response);
+              var st =  setInterval(function () {
+                    $.ajax({
+                        type: "get",
+
+                        cache: false,
+
+                        url: "/excel/ImportBookingStatus",
+
+                        contentType: "application/json",
+                        success: function (data) {
+
+                            if (data.length != 0) {
+
+                                data = JSON.parse(data);
+                                if (data.status != null && $("#stats").text().indexOf(data.status) == -1)
+                                {
+                                    $("#stats2").show();
+                                    $("#stats").append(data.status + "<br>");
+                                    
+                                }
+                                if (data.status == "Completed") {
+                                  
+                                    window.clearInterval(st);
+
+                                }
+                                
+                                if (data.rowsadd != null)
+                                    $("#rows").html(data.rowsadd + "<br>");
+                                if (data.invaliddata != null)
+                                    $("#in").append(data.invaliddata+"<br>");
+                            }
+                        }
+                    });
+
+                }, 500);
+
+                $.ajax({
+                    type: "get",
+
+                    cache: false,
+
+                    url: "/excel/savingbooking?path=" + response.filepath,
+
+                    contentType: "application/json",
+                    success: function (data) {
+
+                    }
+                });
+
+
             }
         };
 
