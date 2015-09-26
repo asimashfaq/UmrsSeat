@@ -12,6 +12,7 @@ namespace UmarSeat.Models
         public int id_City { get; set; }
         public string city { get; set; }
         public string country { get; set; }
+        public string countryFull { get; set; }
        
     }
 }

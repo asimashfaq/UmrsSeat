@@ -16,7 +16,7 @@ namespace UmarSeat.Models
         public int id_AirLine { get; set; }
         [Required]
         [Display(Name="Airline Name")]
-        [RegularExpression(@"^([a-zA-Z \.\&\'\-]+)$", ErrorMessage = "Invalid Characters")]
+        [RegularExpression(@"^([a-zA-Z0-9 \.\&\'\-]+)$", ErrorMessage = "Invalid Characters")]
         public string airlineName { get; set; }
         [ScaffoldColumn(false)]
         public int airlineContactPersonId { get; set; }

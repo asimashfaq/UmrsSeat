@@ -1614,6 +1614,7 @@ namespace UmarSeat.Controllers
                     sc.cost = int.Parse(data.Rows[i][8].ToString());
                     sc.category = data.Rows[i][9].ToString();
                     sc.recevingBranch = data.Rows[i][10].ToString();
+                    sc.avaliableSeats = 999;
                     sc.CreatedAt = sc.UpdatedAt = sc.timeLimit = Convert.ToDateTime(data.Rows[i][11].ToString());
                     int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
                     sc.id_Subscription = idSubcription;
