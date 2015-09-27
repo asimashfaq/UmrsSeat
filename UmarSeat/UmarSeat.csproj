@@ -462,7 +462,6 @@
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\ExcludeChar.cs" />
-    <Compile Include="Models\FormattedDbEntityValidationException.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\person.cs" />
     <Compile Include="Models\pnrLog.cs" />

@@ -149,6 +149,12 @@
             </div>
             <div class="col-sm-2">
                 <div class="center text-center">
+                    <h1>@Html.Raw(ViewBag.totalexpired)</h1>
+                    <p>Total PNR Expired</p>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="center text-center">
                     <h1>@Html.Raw(ViewBag.totalseatsAvaliable)</h1>
                     <p>Total Seats Avaliable</p>
                 </div>
@@ -430,9 +436,19 @@
 
                         var t = ($(this).text().trim());
 
-                        t = t.split('/');
-                        console.log(t[2]);
-                        $(this).text(moment.utc(new Date([t[2], t[1], t[0]])).fromNow());
+                        var dateString =t;
+                        var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
+                        var dateArray = reggie.exec(dateString);
+                        var dateObject = new Date(
+                            (+dateArray[1]),
+                            (+dateArray[2]) - 1, // Careful, month starts at 0!
+                            (+dateArray[3]),
+                            (+dateArray[4]),
+                            (+dateArray[5]),
+                            (+dateArray[6])
+                        );
+                       
+                           $(this).text(moment.utc(dateObject).fromNow());
                     })
                     $('#exv').on('click', function (e) {
 

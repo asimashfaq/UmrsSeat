@@ -116,7 +116,8 @@ namespace UmarSeat.Controllers
                                     }
                                     else
                                     {
-                                        sc.timeLimit = sc.CreatedAt = sc.UpdatedAt = DateTime.Now;
+                                        sc.CreatedAt = sc.UpdatedAt = DateTime.Now;
+                                        sc.timeLimit = sc.outBoundDate;
                                     }
 
                                     int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -210,7 +211,7 @@ namespace UmarSeat.Controllers
                         }
 
                         if (erros.Count == 0)
-                         //   ts.Complete();
+                            ts.Complete();
 
 
                         excelBook.Close(false);

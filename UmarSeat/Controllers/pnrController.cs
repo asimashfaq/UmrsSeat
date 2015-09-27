@@ -322,6 +322,22 @@ namespace UmarSeat.Controllers
                 
             }));
 
+            task.Add(Task.Factory.StartNew(() => {
+                ApplicationDbContext db1 = new ApplicationDbContext();
+
+                if (string.IsNullOrEmpty(br))
+                {
+                    var seatsavaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Expired").Count();
+                    ViewBag.totalexpired = seatsavaliable;
+                }
+                else
+                {
+                    var seatsavaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubscription && x.pnrStatus == "Expired" && x.branchName == br).Count();
+                    ViewBag.totalexpired = seatsavaliable;
+                }
+
+            }));
+
 
             task.Add(Task.Factory.StartNew(() => {
                 ApplicationDbContext db1 = new ApplicationDbContext();

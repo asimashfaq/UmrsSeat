@@ -237,7 +237,7 @@ namespace UmarSeat.Helpers
             try
             {
                 ApplicationDbContext db = new ApplicationDbContext();
-
+                int days = 0;
 
              
                 pl.pnrNumber = pnr;
@@ -247,22 +247,27 @@ namespace UmarSeat.Helpers
                 {
                     seatconfirmations = db.SeatConfirmation.Where(x => (x.newPnrNumber == pnr) && x.id_Subscription == idSuscription && x.recevingBranch == branch).FirstOrDefault();
                 }
+                else
+                {
+                    days = (seatconfirmations.timeLimit - DateTime.Now).Days;
+                }
                 if (seatconfirmations == null)
                 {
-        //            StockTransfer skt = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == branch).FirstOrDefault();
-          //          if (skt != null)
+                   StockTransfer skt = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == branch).FirstOrDefault();
+                   if (skt != null)
                     {
-      //                  seatconfirmations = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
-    //                    seatconfirmations.recevingBranch = skt.recevingBranch;
-   //                     seatconfirmations.noOfSeats = skt.noOfSeats;
- //                       seatconfirmations.cost = skt.sellingPrice;
-
-//                        SeatConfirmation s1 = new 
+                       seatconfirmations = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                       
+                         days = (seatconfirmations.timeLimit - DateTime.Now).Days;
 
 
 
                     }
                     seatconfirmations = new SeatConfirmation();
+                }
+                else
+                {
+                    days = (seatconfirmations.timeLimit - DateTime.Now).Days;
                 }
 
 
@@ -318,12 +323,19 @@ namespace UmarSeat.Helpers
                 {
                     pl.pnrStatus = "Avaliable";
                     pl.pnrLock = "";
+                   
                 }
                 else
                 {
                     pl.pnrStatus = "Sold";
                     pl.pnrLock = "Locked";
                 }
+                if (days < 0)
+                {
+                    pl.pnrStatus = "Expired";
+                    pl.pnrLock = "";
+                }
+
 
                 using (TransactionScope scope = new TransactionScope())
                 {
