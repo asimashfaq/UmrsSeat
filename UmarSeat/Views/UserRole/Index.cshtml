@@ -61,10 +61,14 @@
                                 <div class="wp">@Html.DisplayFor(modelItem => item.userRolesName)</div>
                             </td>
                             <td>
-                                <a  href="/userrole/edit/@Html.Raw(item.id_UserRroles)" class=" editbtn btn btn-complete" >
-                                    <i class="fa fa-edit"></i> Edit
-                                </a>
-                                @Ajax.RawActionLink(string.Format("<i class=\"fa fa-remove\" ></i> Delete"), "Delete", null, new { id = item.id_UserRroles },
+
+                                @if (item.id_Subscription != 0)
+                                {
+
+                                    <a href="/userrole/edit/@Html.Raw(item.id_UserRroles)" class=" editbtn btn btn-complete">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
+                                    @Ajax.RawActionLink(string.Format("<i class=\"fa fa-remove\" ></i> Delete"), "Delete", null, new { id = item.id_UserRroles },
                                 new AjaxOptions
                                 {
                                     HttpMethod = "POST",
@@ -74,6 +78,8 @@
                                     OnFailure = "onFail"
                                 },
                                   new { @class = "btn btn-danger", id = "cnfrmDelete" })
+                                }
+                                
                             </td>
                         </tr>
                     }

@@ -57,9 +57,30 @@
 
 
             </div>
-        }
+                        }
 
-    }
+                    }
+                    <div class="clear clearfix"></div>
+                    <br />
+
+                    foreach (Dictionary<string, string> role in roles)
+                    {
+                        if (role.ContainsKey("other"))
+                        {
+                            string name = role["other"];
+
+                            <div class="col-sm-3 ">
+                                <span class="checkbox check-primary checkbox-circle">
+                                    <input type="checkbox" class="@Html.Raw(name.Trim()) rf" name="rp" value="@Html.Raw(role["other"])" id="@Html.Raw(role["other"].Trim())">
+                                    <label for="@Html.Raw(role["other"].Trim())">@Html.Raw(role["other"])</label>
+                                </span>
+                               
+                            </div>
+
+                        }
+
+
+                    }
 
 
                 }

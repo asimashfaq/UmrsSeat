@@ -71,6 +71,7 @@ namespace UmarSeat.Controllers
                 ApplicationDbContext db1 = new ApplicationDbContext();
                 List<branches> branches = db1.Branch.Where(x => x.id_Subscription == idSubcription).ToList();
                 mur.listBranches = new List<SelectListItem>();
+                mur.listBranches.Add(new SelectListItem { Text = "All Branches", Value = "" });
                 branches.ForEach(x =>
                 {
                     mur.listBranches.Add(new SelectListItem { Text = x.branchName, Value = x.branchName.ToString() });

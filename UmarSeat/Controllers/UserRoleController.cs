@@ -27,7 +27,7 @@ namespace UmarSeat.Controllers
         public async Task<ActionResult> Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-            return View(await db.UserRole.Where(x=> x.id_Subscription ==  idSubcription).ToListAsync());
+            return View(await db.UserRole.Where(x=> x.id_Subscription ==  idSubcription || x.id_Subscription== 0).ToListAsync());
         }
 
 
@@ -133,6 +133,10 @@ namespace UmarSeat.Controllers
             {
                 return HttpNotFound();
             }
+            if (userroles.id_Subscription == 0)
+            {
+                return HttpNotFound();
+            }
 
 
             List<IdentityRole> roles = db.Database.SqlQuery<IdentityRole>("SELECT Name ,Id FROM [dbo].[AspNetRoles] where Name!= 'SuperAdmin' order by  RIGHT(RTRIM(Name), 5) ").ToList<IdentityRole>();
@@ -190,6 +194,11 @@ namespace UmarSeat.Controllers
         [CheckSessionOut]
         public async Task<ActionResult> Edit([Bind(Include="id_UserRroles,userRolesType,userRolesName")] UserRoles userroles)
         {
+             userroles = await db.UserRole.FindAsync(userroles.id_UserRroles);
+            if (userroles.id_Subscription == 0)
+            {
+                return HttpNotFound();
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(userroles).State = EntityState.Modified;
@@ -208,6 +217,12 @@ namespace UmarSeat.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             UserRoles userroles = await db.UserRole.FindAsync(id);
+
+         
+            if (userroles.id_Subscription == 0)
+            {
+                return HttpNotFound();
+            }
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
             List<string> roles = userroles.userRolesName.Split(',').ToList();
             List<ApplicationUser> users = db.Users.Where(x => x.userRole == userroles.userRolesType && x.id_Subscription == idSubcription).ToList();
