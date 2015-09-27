@@ -18,7 +18,7 @@ namespace UmarSeat.Controllers
         public ActionResult Index()
         {
             ApplicationDbContext db1 = new ApplicationDbContext();
-            int idSubscription = 1002;
+            int idSubscription = Convert.ToInt32(Session["idSubscription"].ToString());
             pnrLog pl = new pnrLog();
             List<pnrLog> pnrAvaliable = new List<pnrLog>();
             pl.ListPNR = new List<SelectListItem>();
@@ -54,7 +54,7 @@ namespace UmarSeat.Controllers
 
 
             ApplicationDbContext db1 = new ApplicationDbContext();
-            int idSubscription = 1002;
+            int idSubscription = Convert.ToInt32(Session["idSubscription"].ToString());
             pnrLog pl = new pnrLog();
             List<pnrLog> pnrAvaliable = new List<pnrLog>();
             pl.ListPNR = new List<SelectListItem>();
@@ -240,7 +240,7 @@ namespace UmarSeat.Controllers
         {
             List<pnrLog> pnrList2 = new List<pnrLog>();
             List<Task> task = new List<Task>();
-            int idSubscription = 1002;
+            int idSubscription = Convert.ToInt32(Session["idSubscription"].ToString());
             string br = Session["branchName"].ToString();
 
 
@@ -430,6 +430,7 @@ namespace UmarSeat.Controllers
             var numPage = int.Parse(pageNum);
             var model = new List<pnrLog>();
             string bn = Session["branchName"].ToString();
+             List<pnrLog> pnrList2 = new List<pnrLog>();
             if (string.IsNullOrEmpty(bn))
             {
                 model = db.pnrLogs.Where(x => x.idSubscription == idSubcription).OrderByDescending(x => x.pnrLogId).Skip(pageSize * (numPage - 1)).Take(pageSize).ToList();
@@ -439,9 +440,65 @@ namespace UmarSeat.Controllers
                 model =  db.pnrLogs.Where(x => x.idSubscription == idSubcription ).OrderByDescending(x => x.pnrLogId).Skip(pageSize * (numPage - 1)).Take(pageSize).ToList();
             }
 
-            decimal count = Convert.ToDecimal(db.StockTransfer.ToList().Count.ToString());
+            model.ForEach(x => {
+                db = new ApplicationDbContext();
+                x.sc = db.SeatConfirmation.Where(sc => sc.pnrNumber == x.pnrNumber && sc.newPnrNumber == null && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month).FirstOrDefault();
+                if (x.sc == null)
+                {
+                    x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month).FirstOrDefault();
+                    if (x.sc == null)
+                    {
+                        x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber).FirstOrDefault();
+                        if (x.sc == null)
+                        {
+
+
+                            StockTransfer skt = db.StockTransfer.Where(sx => sx.pnrNumber == x.pnrNumber && sx.recevingBranch == x.branchName).FirstOrDefault();
+                            if (skt != null)
+                            {
+                                x.sc = db.SeatConfirmation.Where(scx => (scx.pnrNumber == x.pnrNumber || scx.newPnrNumber == x.pnrNumber) && scx.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                                x.sc.noOfSeats = skt.noOfSeats;
+                                x.sc.cost = skt.sellingPrice;
+                                x.sc.recevingBranch = x.branchName;
+                                pnrList2.Add(x);
+
+                            }
+                            else
+                            {
+
+                            }
+
+
+
+                        }
+                        else
+                        {
+                            x.sc.recevingBranch = x.branchName;
+                            pnrList2.Add(x);
+                        }
+
+                    }
+                    else
+                    {
+                        x.sc.recevingBranch = x.branchName;
+                        pnrList2.Add(x);
+                    }
+
+                }
+                else
+                {
+                    x.sc.recevingBranch = x.branchName;
+                    pnrList2.Add(x);
+                }
+
+
+
+
+            });
+
+            decimal count = Convert.ToDecimal(db.pnrLogs.ToList().Count.ToString());
             decimal pages = count / 10;
-            ViewBag.pages = (int)Math.Ceiling(pages); ;
+            ViewBag.pages = (int)Math.Ceiling(pages); 
             ViewBag.total = count;
             ViewBag.start = pageSize * (numPage - 1) + 1;
             int end = 10;
@@ -457,7 +514,7 @@ namespace UmarSeat.Controllers
             ViewBag.next = numPage + 1;
             ViewBag.length = length;
             ViewBag.current = numPage;
-            return PartialView("_loglist", model);
+            return PartialView("_loglist", pnrList2);
         }
 
     }

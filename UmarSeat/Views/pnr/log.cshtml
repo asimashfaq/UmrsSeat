@@ -426,7 +426,14 @@
                 "bSort": false,
                 "bDestory": false,
                 fnDrawCallback: function (oSettings) {
+                    $('.sp').each(function (i, row) {
 
+                        var t = ($(this).text().trim());
+
+                        t = t.split('/');
+                        console.log(t[2]);
+                        $(this).text(moment.utc(new Date([t[2], t[1], t[0]])).fromNow());
+                    })
                     $('#exv').on('click', function (e) {
 
                         // Get the column API object
@@ -467,74 +474,7 @@
               }
           });
 
-            // Add event listener for opening and closing details
-            $('#detailedTable tbody').on('click', 'td', function () {
-
-                if (!$(this).hasClass('action')) {
-                    var row1 = $(this).parent()[0];
-                    if ($(row1).hasClass('shown') && $(row1).next().hasClass('row-details')) {
-                        $(row1).removeClass('shown');
-                        $(row1).next().remove();
-                        return;
-                    }
-                    var tr = $(row1).closest('tr');
-                    var row = table.DataTable().row(tr);
-
-                    $(row1).parents('tbody').find('.shown').removeClass('shown');
-                    $(row1).parents('tbody').find('.row-details').remove();
-
-
-                    row.child(_format($(row1).attr('id'))).show();
-                    tr.addClass('shown');
-                    tr.next().addClass('row-details');
-
-                    $.ajax({
-                        type: "GET",
-                        url: "/booking/scjson",
-                        data: { stockConfirmationId: $(row1).attr('id') },
-                        datatype: "json",
-                        traditional: true,
-                        success: function (data) {
-
-
-
-                            $("#dv").html('<table class="table table-inline ">' +
-                        '<tr>' +
-                        '<td>PNR #</td>' +
-                          '<td>' + data.pnrNumber + '</td>' +
-                        '<td>Airline</td>' +
-                          '<td>' + data.airLine + '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td>Stock ID</td>' +
-                           '<td>' + data.stockId + '</td>' +
-                             '<td># of Seats</td>' +
-                           '<td>' + data.noOfSeats + '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td>Transfering Branch</td>' +
-                         '<td>' + data.transferingBranch + '</td>' +
-                         '<td>Receving Branch</td>' +
-                         '<td>' + data.recevingBranch + '</td>' +
-
-                        '</tr>' +
-                         '<tr>' +
-                        '<td>Costs</td>' +
-                           '<td>' + data.cost + '</td>' +
-                         '<td>Margin</td>' +
-                           '<td>' + data.margin + '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td>Selling Price</td>' +
-                          '<td>' + data.sellingPrice + '</td>' +
-
-                        '</tr>' +
-
-                        '</table>');
-                        }
-                    });
-                }
-            });
+           
         };
 
         _handelDatatable();
@@ -590,15 +530,6 @@
    
     <script>
         $(document).ready(function () {
-            $('.sp').each(function (i,row) {
-                
-                var t = ($(this).text().trim());
-               
-                t = t.split('/');
-                console.log(t[2]);
-                $(this).text(moment.utc(new Date([t[2], t[1], t[0]])).fromNow());
-            })
-
            
 
         })
