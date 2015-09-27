@@ -28,6 +28,9 @@
         </div>
         <div class="row">
             <div class="form-group">
+                <br />
+                <h4>Module Permissions</h4>
+                <br />
                 @{
     List<Dictionary<string, string>> roles = ViewBag.roles;
 
@@ -63,8 +66,9 @@
                         }
 
                     }
-                    <div class="clear clearfix"></div>
-                    <br />
+                   <br />
+                   <h4>Others Permission</h4>
+                <br />
 
                     foreach (Dictionary<string, string> role in roles)
                     {
@@ -94,22 +98,20 @@
 
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" name="checkAll" value="Check ALL" id="ca" class="btn btn-default" />
-                <input type="button" name="uncheckAll" value="Uncheck ALL" id="ua" class="btn btn-default" />
+            <div class=" col-md-12">
+                <input type="button" name="checkAll" value="Check ALL" id="ca" class="btn btn-default col-md-6" />
+                <input type="button" name="uncheckAll" value="Uncheck ALL" id="ua" class="btn btn-default col-md-6" />
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-12">
+                <br />
+                <input type="submit" value="Update" class="btn btn-primary col-sm-12" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

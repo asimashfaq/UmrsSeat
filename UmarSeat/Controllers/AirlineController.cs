@@ -14,12 +14,14 @@ using UmarSeat.Helpers;
 namespace UmarSeat.Controllers
 {
     [Authorize]
+    [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
     public class AirlineController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: /Airline/
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
         public async Task<ActionResult> Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -56,6 +58,7 @@ namespace UmarSeat.Controllers
         }
         [HttpGet]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
         public async Task<ActionResult> getairlines(string length, string pageNum)
         {
             var pageSize = int.Parse(length);
@@ -89,6 +92,7 @@ namespace UmarSeat.Controllers
         }
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
         public ActionResult advanceSearch(airLine airline)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -107,6 +111,7 @@ namespace UmarSeat.Controllers
             return PartialView("_airlinelist", ss);
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
         private List<airLine> filterdata(airLine airline, List<airLine> ss)
         {
 
@@ -125,6 +130,7 @@ namespace UmarSeat.Controllers
         }
 
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
         public async Task<ActionResult> Create()
         {
             airLine ar = new airLine();
@@ -148,6 +154,7 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
         public async Task<string> Create( airLine airline)
         {
            
@@ -221,6 +228,7 @@ namespace UmarSeat.Controllers
 
         // GET: /Airline/Edit/5
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -253,6 +261,7 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
         public async Task<string> Edit(airLine airline)
         {
            
@@ -327,6 +336,7 @@ namespace UmarSeat.Controllers
 
         // GET: /Airline/Delete/5
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -345,6 +355,7 @@ namespace UmarSeat.Controllers
         // POST: /Airline/Delete/5
         [HttpPost, ActionName("Delete")]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAirline)]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());

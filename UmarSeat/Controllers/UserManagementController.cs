@@ -97,26 +97,24 @@ namespace UmarSeat.Controllers
                 if (mur.roleName != null)
                 {
                     UserRoles userole = db.UserRole.Where(x => x.userRolesType == mur.roleName && x.id_Subscription == idSubcription).FirstOrDefault();
+                    List<string> newRoles = userole.userRolesName.Split(',').ToList();
                     ApplicationUser user = db.Users.Where(x => x.Id == mur.userId && x.AccountStatus == AccountStatus.Active && x.id_Subscription == idSubcription).SingleOrDefault();
 
                   //  var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
                     var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
                     if (user != null)
                     {
-
-
-
-
-
-
-
-
-
+                       
                         UserRoles oldRoles = db.UserRole.Where(x => x.userRolesType == user.userRole && x.id_Subscription == idSubcription).FirstOrDefault();
                         if(oldRoles != null)
                         {
-                            List<string> roles = oldRoles.userRolesName.Split(',').ToList();   
-                                    foreach (string role in roles)
+                            List<string> roles = oldRoles.userRolesName.Split(',').ToList();
+
+                            IEnumerable<string> oldRoles1 = roles.Except(newRoles);
+                            newRoles = newRoles.Except(oldRoles1).ToList();
+
+
+                            foreach (string role in oldRoles1)
                                     {
                                         um.RemoveFromRole(user.Id, role);
                                     }
@@ -125,36 +123,28 @@ namespace UmarSeat.Controllers
                                     db.SaveChanges();
                                 
                         }
-
-                       
-
-
-
-
-
-
-
-
-
-                        user.userRole = mur.roleName;
-                        user.id_Subscription = idSubcription;
-                        db.Entry(user).State = EntityState.Modified;
-                        db.SaveChanges();
-
-                        person p = db.Persons.Where(x => x.userId == mur.userId).SingleOrDefault();
-                        if(p!= null)
-                        {
-                            p.branchName = mur.branchName;
-                            db.Entry(p).State = EntityState.Modified;
-                            db.SaveChanges();
-                        }
-                    //    List<string> roleslist = new List<string>();
-                        foreach (string role in userole.userRolesName.Split(',').ToList())
+                        foreach (string role in newRoles)
                         {
                             if (!um.IsInRole(user.Id, role))
                             {
                                 um.AddToRole(user.Id, role);
                             }
+                        }
+
+                        user.userRole = mur.roleName;
+                        user.id_Subscription = idSubcription;
+                        user.requiredLogout = true;
+
+                        db.Entry(user).State = EntityState.Modified;
+                        db.SaveChanges();
+
+
+                        person p = db.Persons.Where(x => x.userId == mur.userId).SingleOrDefault();
+                        if (p != null)
+                        {
+                            p.branchName = mur.branchName;
+                            db.Entry(p).State = EntityState.Modified;
+                            db.SaveChanges();
                         }
                         rr.isSuccess = true;
                         rr.Message = "Successfully assigned Permissions!";

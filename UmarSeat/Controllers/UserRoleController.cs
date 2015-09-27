@@ -194,15 +194,76 @@ namespace UmarSeat.Controllers
         [CheckSessionOut]
         public async Task<ActionResult> Edit([Bind(Include="id_UserRroles,userRolesType,userRolesName")] UserRoles userroles)
         {
-             userroles = await db.UserRole.FindAsync(userroles.id_UserRroles);
-            if (userroles.id_Subscription == 0)
+             var usr = await db.UserRole.FindAsync(userroles.id_UserRroles);
+            if (usr.id_Subscription == 0)
             {
                 return HttpNotFound();
             }
+
+
+           
             if (ModelState.IsValid)
             {
-                db.Entry(userroles).State = EntityState.Modified;
+                var rp = Request.Form["rp"];
+                string sroles = "";
+                foreach (string s in rp.Split(',').Where(x => x != "false"))
+                {
+                    if (s != "false")
+                    {
+
+                        sroles = sroles + s + ",";
+
+                    }
+
+                }
+                userroles.userRolesName = sroles.TrimEnd(',');
+            
+                int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+                List<string> roles = usr.userRolesName.Split(',').ToList();
+                List<string> newroles = userroles.userRolesName.Split(',').ToList();
+                IEnumerable<string> oldRoles = roles.Except(newroles);
+                IEnumerable<string> newRoles = newroles.Except(roles);
+
+
+                List<ApplicationUser> users = db.Users.Where(x => x.userRole == userroles.userRolesType && x.id_Subscription == idSubcription).ToList();
+
+                if (users.Count > 0)
+                {
+                    foreach (ApplicationUser user in users)
+                    {
+                        //  var rm = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+                        var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+
+                        foreach (string role in oldRoles)
+                        {
+                            um.RemoveFromRole(user.Id, role);
+
+                        }
+                        foreach (string role in newRoles)
+                        {
+                            um.AddToRole(user.Id, role);
+                           
+
+                        }
+
+                        user.userRole = userroles.userRolesType;
+                        user.requiredLogout = true;
+
+                        db.Entry(user).State = EntityState.Modified;
+                        db.SaveChanges();
+                        
+                    }
+                }
+
+                usr.userRolesName = userroles.userRolesName;
+                usr.userRolesType = userroles.userRolesType;
+                
+
+                db.Entry(usr).State = EntityState.Modified;
                 await db.SaveChangesAsync();
+               
+                
                 return RedirectToAction("Index");
             }
             return View(userroles);

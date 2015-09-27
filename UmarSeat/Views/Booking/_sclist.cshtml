@@ -95,12 +95,20 @@
                        @String.Format("{0:dd/MM/yyyy}", item.timeLimit)
                     </td>
                     <td class="action">
-                        <a key="@Html.Raw(item.pnrNumber)" href="/booking/edit/@Html.Raw(item.id_SeatConfirmation)" class=" editbtn btn btn-complete">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                        <a id="showLink" href="/booking/delete/@Html.Raw(item.id_SeatConfirmation)" class="btn btn-danger" data-toggle="modal" data-target="#modalSlideUp">
-                            <i class="fa fa-remove"></i>
-                        </a>
+                        @if (ViewBag.allowedit == true)
+                        {
+
+                            <a key="@Html.Raw(item.pnrNumber)" href="/booking/edit/@Html.Raw(item.id_SeatConfirmation)" class=" editbtn btn btn-complete">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        }
+                        @if (ViewBag.allowdelete == true)
+                        {
+                            <a id="showLink" href="/booking/delete/@Html.Raw(item.id_SeatConfirmation)" class="btn btn-danger" data-toggle="modal" data-target="#modalSlideUp">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                        }
+                        
                         <p style="display:none" class="btn btn-danger">Locked</p>
 
 

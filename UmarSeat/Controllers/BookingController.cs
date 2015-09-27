@@ -22,10 +22,12 @@ using System.Data.Entity.Infrastructure;
 namespace UmarSeat.Controllers
 {
     [Authorize]
+
     public class BookingController : ControllerWithHub<BookingHub>
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ReadBooking)]
         // GET: /Booking/
         public async Task<ActionResult> Index(string pnr = "", string airline = "", string category = "", string recevingBranch = "", string stockId = "", string creationRange = "", string outboundRange = "", string timeLimitRange = "")
         {
@@ -112,10 +114,14 @@ namespace UmarSeat.Controllers
                 }
                 ViewBag.end = end;
             }
+
+            ViewBag.allowedit = User.IsInRole(Role.UpdateBooking);
+            ViewBag.allowdelete = User.IsInRole(Role.DeleteBooking);
             
             return View(list);
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ReadGroupSplit)]
         public async Task<ActionResult> groupsplitlist(string pnr = "", string newpnrnumber = "", string category = "", string recevingBranch = "", string stockId = "", string creationRange = "", string outboundRange = "", string timeLimitRange = "")
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -200,13 +206,15 @@ namespace UmarSeat.Controllers
                 ViewBag.current = 1;
                 ViewBag.length = 5;
             }
-
+            ViewBag.allowedit = User.IsInRole(Role.UpdateGroupSplit);
+            ViewBag.allowdelete = User.IsInRole(Role.DeleteGroupSplit);
             return View(list);
         }
 
         
         [HttpGet]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ReadBooking)]
         public async Task<ActionResult> GetSeats(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -242,10 +250,13 @@ namespace UmarSeat.Controllers
             ViewBag.next = numPage +1;
             ViewBag.length = length;
             ViewBag.current = numPage;
+            ViewBag.allowedit = User.IsInRole(Role.UpdateBooking);
+            ViewBag.allowdelete = User.IsInRole(Role.DeleteBooking);
             return PartialView("_sclist", model);
         }
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ReadBooking)]
         public ActionResult advanceSearch(SearchSeatModel ssm)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -270,7 +281,8 @@ namespace UmarSeat.Controllers
             ViewBag.next = 1;
             ViewBag.length = count;
             ViewBag.current = 1;
-
+            ViewBag.allowedit = User.IsInRole(Role.UpdateBooking);
+            ViewBag.allowdelete = User.IsInRole(Role.DeleteBooking);
             return PartialView("_sclist", ss);
         }
 
@@ -332,6 +344,7 @@ namespace UmarSeat.Controllers
 
         [HttpGet]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ReadGroupSplit)]
         public async Task<ActionResult> nGetSeats(string length, string pageNum)
         {
             var pageSize = int.Parse(length);
@@ -366,10 +379,13 @@ namespace UmarSeat.Controllers
             ViewBag.next = numPage + 1;
             ViewBag.length = length;
             ViewBag.current = numPage;
+            ViewBag.allowedit = User.IsInRole(Role.UpdateGroupSplit);
+            ViewBag.allowdelete = User.IsInRole(Role.DeleteGroupSplit);
             return PartialView("_nsclist", model);
         }
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ReadGroupSplit)]
         public ActionResult nadvanceSearch(SearchSeatModel ssm)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -439,11 +455,13 @@ namespace UmarSeat.Controllers
             ViewBag.next = 1;
             ViewBag.length = count;
             ViewBag.current = 1;
-
+            ViewBag.allowedit = User.IsInRole(Role.UpdateGroupSplit);
+            ViewBag.allowdelete = User.IsInRole(Role.DeleteGroupSplit);
             return PartialView("_nsclist", ss);
         }
         // GET: /Booking/Details/5
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ReadBooking,Role.ReadGroupSplit)]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -458,6 +476,7 @@ namespace UmarSeat.Controllers
             return View(seatconfirmation);
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ReadBooking, Role.ReadGroupSplit)]
         public async Task<ActionResult> scjson(int stockConfirmationId)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -473,6 +492,7 @@ namespace UmarSeat.Controllers
             return Json(seatconfirmation,JsonRequestBehavior.AllowGet);
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.CreatBooking)]
         // GET: /Booking/Create
         public ActionResult Entry()
         {
@@ -548,6 +568,7 @@ namespace UmarSeat.Controllers
             return View(sc);
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.CreateGroupSplit)]
         public async Task<ActionResult> GroupSplit()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -854,6 +875,7 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.CreatBooking)]
         public async Task<string> Entry(SeatConfirmation seatconfirmation)
         {
 
@@ -955,6 +977,7 @@ namespace UmarSeat.Controllers
 
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.CreateGroupSplit)]
         public async Task<string> GroupSplit( SeatConfirmation seatconfirmation)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -1134,6 +1157,7 @@ namespace UmarSeat.Controllers
 
         // GET: /Booking/Edit/5
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.UpdateBooking)]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -1226,6 +1250,7 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.UpdateBooking)]
         public async Task<string> Edit(SeatConfirmation seatconfirmation)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -1313,6 +1338,7 @@ namespace UmarSeat.Controllers
         }
 
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.UpdateGroupSplit)]
         public async Task<ActionResult> groupsplitedit(int? id)
         {
             if (id == null)
@@ -1418,6 +1444,7 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.UpdateGroupSplit)]
         public async Task<string> groupsplitedit(SeatConfirmation seatconfirmation)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -1512,6 +1539,7 @@ namespace UmarSeat.Controllers
 
         // GET: /Booking/Delete/5
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.DeleteBooking)]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -1528,6 +1556,7 @@ namespace UmarSeat.Controllers
         }
 
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.DeleteGroupSplit)]
         public async Task<ActionResult> groupsplitdelete(int? id)
         {
             if (id == null)
@@ -1545,6 +1574,7 @@ namespace UmarSeat.Controllers
 
         [HttpPost, ActionName("Delete")]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.DeleteGroupSplit,Role.DeleteBooking)]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());

@@ -16,6 +16,8 @@ namespace UmarSeat.Models
 
         public string userRole { get; set; }
 
+        public bool? requiredLogout { get; set; }
+
         public virtual ICollection<Subscription> Subscription { get; set; }
         public virtual ICollection<person> PersonInfo { get; set; }
     }

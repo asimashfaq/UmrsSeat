@@ -14,12 +14,14 @@ using UmarSeat.Helpers;
 namespace UmarSeat.Controllers
 {
     [Authorize]
+    [AuthorizeRoles(Role.Administrator, Role.ManageAgents)]
     public class AgentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: /Agents/
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAgents)]
         public async Task<ActionResult> Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -58,6 +60,7 @@ namespace UmarSeat.Controllers
 
         [HttpGet]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAgents)]
         public async Task<ActionResult> GetAgents(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -91,6 +94,7 @@ namespace UmarSeat.Controllers
         }
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAgents)]
         public ActionResult advanceSearch(Agents agent)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -130,9 +134,9 @@ namespace UmarSeat.Controllers
         }
 
 
-      
 
-        // GET: /Agents/Create
+
+        [AuthorizeRoles(Role.Administrator, Role.ManageAgents)]
         public ActionResult Create()
         {
             ViewBag.id_Person = new SelectList(db.Persons, "id_Person", "userId");
@@ -145,7 +149,7 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [CheckSessionOut]
-
+        [AuthorizeRoles(Role.Administrator, Role.ManageAgents)]
         public async Task<string> Create( Agents agents)
         {
            
@@ -218,6 +222,7 @@ namespace UmarSeat.Controllers
             return JsonConvert.SerializeObject(errors); ;
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAgents)]
         // GET: /Agents/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -240,6 +245,7 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAgents)]
         public async Task<string> Edit(Agents agents)
         {
                       ResponseRequest rr = new ResponseRequest();
@@ -311,6 +317,7 @@ namespace UmarSeat.Controllers
 
         // GET: /Agents/Delete/5
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAgents)]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -329,6 +336,7 @@ namespace UmarSeat.Controllers
         // POST: /Agents/Delete/5
         [HttpPost, ActionName("Delete")]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.ManageAgents)]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());

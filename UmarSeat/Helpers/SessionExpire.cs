@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using UmarSeat.Models;
 
 namespace UmarSeat.Helpers
 {
@@ -38,6 +39,8 @@ namespace UmarSeat.Helpers
             var context = filterContext.HttpContext;
             if (context.Session != null)
             {
+
+
                 if (context.Session.IsNewSession)
                 {
                     string sessionCookie = context.Request.Headers["Cookie"];
@@ -54,10 +57,48 @@ namespace UmarSeat.Helpers
                         filterContext.Result = new RedirectResult(redirectTo);
 
                     }
+                    else
+                    {
+                        CheckUser(filterContext, context);
+                    }
+
                 }
+                else
+                {
+                    CheckUser(filterContext, context);
+                }
+
+              
             }
 
+
             base.OnActionExecuting(filterContext);
+        }
+
+        private static void CheckUser(ActionExecutingContext filterContext, HttpContextBase context)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            string uid = (string)context.Session["userId"];
+            var user = db.Users.Where(x => x.Id == uid).FirstOrDefault();
+            if (user != null)
+            {
+                if (user.requiredLogout == true)
+                {
+                    user.requiredLogout = false;
+                    db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChangesAsync();
+                    db.Dispose();
+                    FormsAuthentication.SignOut();
+                    string redirectTo = "~/Account/Login";
+                    if (!string.IsNullOrEmpty(context.Request.RawUrl))
+                    {
+                        redirectTo = string.Format("~/Account/Login?ReturnUrl={0}",
+                            HttpUtility.UrlEncode(context.Request.RawUrl));
+                    }
+                    filterContext.Result = new RedirectResult(redirectTo);
+                }
+
+            }
         }
     }
 }

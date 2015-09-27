@@ -57,276 +57,54 @@
         <!-- BEGIN SIDEBAR MENU -->
         <div class="sidebar-menu">
             <ul class="menu-items">
-                <li class="m-t-30">
-                    <a href="/" class="detailed">
-                        <span class="title">Home</span>
-                       
-                    </a>
-                    <span class="icon-thumbnail ">
-                        HO
-                    </span>
-                </li>
-               
-                <li class="">
-                    <a href="javascript:;">
-                        <span class="title">Reports</span>
-                        <span class=" arrow"></span>
-                    </a>
-                    <span class="icon-thumbnail">
-                        RE
-                    </span>
-                    <ul class="sub-menu">
-                        <li class="">
-                            <a href="/pnr"> PNR</a>
-                            <span class="icon-thumbnail">pnr</span>
-                        </li>
-                        <li class="">
-                            <a href="/pnr/log"> PNR log</a>
-                            <span class="icon-thumbnail">pl</span>
-                        </li>
-                        <li class="">
-                            <a href="/pnr/tree"> PNR Tree View</a>
-                            <span class="icon-thumbnail">pt</span>
-                        </li>
-                        <li class="">
-                            <a href="/reports/stockid"> Stock ID</a>
-                            <span class="icon-thumbnail">si</span>
-                        </li>
-                        <li class="">
-                            <a href="/reports/outbounddate"> OutBound Date</a>
-                            <span class="icon-thumbnail">od</span>
-                        </li>
-                        <li class="">
-                            <a href="/reports/outboundsector"> Out Bound Sector</a>
-                            <span class="icon-thumbnail">os</span>
-                        </li>
-                        <li class="">
-                            <a href="/reports/category"> Group Category</a>
-                            <span class="icon-thumbnail">gc</span>
-                        </li>
-                        <li class="">
-                            <a href="/reports/recevingbranch"> Receving Branch</a>
-                            <span class="icon-thumbnail">rb</span>
-                        </li>
-                        <li class="">
-                            <a href="/reports/duetimelimit"> Due Date Limit</a>
-                            <span class="icon-thumbnail">ddl</span>
-                        </li>
+                <li><a></a></li>
+                @{
+                    List<UmarSeat.Models.menulinks> menulinks = (List<UmarSeat.Models.menulinks>)Session["menulinks"];
+                    foreach (var menu in menulinks.Where(x => x.parentId == 0).ToList())
+                    {
+                        <li >
+                            @{
+                                var submenu = menulinks.Where(x => x.parentId == menu.linkId).ToList();
+                                if (submenu.Count > 0)
+                                {
+                                    <a href="@Html.Raw(menu.url)">
+                                        <span class="title">@Html.Raw(menu.dtext)</span>
+                                        <span class=" arrow"></span>
+                                    </a>
+                                    <span class="icon-thumbnail">
+                                       @Html.Raw(menu.thumbtext)
+                                    </span>
+                                    <ul class="sub-menu">
+                                        @{
+                                            foreach (var smenu in submenu)
+                                            {
+                                                <li class="">
+                                                    <a href="@Html.Raw(smenu.url)"> @Html.Raw(smenu.dtext)</a>
+                                                    <span class="icon-thumbnail">"@Html.Raw(smenu.thumbtext)</span>
+                                                </li>
+                                            }
+                                        }
+                                        
+                                       
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <a href="@Html.Raw(menu.url)" class="detailed">
+                                        <span class="title">@Html.Raw(menu.dtext)</span>
 
-
-                    </ul>
-                </li>
-
-
-                <li class="">
-                    <a href="javascript:;">
-                        <span class="title">Booking</span>
-                        <span class=" arrow"></span>
-                    </a>
-                    <span class="icon-thumbnail">
-                       BO
-                    </span>
-                    <ul class="sub-menu">
-                        <li class="">
-                            <a href="/booking/entry"> Entry</a>
-                            <span class="icon-thumbnail">en</span>
+                                    </a>
+                                    <span class="icon-thumbnail ">
+                                        @Html.Raw(menu.thumbtext)
+                                    </span>
+                                }
+                            }
+                           
                         </li>
-                        <li class="">
-                            <a href="/booking/index"> Deletion</a>
-                            <span class="icon-thumbnail">de</span>
-                        </li>
-                        <li class="">
-                            <a href="/booking/index"> List</a>
-                            <span class="icon-thumbnail">li</span>
-                        </li>
-                        
-                       
-                    </ul>
-                </li>
-
-             
-
-                <li class="">
-                    <a href="javascript:;">
-                        <span class="title">Group Split</span>
-                        <span class=" arrow"></span>
-                    </a>
-                    <span class="icon-thumbnail">
-                        GS
-                    </span>
-                    <ul class="sub-menu">
-                        <li class="">
-                            <a href="/booking/groupsplit">Addition</a>
-                            <span class="icon-thumbnail">ad</span>
-                        </li>
-                        <li class="">
-                            <a href="/booking/groupsplitlist">Deletion</a>
-                            <span class="icon-thumbnail">de</span>
-                        </li>
-                        <li class="">
-                            <a href="/booking/groupsplitlist">List</a>
-                            <span class="icon-thumbnail">li</span>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="">
-                    <a href="javascript:;">
-                        <span class="title">Stock Selling</span>
-                        <span class=" arrow"></span>
-                    </a>
-                    <span class="icon-thumbnail">
-                        SS
-                    </span>
-                    <ul class="sub-menu">
-                        <li class="">
-                            <a href="/stock/sellingcreate">Addition</a>
-                            <span class="icon-thumbnail">ad</span>
-                        </li>
-                        <li class="">
-                            <a href="/stock/selling">Deletion</a>
-                            <span class="icon-thumbnail">de</span>
-                        </li>
-                        <li class="">
-                            <a href="/stock/selling">List</a>
-                            <span class="icon-thumbnail">li</span>
-                        </li>
-                    </ul>
-                </li>
-                <li class="">
-                    <a href="javascript:;">
-                        <span class="title">Stock Transfer</span>
-                        <span class=" arrow"></span>
-                    </a>
-                    <span class="icon-thumbnail">
-                        ST
-                    </span>
-                    <ul class="sub-menu">
-                        <li class="">
-                            <a href="/stock/transfercreate">Addition</a>
-                            <span class="icon-thumbnail">ad</span>
-                        </li>
-                        <li class="">
-                            <a href="/stock/transferlist">Deletion</a>
-                            <span class="icon-thumbnail">de</span>
-                        </li>
-                        <li class="">
-                            <a href="/stock/transferlist">List</a>
-                            <span class="icon-thumbnail">li</span>
-                        </li>
-                    </ul>
-                </li>
-                <li class="">
-                    <a href="/stock/receive">
-                        <span class="title">Stock Receive</span>
-
-                    </a>
-                    <span class="icon-thumbnail">
-                        SR
-                    </span>
-
-                </li>
-                <li class="">
-                    <a href="/stockId/index">
-                        <span class="title">Stock Id</span>
-
-                    </a>
-                    <span class="icon-thumbnail">
-                        SI
-                    </span>
-
-                </li>
-                <li class="">
-                    <a href="/agents/index">
-                        <span class="title">Agents</span>
-                   
-                    </a>
-                    <span class="icon-thumbnail">
-                        AG
-                    </span>
-                    
-                </li>
-
-
-                <li class="">
-                    <a href="/airline/index">
-                        <span class="title">Airline</span>
-                   
-                    </a>
-                    <span class="icon-thumbnail">
-                        AR
-                    </span>
-                    
-                </li>
-
-                <li class="">
-                    <a href="/branches/index">
-                        <span class="title">Branches</span>
-                       
-                    </a>
-                    <span class="icon-thumbnail">
-                        BR
-                    </span>
-                   
-                </li>
-
-                <li class="">
-                    <a href="/category/index">
-                        <span class="title">Category</span>
-                      
-                    </a>
-                    <span class="icon-thumbnail">
-                        CA
-                    </span>
-                    
-                </li>
-                <li class="">
-                    <a href="/sector/index">
-                        <span class="title">Sector</span>
-                      
-                    </a>
-                    <span class="icon-thumbnail">
-                        SE
-                    </span>
-                 
-                </li>
+                    }
+                }
                 
-                <li class="">
-                    <a href="/usermanagement/index" >
-                        <span class="title">User Management</span>
-                      
-                    </a>
-                    <span class="icon-thumbnail">
-                        UR
-                    </span>
-                    
-                </li>
-                <li class="">
-                    <a href="javascript:;">
-                        <span class="title">User Roles</span>
-                        <span class=" arrow"></span>
-                    </a>
-                    <span class="icon-thumbnail">
-                        UR
-                    </span>
-                    <ul class="sub-menu">
-                        <li class="">
-                            <a href="/userrole/create"> Add</a>
-                            <span class="icon-thumbnail">ad</span>
-                        </li>
-                        <li class="">
-                            <a href="/userrole/index"> Delete</a>
-                            <span class="icon-thumbnail">de</span>
-                        </li>
-                        <li class="">
-                            <a href="/userrole/index"> List</a>
-                            <span class="icon-thumbnail">li</span>
-                        </li>
-                    </ul>
-                </li>
                
-
-
 
             </ul>
             <div class="clearfix"></div>

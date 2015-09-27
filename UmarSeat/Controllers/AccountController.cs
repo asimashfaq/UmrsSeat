@@ -49,10 +49,30 @@ namespace UmarSeat.Controllers
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
                 if (user != null)
                 {
-                    
+                   
+
                     await SignInAsync(user, model.RememberMe);
                     Session["idSubscription"] = user.id_Subscription;
                     Session["branchName"] = user.PersonInfo.First().branchName;
+                    Session["userId"] = user.Id;
+                    if (user.requiredLogout == true)
+                    {
+                        ApplicationDbContext db = new ApplicationDbContext();
+                        var u = db.Users.Where(x => x.Id == user.Id && x.requiredLogout == true).SingleOrDefault();
+                        if(u != null)
+                        {
+                            u.requiredLogout = false;
+                            db.Entry(u).State = System.Data.Entity.EntityState.Modified;
+                            await db.SaveChangesAsync();
+                        }
+                       
+                        db.Dispose();
+                    }
+                    if (Session["menulinks"] == null)
+                    {
+                        menuList ml = new menuList();
+                        Session["menulinks"] = ml.getLinks(user.Roles.ToList());
+                    }
                     
                     return RedirectToLocal(returnUrl);
                 }
@@ -383,7 +403,10 @@ namespace UmarSeat.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
+            Session["idSubscription"] = null;
+            Session["branchName"] = null;
+            Session["menulinks"] = null;
+                AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
