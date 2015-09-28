@@ -253,10 +253,10 @@ namespace UmarSeat.Helpers
                 }
                 if (seatconfirmations == null)
                 {
-                   StockTransfer skt = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == branch).FirstOrDefault();
+                   StockTransfer skt = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == branch  && x.id_Subscription == idSuscription).FirstOrDefault();
                    if (skt != null)
                     {
-                       seatconfirmations = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                       seatconfirmations = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch && x.id_Subscription == idSuscription).FirstOrDefault();
                        
                          days = (seatconfirmations.timeLimit - DateTime.Now).Days;
 
@@ -339,7 +339,7 @@ namespace UmarSeat.Helpers
 
                 using (TransactionScope scope = new TransactionScope())
                 {
-                    var plf = db.pnrLogs.Where(y => y.pnrNumber == pl.pnrNumber && y.branchName == pl.branchName).FirstOrDefault();
+                    var plf = db.pnrLogs.Where(y => y.pnrNumber == pl.pnrNumber && y.branchName == pl.branchName && y.idSubscription == idSuscription).FirstOrDefault();
                     if (plf == null)
                     {
                         db.pnrLogs.Add(pl);
@@ -355,6 +355,7 @@ namespace UmarSeat.Helpers
                         plf.receiveSeats = pl.receiveSeats;
                         plf.branchName = pl.branchName;
                         plf.pnrStatus = pl.pnrStatus;
+                        plf.idSubscription = pl.idSubscription;
                         db.Entry(plf).OriginalValues["RowVersion"] = plf.RowVersion;
 
 
@@ -405,7 +406,7 @@ namespace UmarSeat.Helpers
 
                 if (pl.pnrStatus == "Sold")
                 {
-                    SeatConfirmation sc = db.SeatConfirmation.Where(scc => (scc.pnrNumber == pl.pnrNumber && scc.recevingBranch == pl.branchName)).FirstOrDefault();
+                    SeatConfirmation sc = db.SeatConfirmation.Where(scc => (scc.pnrNumber == pl.pnrNumber && scc.recevingBranch == pl.branchName) && scc.id_Subscription == idSuscription).FirstOrDefault();
                     if (sc != null)
                     {
                         sc.pnrStatus = "Sold";
@@ -431,10 +432,10 @@ namespace UmarSeat.Helpers
                 {
                     try
                     {
-                        SeatConfirmation sc = db.SeatConfirmation.Where(scc => (scc.pnrNumber == pl.pnrNumber && scc.recevingBranch == pl.branchName && scc.newPnrNumber == null)).FirstOrDefault();
+                        SeatConfirmation sc = db.SeatConfirmation.Where(scc => (scc.pnrNumber == pl.pnrNumber && scc.recevingBranch == pl.branchName && scc.newPnrNumber == null) && scc.id_Subscription == idSuscription).FirstOrDefault();
                         if(sc == null)
                         {
-                            sc = db.SeatConfirmation.Where(scc => (scc.newPnrNumber == pl.pnrNumber && scc.recevingBranch == pl.branchName )).FirstOrDefault();
+                            sc = db.SeatConfirmation.Where(scc => (scc.newPnrNumber == pl.pnrNumber && scc.recevingBranch == pl.branchName ) && scc.id_Subscription == idSuscription).FirstOrDefault();
                         }
                         if (sc != null)
                         {

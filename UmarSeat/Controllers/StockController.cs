@@ -853,8 +853,8 @@ namespace UmarSeat.Controllers
                         string[] splitPnr = stocktransfer.pnrNumber.Split(',');
                         stocktransfer.pnrNumber = splitPnr[0];
                     }
-
-                    pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.sellingBranch).SingleOrDefault();
+                    int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+                    pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.sellingBranch && x.idSubscription == idSubcription).SingleOrDefault();
                     if(pl1 == null)
                     {
                         pl1 = new pnrLog();
@@ -864,7 +864,7 @@ namespace UmarSeat.Controllers
                     {
                         if (errors.Count == 0)
                         {
-                            int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+                            
 
                             stocktransfer.createAt = DateTime.Now;
                             stocktransfer.UpdateAt = DateTime.Now;
@@ -971,13 +971,13 @@ namespace UmarSeat.Controllers
                         string[] splitPnr = stocktransfer.pnrNumber.Split(',');
                         stocktransfer.pnrNumber = splitPnr[0];
                     }
-
-                    pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.transferingBranch).SingleOrDefault();
+                    int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+                    pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.transferingBranch && x.idSubscription == idSubcription).SingleOrDefault();
                     if(pl1.avaliableSeats >= stocktransfer.noOfSeats)
                     {
                         if (errors.Count == 0)
                         {
-                            int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+                          
 
                             stocktransfer.createAt = DateTime.Now;
                             stocktransfer.id_Subscription = idSubcription;
@@ -988,7 +988,7 @@ namespace UmarSeat.Controllers
                                 db.StockTransfer.Add(stocktransfer);
                                 db.SaveChanges();
 
-                                pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.recevingBranch).SingleOrDefault();
+                                pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == stocktransfer.pnrNumber && x.branchName == stocktransfer.recevingBranch && x.idSubscription== idSubcription).SingleOrDefault();
                                 if (pl != null)
                                 {
                                    

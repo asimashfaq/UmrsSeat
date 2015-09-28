@@ -856,8 +856,8 @@ namespace UmarSeat.Controllers
         private Dictionary<string, object> getPnrStats(string pnr, string br)
         {
             Dictionary<string, object> pnrdata = new Dictionary<string, object>();
-
-            pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == pnr && x.branchName == br).SingleOrDefault();
+            int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+            pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == pnr && x.branchName == br  && x.idSubscription == idSubcription).SingleOrDefault();
             if (pl != null)
             {
 
@@ -991,10 +991,7 @@ namespace UmarSeat.Controllers
 
                         errors.Add(new ResponseRequest() { isSuccess = false, Element = "outboundate", ErrorMessage = "Outbound date " + seatconfirmation.outBoundDate + " cannot be less than Inbound date " + seatconfirmation.inBoundDate });
                     }
-                    if (seatconfirmation.inBoundSector == seatconfirmation.outBoundSector)
-                    {
-                        errors.Add(new ResponseRequest() { isSuccess = false, Element = "inbounder", ErrorMessage = "Outbound Sector " + seatconfirmation.outBoundSector + " cannot be same as Inbound Sector " + seatconfirmation.inBoundSector });
-                    }
+                  
 
                     string br = Session["branchName"].ToString();
                     if (seatconfirmation.pnrNumber.Contains(','))
@@ -1003,8 +1000,8 @@ namespace UmarSeat.Controllers
                         seatconfirmation.pnrNumber = pnrbr[0];
                         seatconfirmation.recevingBranch = pnrbr[1];
                     }
-
-                    pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == seatconfirmation.pnrNumber && x.branchName == seatconfirmation.recevingBranch).SingleOrDefault();
+                    int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+                    pnrLog pl1 = db.pnrLogs.Where(x => x.pnrNumber == seatconfirmation.pnrNumber && x.branchName == seatconfirmation.recevingBranch && x.idSubscription == idSubcription).SingleOrDefault();
                     if (pl1.avaliableSeats >= seatconfirmation.noOfSeats)
                     {
                         if (errors.Count == 0)
@@ -1013,7 +1010,7 @@ namespace UmarSeat.Controllers
 
                             if (seatconfirmation.newPnrNumber != null)
                             {
-                                int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+                               
                                 seatconfirmation.newPnrNumber = seatconfirmation.newPnrNumber.ToUpper();
                                 seatconfirmation.pnrNumber = seatconfirmation.pnrNumber.ToUpper();
                                 seatconfirmation.CreatedAt = DateTime.Now;
@@ -1027,7 +1024,7 @@ namespace UmarSeat.Controllers
                                     db.SeatConfirmation.Add(seatconfirmation);
                                   //  await db.SaveChangesAsync();
 
-                                    pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == seatconfirmation.newPnrNumber && x.branchName == seatconfirmation.recevingBranch).SingleOrDefault();
+                                    pnrLog pl = db.pnrLogs.Where(x => x.pnrNumber == seatconfirmation.newPnrNumber && x.branchName == seatconfirmation.recevingBranch && idSubcription == x.idSubscription).SingleOrDefault();
                                     if (pl != null)
                                     {
 
@@ -1420,7 +1417,7 @@ namespace UmarSeat.Controllers
                         else
                         {
                             string sb = Session["branchName"].ToString();
-                            pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable" && x.branchName == sb).OrderBy(x => x.pnrLogId).ToList();
+                            pnrAvaliable = db1.pnrLogs.Where(x => x.idSubscription == idSubcription && x.pnrStatus == "Avaliable" && x.branchName == sb && x.idSubscription == idSubcription).OrderBy(x => x.pnrLogId).ToList();
 
                         }
                         pnrAvaliable.ForEach(pr =>
@@ -1458,10 +1455,7 @@ namespace UmarSeat.Controllers
 
                         errors.Add(new ResponseRequest() { isSuccess = false, Element = "outboundate", ErrorMessage = "Outbound date " + seatconfirmation.outBoundDate + " cannot be less than Inbound date " + seatconfirmation.inBoundDate });
                     }
-                    if (seatconfirmation.inBoundSector == seatconfirmation.outBoundSector)
-                    {
-                        errors.Add(new ResponseRequest() { isSuccess = false, Element = "inbounder", ErrorMessage = "Outbound Sector " + seatconfirmation.outBoundSector + " cannot be same as Inbound Sector " + seatconfirmation.inBoundSector });
-                    }
+                  
 
 
                     string br = Session["branchName"].ToString();
