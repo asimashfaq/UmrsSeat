@@ -1667,7 +1667,15 @@ namespace UmarSeat.Controllers
             var connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=Excel 12.0;", Server.MapPath(fileName));
 
             //Fill the DataSet by the Sheets.
-            var adapter = new OleDbDataAdapter("SELECT * FROM [Sheet1$]", connectionString);
+            string Sheet1 = "";
+            using (OleDbConnection conn = new OleDbConnection(connectionString))
+            {
+                conn.Open();
+               var dtSchema = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
+                Sheet1 = dtSchema.Rows[0].Field<string>("TABLE_NAME");
+               
+            }
+            var adapter = new OleDbDataAdapter("SELECT * FROM ["+ Sheet1 + "$]", connectionString);
             var ds = new DataSet();
             List<string> colums = new List<string>();
             DataTable loadDT = new DataTable();

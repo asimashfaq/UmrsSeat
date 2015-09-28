@@ -1,4 +1,4 @@
-﻿using Microsoft.Office.Interop.Excel;
+﻿
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -47,15 +47,31 @@ namespace UmarSeat.Controllers
             Session["status"] = statusdata;
             //string vpath = string.Format("~/imports/{0}/bookingimport/{1}", Subscription, fileName1);
           
-            Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-            Worksheet wSheet = new Worksheet();
+           
             try
             {
                 var connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=Excel 12.0;", path);
 
-                Workbook excelBook = xlApp.Workbooks.Open(path, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                wSheet = excelBook.Sheets.Item[1];
+                
 
+                string Sheet1 = "";
+                using (OleDbConnection conn = new OleDbConnection(connectionString))
+                {
+                    conn.Open();
+                    var dtSchema = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
+                    Sheet1 = dtSchema.Rows[0].Field<string>("TABLE_NAME");
+                    conn.Close();
+                }
+                var adapter = new OleDbDataAdapter("SELECT * FROM [" + Sheet1 + "]", connectionString);
+                var ds = new DataSet();
+                List<string> colums = new List<string>();
+                DataTable loadDT = new DataTable();
+
+                List<SeatConfirmation> seatconfirmationList = new List<SeatConfirmation>();
+
+                adapter.Fill(ds, "SeatConfirmation");
+                DataTable data = ds.Tables["SeatConfirmation"];
+               
                 statusdata = ("Opening the file");
                 Session["status"] = statusdata;
 
@@ -67,14 +83,13 @@ namespace UmarSeat.Controllers
 
                     using (TransactionScope ts = new TransactionScope())
                     {
-                        Range UsedRange = wSheet.UsedRange;
-                        int lastUsedRow = UsedRange.Row + UsedRange.Rows.Count - 1;
+                        
                         statusdata = ("Validating  the File"); Session["status"] = statusdata;
-                        for (int i = 1; i <= lastUsedRow; i++)
+                        for (int i = 0; i < data.Rows.Count; i++)
                         {
                             try
                             {
-                                string p = wSheet.Cells[i, 3].Text.ToString();
+                                string p = data.Rows[i][0].ToString();
                                 if (p != "" && erros.Count == 0 && !p.ToLower().Contains("pnr"))
                                 {
                                     ApplicationDbContext db = new ApplicationDbContext();
@@ -84,19 +99,16 @@ namespace UmarSeat.Controllers
                                     try
                                     {
 
-                                        sc.pnrNumber = wSheet.Cells[i, 3].Value2.ToString();
+                                        sc.pnrNumber = data.Rows[i][2].ToString();
                                         statusdata = ("Validating  the PNR" + sc.pnrNumber); Session["status"] = statusdata;
-                                        sc.airLine = wSheet.Cells[i, 2].Value2.ToString();
-                                        string ob = wSheet.Cells[i, 6].Value2.ToString();
-                                        string ib = wSheet.Cells[i, 7].Value2.ToString();
-                                        sc.outBoundDate = DateTime.FromOADate(double.Parse(ob)); ;
-                                        sc.inBoundDate = DateTime.FromOADate(double.Parse(ib)); ;
-                                        sc.outBoundSector = wSheet.Cells[i, 5].Value2.ToString();
-                                        sc.inBoundSector = wSheet.Cells[i, 5].Value2.ToString();
-                                        sc.noOfSeats = int.Parse(wSheet.Cells[i, 8].Value2.ToString());
-                                        sc.cost = int.Parse(wSheet.Cells[i, 9].Value2.ToString());
-
-                                        sc.recevingBranch = wSheet.Cells[i, 4].Value2.ToString();
+                                        sc.airLine = data.Rows[i][1].ToString();
+                                        sc.outBoundDate = Convert.ToDateTime(data.Rows[i][5].ToString());
+                                        sc.inBoundDate = Convert.ToDateTime(data.Rows[i][6].ToString());
+                                        sc.outBoundSector = data.Rows[i][4].ToString();
+                                        sc.inBoundSector = data.Rows[i][4].ToString();
+                                        sc.noOfSeats = int.Parse(data.Rows[i][7].ToString());
+                                        sc.cost = int.Parse(data.Rows[i][8].ToString());
+                                        sc.recevingBranch = data.Rows[i][3].ToString();
                                         sc.avaliableSeats = 999;
                                         rowsadd++;
                                         Session["rowsadd"] = rowsadd;
@@ -189,7 +201,7 @@ namespace UmarSeat.Controllers
                                         }
                                         catch (Exception ex)
                                         {
-                                            excelBook.Close(false);
+                                           
                                             erros.Add(ex.ToString());
                                             ts.Dispose();
                                             invaliddata.Add("Some thing went wrong while adding 3rd party content");
@@ -214,13 +226,13 @@ namespace UmarSeat.Controllers
                             ts.Complete();
 
 
-                        excelBook.Close(false);
+                    
 
                     }
                 }
                 catch (Exception ex)
                 {
-                    excelBook.Close(false);
+                   
 
                     invaliddata.Add("Some thing went wrong2 " + ex.Message.ToString() + ex.StackTrace.ToString());
                     Session["invaliddata"] = invaliddata;

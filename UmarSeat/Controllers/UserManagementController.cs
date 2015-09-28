@@ -199,7 +199,7 @@ namespace UmarSeat.Controllers
               
                 string body = "Message from PSSP System" +
                "This email sent by the PSSP system<br />" +
-               "<a href='http://localhost:55462/invitation/Request?id='" + (string)Session["idSubscription"] + "''>Click here to create Account!</b>";
+               "<a href='http://asimashfaq-001-site12.smarterasp.net/invitation/Request?id='" + Session["idSubscription"].ToString() + "''>Click here to create Account!</b>";
                 SendMessage(email, "Invitation For creating Account", body);
                 rr.isSuccess = true;
                 rr.Message = "Invitation had been sent successfully!.";

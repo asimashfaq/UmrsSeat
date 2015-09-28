@@ -48,6 +48,12 @@ namespace UmarSeat.Helpers
                     if ((sessionCookie != null) && (sessionCookie.IndexOf("ASP.NET_SessionId") >= 0))
                     {
                         FormsAuthentication.SignOut();
+                        context.Session.Clear();
+                        HttpCookie c = context.Request.Cookies[FormsAuthentication.FormsCookieName];
+                        c.Expires = DateTime.Now.AddDays(-1);
+
+                        // Update the amended cookie!
+                        context.Response.Cookies.Set(c);
                         string redirectTo = "~/Account/Login";
                         if (!string.IsNullOrEmpty(context.Request.RawUrl))
                         {
@@ -89,6 +95,13 @@ namespace UmarSeat.Helpers
                     db.SaveChangesAsync();
                     db.Dispose();
                     FormsAuthentication.SignOut();
+                    HttpCookie c = context.Request.Cookies[FormsAuthentication.FormsCookieName];
+                    c.Expires = DateTime.Now.AddDays(-1);
+
+                    // Update the amended cookie!
+                    context.Response.Cookies.Set(c);
+                    
+                    context.Session.Clear();
                     string redirectTo = "~/Account/Login";
                     if (!string.IsNullOrEmpty(context.Request.RawUrl))
                     {

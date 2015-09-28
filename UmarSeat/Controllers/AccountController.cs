@@ -424,10 +424,9 @@ namespace UmarSeat.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            Session["idSubscription"] = null;
-            Session["branchName"] = null;
-            Session["menulinks"] = null;
-                AuthenticationManager.SignOut();
+            Session.Clear();
+            AuthenticationManager.SignOut();
+
             return RedirectToAction("Index", "Home");
         }
 

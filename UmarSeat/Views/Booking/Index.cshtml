@@ -127,7 +127,7 @@
                     <div class="pull-right">
                         
                         <div class="export-options-container pull-left" ></div>
-                        @if (User.IsInRole(UmarSeat.Helpers.Role.CreatBooking))
+                        @if (User.IsInRole(UmarSeat.Helpers.Role.CreatBooking)|| User.IsInRole(UmarSeat.Helpers.Role.Administrator))
                         {
                             <button id="addexcel" type="button" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Import Excel</button>
                         }
@@ -309,7 +309,7 @@
         var timer = setInterval(function () {
             if (popupWindow.closed) {
                 clearInterval(timer);
-                alert('closed');
+                window.location.reload(false);
             }
         }, 1000);
     });
