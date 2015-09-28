@@ -130,15 +130,25 @@
             <div class=" pull-right">
                 @Html.Partial("_LoginPartial")
             </div>
+            
+
+            
         </div>
         <!-- END HEADER -->
         <!-- END PAGE HEADER WRAPPER -->
         <!-- START PAGE CONTENT WRAPPER -->
         <div class="page-content-wrapper">
+            
             <!-- START PAGE CONTENT -->
             <div class="content">
                 <div class="container-fluid">
+                    <div class="text-right" style="z-index:9999">
 
+                        <span class="zoomIn" style="font-size:120%">A</span>
+                        <span class="zoomOff">A</span>
+                        <span class="zoomOut" style="font-size:80%">A</span>
+
+                    </div>
                     <!-- START JUMBOTRON -->
                     @RenderSection("Bread", required: false)
 
@@ -190,5 +200,36 @@
     <script src="~/Content/assets/js/scripts.js" type="text/javascript"></script>
     <!-- END PAGE LEVEL JS -->
     @RenderSection("scripts", required: false)
+    <script>
+               
+        $(document).ready(function () {
+            var currZoom = $("body").css("zoom");
+            if (currZoom == 'normal') currZoom = 1; // For IE
+
+            $(".zoomIn").click(function () {
+             
+                currZoom *= 1.2;
+                console.log(currZoom);
+                $("body").css("zoom", currZoom);
+                $("body").css("-moz-transform", "Scale(" + currZoom + ")");
+                $("body").css("-moz-transform-origin", "0 0");
+
+            });
+            $(".zoomOff").click(function () {
+                currZoom = 1;
+                $("body").css("zoom", 1);
+            $("body").css("-moz-transform", "Scale(" + currZoom + ")");
+$("body").css("-moz-transform-origin", "0 0");
+
+            });
+            $(".zoomOut").click(function () {
+                currZoom *= .8;
+                $("body").css("zoom", currZoom);
+              $("body").css("-moz-transform", "Scale(" + currZoom + ")");
+              $("body").css("-moz-transform-origin", "0 0");
+
+            });
+        });
+    </script>
 </body>
 </html>
