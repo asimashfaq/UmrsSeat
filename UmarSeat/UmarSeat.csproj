@@ -1703,6 +1703,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.inputmask\jquery.inputmask.bundle.js" />
     <Content Include="Scripts\jquery.inputmask\jquery.inputmask.date.extensions.js" />
     <Content Include="Scripts\jquery.inputmask\jquery.inputmask.extensions.js" />
     <Content Include="Scripts\jquery.inputmask\jquery.inputmask.js" />
@@ -1850,6 +1851,7 @@
     <Content Include="Views\pnr\Index.cshtml" />
     <Content Include="Views\pnr\tree.cshtml" />
     <Content Include="Views\Excel\ImportBooking.cshtml" />
+    <Content Include="Views\UserManagement\noRoleFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,7 +10,8 @@ using Newtonsoft.Json;
 
 namespace UmarSeat.Controllers
 {
-    [Authorize(Roles =("PNR Reports"))]
+    [Authorize]
+    [AuthorizeRoles(Role.Administrator, Role.PNRReports)]
     public class pnrController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

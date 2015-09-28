@@ -15,13 +15,15 @@ namespace UmarSeat.Controllers
 {
    
     [Authorize]
+    [AuthorizeRoles(Role.Administrator, Role.Managebranches)]
     public class BranchesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: /Branches/
-        [Authorize(Roles="ReadBranches")]
+        
         [CheckSessionOut]
+        
         public async Task<ActionResult> Index()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -58,7 +60,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Branches/Details/5
-        [Authorize(Roles = "ReadBranches")]
+        
         [HttpGet]
         [CheckSessionOut]
         public async Task<ActionResult> getbranches(string length, string pageNum)
@@ -92,7 +94,7 @@ namespace UmarSeat.Controllers
             ViewBag.current = numPage;
             return PartialView("_branchlist", list);
         }
-         [Authorize(Roles = "ReadBranches")]
+       
         [HttpPost]
         [CheckSessionOut]
         public ActionResult advanceSearch(branches branch)
@@ -131,7 +133,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Branches/Create
-        [Authorize(Roles = "CreateBranches")]
+     
         [CheckSessionOut]
         public async Task<ActionResult> Create()
         {
@@ -190,7 +192,7 @@ namespace UmarSeat.Controllers
         // POST: /Branches/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "CreateBranches")]
+       
         [HttpPost]
         [CheckSessionOut]
 
@@ -266,7 +268,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Branches/Edit/5
-        [Authorize(Roles = "UpdateBranches")]
+      
         [CheckSessionOut]
         public async Task<ActionResult> Edit(int? id)
         {
@@ -300,7 +302,7 @@ namespace UmarSeat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
       
-        [Authorize(Roles = "UpdateBranches")]
+       
         [CheckSessionOut]
         public async Task<string> Edit( branches branches)
         {
@@ -377,7 +379,7 @@ namespace UmarSeat.Controllers
         }
 
         // GET: /Branches/Delete/5
-        [Authorize(Roles = "DeleteBranches")]
+        
         [CheckSessionOut]
         public async Task<ActionResult> Delete(int? id)
         {
@@ -394,7 +396,7 @@ namespace UmarSeat.Controllers
         }
 
         // POST: /Branches/Delete/5
-        [Authorize(Roles = "DeleteBranches")]
+       
         [HttpPost, ActionName("Delete")]
         [CheckSessionOut]
 

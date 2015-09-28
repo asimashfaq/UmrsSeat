@@ -81,8 +81,10 @@ namespace UmarSeat.Controllers
             
 
             Task.WaitAll(tasks.ToArray());
-
-            return View(mur);
+            if (mur.listRoles.Count > 0)
+                return View(mur);
+            else
+                return View("noRoleFound");
         }
 
         [HttpPost]
@@ -94,7 +96,7 @@ namespace UmarSeat.Controllers
             ResponseRequest rr = new ResponseRequest();
             if (mur != null)
             {
-                if (mur.roleName != null)
+                if (mur.roleName != null && mur.roleName !="Super User")
                 {
                     UserRoles userole = db.UserRole.Where(x => x.userRolesType == mur.roleName && x.id_Subscription == idSubcription).FirstOrDefault();
                     List<string> newRoles = userole.userRolesName.Split(',').ToList();
@@ -143,6 +145,10 @@ namespace UmarSeat.Controllers
                         if (p != null)
                         {
                             p.branchName = mur.branchName;
+                            if(string.IsNullOrEmpty(p.branchName))
+                            {
+                                p.branchName = "";
+                            }
                             db.Entry(p).State = EntityState.Modified;
                             db.SaveChanges();
                         }
@@ -166,7 +172,7 @@ namespace UmarSeat.Controllers
                 else
                 {
                     rr.isSuccess = false;
-                    rr.ErrorMessage = "Role name not found";
+                    rr.ErrorMessage = "Role name not found/ InValid Role";
                 }
             }
             else
@@ -190,10 +196,10 @@ namespace UmarSeat.Controllers
             ResponseRequest rr = new ResponseRequest();
             try
             {
-                int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+              
                 string body = "Message from PSSP System" +
                "This email sent by the PSSP system<br />" +
-               "<a href='http://asimashfaq-001-site12.smarterasp.net/invitation/Request?id='" + idSubcription + "''>Click here to create Account!</b>";
+               "<a href='http://localhost:55462/invitation/Request?id='" + (string)Session["idSubscription"] + "''>Click here to create Account!</b>";
                 SendMessage(email, "Invitation For creating Account", body);
                 rr.isSuccess = true;
                 rr.Message = "Invitation had been sent successfully!.";

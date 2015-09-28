@@ -72,28 +72,30 @@
 
 
                     <td class="action">
-                        @if(item.AccountStatus == UmarSeat.Models.AccountStatus.Pending)
+                        @if (item.userRole != "Super User")
                         {
-                              
-                            
-                             @Ajax.RawActionLink(string.Format("<i class=\"fa fa-check\" ></i> Approve"), "Approved", null, new { id = item.Id },
+                            if (item.AccountStatus == UmarSeat.Models.AccountStatus.Pending)
+                            {
+
+
+                                @Ajax.RawActionLink(string.Format("<i class=\"fa fa-check\" ></i> Approve"), "Approved", null, new { id = item.Id },
                                 new AjaxOptions
                                 {
                                     HttpMethod = "POST",
                                     OnSuccess = "onSuccess",
                                     Confirm = "Are you sure you want to Approve this?",
-                                    Url = string.Format("/usermanagement/approved/?id={0}",item.Id),
+                                    Url = string.Format("/usermanagement/approved/?id={0}", item.Id),
                                     OnFailure = "onFail"
                                 },
                               new { @class = "btn btn-complete", id = "cnfrmApprove" })
 
-                        }
-                        else
-                        {
-                            <a key="@Html.Raw(item.Id)" href="/Usermanagement/addroletouser/?id=@Html.Raw(item.Id)" class=" editbtn btn btn-complete" data-toggle="modal" data-target="#modalEdit">
-                                <i class="fa fa-edit"></i> Manage Permission
-                            </a>
-                             @Ajax.RawActionLink(string.Format("<i class=\"fa fa-ban\" ></i> Blocked"), "Blocked", null, new { uid = item.Id },
+                            }
+                            else
+                            {
+                                <a key="@Html.Raw(item.Id)" href="/Usermanagement/addroletouser/?id=@Html.Raw(item.Id)" class=" editbtn btn btn-complete" data-toggle="modal" data-target="#modalEdit">
+                                    <i class="fa fa-edit"></i> Manage Permission
+                                </a>
+                                @Ajax.RawActionLink(string.Format("<i class=\"fa fa-ban\" ></i> Blocked"), "Blocked", null, new { uid = item.Id },
                                 new AjaxOptions
                                 {
                                     HttpMethod = "POST",
@@ -103,10 +105,10 @@
                                     OnFailure = "onFail"
                                 },
                                   new { @class = "btn btn-danger", id = "cnfrmBlocked" })
-                        }
-                      
-                       
-                        @Ajax.RawActionLink(string.Format("<i class=\"fa fa-remove\" ></i> Delete"), "Delete", null, new { uid = item.Id },
+                            }
+
+
+                            @Ajax.RawActionLink(string.Format("<i class=\"fa fa-remove\" ></i> Delete"), "Delete", null, new { uid = item.Id },
                                 new AjaxOptions
                                 {
                                     HttpMethod = "POST",
@@ -116,8 +118,10 @@
                                     OnFailure = "onFail"
                                 },
                               new { @class = "btn btn-danger", id = "cnfrmDelete" })
-                      
 
+
+                        }
+                        
 
                     </td>
                 </tr>

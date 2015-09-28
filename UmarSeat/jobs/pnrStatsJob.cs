@@ -30,6 +30,7 @@ namespace UmarSeat.jobs
                     {
 
                         seatconfirmations = db.SeatConfirmation.GroupBy(x => new { x.pnrNumber, x.recevingBranch, x.newPnrNumber, x.id_Subscription }).Select(x => x.FirstOrDefault()).ToList();
+                        
                     }
                     catch (Exception)
                     {

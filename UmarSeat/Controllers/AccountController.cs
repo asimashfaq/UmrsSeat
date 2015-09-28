@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using UmarSeat.Models;
 using System.Data.Entity;
+using UmarSeat.Helpers;
 
 namespace UmarSeat.Controllers
 {
@@ -122,69 +123,89 @@ namespace UmarSeat.Controllers
                 var isUser = db.Users.Where(x => x.UserName == model.UserName || x.PersonInfo.FirstOrDefault().email == model.PersonInfo.email).FirstOrDefault();
                 if(isUser == null)
                 {
-                    int id_SubscriptionPlan = Convert.ToInt32(Request.Form["subscriptionPlans"].ToString());
-                    var user = new ApplicationUser() { UserName = model.UserName, id_SubscriptionPlan = id_SubscriptionPlan, AccountStatus = AccountStatus.Active };
-                    var result = await UserManager.CreateAsync(user, model.Password);
-                    if (result.Succeeded)
+                    try
                     {
-
-                        await SignInAsync(user, isPersistent: false);
-
-                        string UserId = user.Id;
-
-
-                        await Task.Factory.StartNew(() =>
+                        int id_SubscriptionPlan = Convert.ToInt32(Request.Form["subscriptionPlans"].ToString());
+                        var user = new ApplicationUser() { UserName = model.UserName, id_SubscriptionPlan = id_SubscriptionPlan, AccountStatus = AccountStatus.Active, userRole = "Super User" };
+                        var result = await UserManager.CreateAsync(user, model.Password);
+                        if (result.Succeeded)
                         {
-                            model.PersonInfo.userId = UserId;
-
-                            db.Persons.Add(model.PersonInfo);
-                            db.SaveChanges();
-                        });
 
 
-                        await Task.Factory.StartNew(() =>
-                        {
-                            subscriptionPlan sp = db.SubscriptionPlan.Where(x => x.id_SubscriptionPlan == id_SubscriptionPlan).SingleOrDefault();
-                            if (sp != null)
+                            string UserId = user.Id;
+
+
+                            await Task.Factory.StartNew(() =>
                             {
-                                DateTime startDate = DateTime.Now;
-                                DateTime endDate = DateTime.Now;
-                                Subscription sub = new Subscription { startDate = startDate, cDate = DateTime.Now, UserId = UserId };
-                                if (sp.subscriptionDurationType == DurationType.Day || sp.subscriptionDurationType == DurationType.Days)
-                                {
-                                    endDate = endDate.AddDays(sp.duration);
-                                }
-                                else if (sp.subscriptionDurationType == DurationType.Month || sp.subscriptionDurationType == DurationType.Months)
-                                {
-                                    endDate = endDate.AddMonths(sp.duration);
-                                }
-                                else if (sp.subscriptionDurationType == DurationType.Year || sp.subscriptionDurationType == DurationType.Years)
-                                {
-                                    endDate = endDate.AddYears(sp.duration);
-                                }
-                                sub.endDate = endDate;
-                                sub.SubscriptionStatus = SubscriptionStatus.Active;
-                                db.Subscription.Add(sub);
+                                model.PersonInfo.userId = UserId;
+                                model.PersonInfo.branchName = "";
+                                db.Persons.Add(model.PersonInfo);
                                 db.SaveChanges();
 
-                                user = db.Users.Where(x => x.Id == UserId).SingleOrDefault();
-                                if (user != null)
+                                var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                                um.AddToRole(UserId, Role.Administrator);
+
+                            });
+
+
+                            await Task.Factory.StartNew(() =>
+                            {
+                                subscriptionPlan sp = db.SubscriptionPlan.Where(x => x.id_SubscriptionPlan == id_SubscriptionPlan).SingleOrDefault();
+                                if (sp != null)
                                 {
-                                    user.id_Subscription = sub.id_Subscription;
-                                    db.Entry(user).State = EntityState.Modified;
+                                    DateTime startDate = DateTime.Now;
+                                    DateTime endDate = DateTime.Now;
+                                    Subscription sub = new Subscription { startDate = startDate, cDate = DateTime.Now, UserId = UserId };
+                                    if (sp.subscriptionDurationType == DurationType.Day || sp.subscriptionDurationType == DurationType.Days)
+                                    {
+                                        endDate = endDate.AddDays(sp.duration);
+                                    }
+                                    else if (sp.subscriptionDurationType == DurationType.Month || sp.subscriptionDurationType == DurationType.Months)
+                                    {
+                                        endDate = endDate.AddMonths(sp.duration);
+                                    }
+                                    else if (sp.subscriptionDurationType == DurationType.Year || sp.subscriptionDurationType == DurationType.Years)
+                                    {
+                                        endDate = endDate.AddYears(sp.duration);
+                                    }
+                                    sub.endDate = endDate;
+                                    sub.SubscriptionStatus = SubscriptionStatus.Active;
+                                    db.Subscription.Add(sub);
                                     db.SaveChanges();
+
+                                    user = db.Users.Where(x => x.Id == UserId).SingleOrDefault();
+                                    if (user != null)
+                                    {
+                                        user.id_Subscription = sub.id_Subscription;
+                                        db.Entry(user).State = EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+
+
                                 }
+                            });
 
+                            await SignInAsync(user, isPersistent: false);
 
+                            Session["idSubscription"] = user.id_Subscription;
+                            Session["branchName"] = user.PersonInfo.First().branchName;
+                            Session["userId"] = user.Id;
+                            if (Session["menulinks"] == null)
+                            {
+                                menuList ml = new menuList();
+                                Session["menulinks"] = ml.getLinks(user.Roles.ToList());
                             }
-                        });
-
-
-                        return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            AddErrors(result);
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        AddErrors(result);
+
+                        ModelState.AddModelError("UE", "Kindly Select Subscription Plan");
                     }
                 }
                 else

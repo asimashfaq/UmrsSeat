@@ -16,7 +16,7 @@
     
     <div >
        
-        @Html.ValidationSummary(true)
+        @Html.ValidationSummary()
 
         <div class="form-group form-group-default ">
             @Html.LabelFor(model => model.userRolesType)
@@ -104,9 +104,7 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
