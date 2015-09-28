@@ -119,12 +119,21 @@
                      </td>
 
                      <td class="action">
-                         <a key="@Html.Raw(item.pnrNumber)" href="/stock/sellingedit/@Html.Raw(item.id_StockTransfer)" class=" editbtn btn btn-complete">
-                             <i class="fa fa-edit"></i>
-                         </a>
-                         <a id="showLink" href="/stock/sellingdelete/@Html.Raw(item.id_StockTransfer)" class="btn btn-danger" data-toggle="modal" data-target="#modalSlideUp">
-                             <i class="fa fa-remove"></i>
-                         </a>
+                         @if (ViewBag.allowedit == true)
+                         {
+
+                            <a key="@Html.Raw(item.pnrNumber)" href="/stock/sellingedit/@Html.Raw(item.id_StockTransfer)" class=" editbtn btn btn-complete">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                         }
+                         @if (ViewBag.allowdelete == true)
+                         {
+                            <a id="showLink" href="/stock/sellingdelete/@Html.Raw(item.id_StockTransfer)" class="btn btn-danger" data-toggle="modal" data-target="#modalSlideUp">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                         }
+                        
+                        
                          <p style="display:none" class="btn btn-danger">Locked</p>
 
 

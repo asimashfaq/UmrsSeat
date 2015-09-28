@@ -169,10 +169,21 @@
                         <input data-colum="8" type="checkbox" checked="checked" value="1" id="csellingprice">
                         <label for="csellingprice">Selling Price</label>
                     </div>
-                    <div class="checkbox check-primary checkbox-circle">
-                        <input data-colum="9" type="checkbox" checked="checked" value="1" id="caction">
-                        <label for="caction">Action</label>
-                    </div>
+                    @if (ViewBag.allowedit == true || ViewBag.allowdelete == true)
+                    {
+                        <div class="checkbox check-primary checkbox-circle">
+                            <input data-colum="9" type="checkbox" checked="checked" value="1" id="caction">
+                            <label for="caction">Action</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="checkbox check-primary checkbox-circle">
+                            <input data-colum="9" type="checkbox" value="1" id="caction">
+                            <label for="caction">Action</label>
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>

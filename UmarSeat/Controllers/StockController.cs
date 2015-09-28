@@ -315,6 +315,7 @@ namespace UmarSeat.Controllers
 
         [HttpGet]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator,Role.ReadStockSell)]
         public async Task<ActionResult> GetStock(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -331,7 +332,7 @@ namespace UmarSeat.Controllers
                 model = await db.StockTransfer.Where(x => x.id_Subscription == idSubcription && x.transferingBranch ==bn && x.advanceDate.HasValue == true).OrderBy(x => x.id_StockTransfer).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
             }
 
-            decimal count = Convert.ToDecimal(db.StockTransfer.ToList().Count.ToString());
+            decimal count = Convert.ToDecimal(db.StockTransfer.Where(x => x.id_Subscription == idSubcription).ToList().Count.ToString());
             decimal pages = count / 5;
             ViewBag.pages = (int)Math.Ceiling(pages); ;
             ViewBag.total = count;
@@ -366,6 +367,7 @@ namespace UmarSeat.Controllers
 
         [HttpGet]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator,Role.ReadStockTransfer)]
         public async Task<ActionResult> nGetStock(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -375,13 +377,13 @@ namespace UmarSeat.Controllers
             string bn = Session["branchName"].ToString();
             if (string.IsNullOrEmpty(bn))
             {
-                model = await db.StockTransfer.Where(x => x.id_Subscription == idSubcription).OrderBy(x => x.id_StockTransfer).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
+                model = await db.StockTransfer.Where(x => x.id_Subscription == idSubcription && x.advanceDate.HasValue == false).OrderBy(x => x.id_StockTransfer).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
             }
             else
             {
-                model = await db.StockTransfer.Where(x => x.id_Subscription == idSubcription && x.transferingBranch == bn).OrderBy(x => x.id_StockTransfer ).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
+                model = await db.StockTransfer.Where(x => x.id_Subscription == idSubcription && x.transferingBranch == bn && x.advanceDate.HasValue == false).OrderBy(x => x.id_StockTransfer ).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
             }
-            decimal count = Convert.ToDecimal(db.StockTransfer.ToList().Count.ToString());
+            decimal count = Convert.ToDecimal(db.StockTransfer.Where(x => x.id_Subscription == idSubcription).ToList().Count.ToString());
             decimal pages = count / 5;
             ViewBag.pages = (int)Math.Ceiling(pages); ;
             ViewBag.total = count;
@@ -399,12 +401,24 @@ namespace UmarSeat.Controllers
             ViewBag.next = numPage + 1;
             ViewBag.length = length;
             ViewBag.current = numPage;
+
+            ViewBag.allowedit = User.IsInRole(Role.Administrator);
+            ViewBag.allowdelete = User.IsInRole(Role.Administrator);
+            if (ViewBag.allowedit == false)
+            {
+                ViewBag.allowedit = User.IsInRole(Role.UpdateStockTransfer);
+            }
+            if (ViewBag.allowdelete == false)
+            {
+                ViewBag.allowdelete = User.IsInRole(Role.DeleteStockTransfer);
+            }
             return PartialView("_nstlist", model);
         }
 
 
         [HttpGet]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator,Role.StockReceive)]
         public async Task<ActionResult> rGetStock(string length, string pageNum)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -420,7 +434,7 @@ namespace UmarSeat.Controllers
             {
                 model = await db.StockTransfer.Where(x => x.id_Subscription == idSubcription && x.recevingBranch == bn).OrderBy(x => x.id_StockTransfer).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
             }
-            decimal count = Convert.ToDecimal(db.StockTransfer.ToList().Count.ToString());
+            decimal count = Convert.ToDecimal(db.StockTransfer.Where(x => x.id_Subscription == idSubcription).ToList().Count.ToString());
             decimal pages = count / 5;
             ViewBag.pages = (int)Math.Ceiling(pages); ;
             ViewBag.total = count;
@@ -438,6 +452,12 @@ namespace UmarSeat.Controllers
             ViewBag.next = numPage + 1;
             ViewBag.length = length;
             ViewBag.current = numPage;
+            ViewBag.allowrefund = User.IsInRole(Role.Administrator);
+
+            if (ViewBag.allowrefund == false)
+            {
+                ViewBag.allowrefund = User.IsInRole(Role.RefundTransfer);
+            }
             return PartialView("_srlist", model);
         }
         [CheckSessionOut]
@@ -600,6 +620,7 @@ namespace UmarSeat.Controllers
         }
 
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator,Role.CreatStockSell)]
         // GET: /Stock/Create
         public async Task<ActionResult> sellingcreate()
         {
@@ -706,6 +727,7 @@ namespace UmarSeat.Controllers
             return View(st);
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.CreateStockTransfer)]
         public async Task<ActionResult> Transfercreate()
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -797,6 +819,7 @@ namespace UmarSeat.Controllers
             return View(st);
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.UpdateStockTransfer)]
         public async Task<ActionResult> TransferEdit(int? id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -869,6 +892,7 @@ namespace UmarSeat.Controllers
         
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.CreatStockSell)]
         public async Task<string> sellingcreate(StockTransfer stocktransfer)
         {
             
@@ -930,7 +954,7 @@ namespace UmarSeat.Controllers
                                         
 
                                         var st = db.SeatConfirmation.Where(x => (x.pnrNumber == stocktransfer.pnrNumber ||
-                                        x.newPnrNumber == stocktransfer.pnrNumber) && x.recevingBranch == stocktransfer.transferingBranch).SingleOrDefault();
+                                        x.newPnrNumber == stocktransfer.pnrNumber) && x.recevingBranch == stocktransfer.transferingBranch && x.id_Subscription == idSubcription).SingleOrDefault();
                                         if (st != null)
                                         {
                                             st.pnrStatus1 = st.pnrStatus = "Sold";
@@ -987,6 +1011,7 @@ namespace UmarSeat.Controllers
         }
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.CreateStockTransfer)]
         public async Task<string> Transfercreate( StockTransfer stocktransfer)
         {
             ResponseRequest rr = new ResponseRequest();
@@ -1060,7 +1085,7 @@ namespace UmarSeat.Controllers
                                     
 
                                     var st = db.SeatConfirmation.Where(x => (x.pnrNumber == stocktransfer.pnrNumber ||
-                                    x.newPnrNumber == stocktransfer.pnrNumber) && x.recevingBranch == stocktransfer.transferingBranch).SingleOrDefault();
+                                    x.newPnrNumber == stocktransfer.pnrNumber) && x.recevingBranch == stocktransfer.transferingBranch && x.id_Subscription== idSubcription).SingleOrDefault();
                                     if(st != null)
                                     {
                                        st.pnrStatus1 = st.pnrStatus = "Sold";
@@ -1132,6 +1157,7 @@ namespace UmarSeat.Controllers
 
         // GET: /Stock/Edit/5
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.UpdateStockSell)]
         public async Task<ActionResult> sellingEdit(int? id)
         {
             if (id == null)
@@ -1239,6 +1265,7 @@ namespace UmarSeat.Controllers
 
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.UpdateStockSell)]
         public async Task<string> sellingEdit(StockTransfer stocktransfer)
         {
 
@@ -1336,6 +1363,7 @@ namespace UmarSeat.Controllers
 
         [HttpPost]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.UpdateStockTransfer)]
 
         public async Task<string> transferEdit(StockTransfer stocktransfer)
         {
@@ -1427,7 +1455,7 @@ namespace UmarSeat.Controllers
             return JsonConvert.SerializeObject(errors); ;
         }
         [CheckSessionOut]
-
+        [AuthorizeRoles(Role.Administrator, Role.DeleteStockSell)]
         public async Task<ActionResult> sellingdelete(int? id)
         {
             if (id == null)
@@ -1442,6 +1470,7 @@ namespace UmarSeat.Controllers
             return View(stocktransfer);
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.DeleteStockTransfer)]
         public async Task<ActionResult> transferdelete(int? id)
         {
             if (id == null)
@@ -1459,6 +1488,7 @@ namespace UmarSeat.Controllers
         // POST: /Stock/Delete/5
         [HttpPost, ActionName("Delete")]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator, Role.DeleteStockTransfer,Role.DeleteStockSell)]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());

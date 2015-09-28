@@ -79,7 +79,13 @@
 
 
                     <td class="action">
-                        <p  class="btn btn-danger">Return</p>
+                        @if (ViewBag.allowrefund == true)
+                        {
+
+                            <p class="btn btn-danger">Return</p>
+                        }
+                      
+                      
                     </td>
                 </tr>
             }

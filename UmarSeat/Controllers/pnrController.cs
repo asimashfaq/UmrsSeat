@@ -86,13 +86,14 @@ namespace UmarSeat.Controllers
 
         public string treedata(string pnr)
         {
-            SeatConfirmation sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null).FirstOrDefault();
+            int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+            SeatConfirmation sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.id_Subscription == idSubcription).FirstOrDefault();
             if (sc == null)
             {
 
                 do
                 {
-                    sc = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
+                    sc = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.id_Subscription == idSubcription).FirstOrDefault();
                     if (sc != null)
                     {
                         pnr = sc.pnrNumber;
@@ -110,21 +111,21 @@ namespace UmarSeat.Controllers
 
         private Dictionary<string, object> generateTree2(string pnr)
         {
-
+            int idSubscription = Convert.ToInt32(Session["idSubscription"].ToString());
 
             Dictionary<string, object> tdata = new Dictionary<string, object>();
 
-            SeatConfirmation sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null).FirstOrDefault();
+            SeatConfirmation sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.id_Subscription == idSubscription).FirstOrDefault();
             if (sc == null)
             {
-                sc = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
+                sc = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.id_Subscription == idSubscription).FirstOrDefault();
             }
             tdata.Add("name", pnr+ " ("+sc.noOfSeats+")");
             tdata.Add("branchName", sc.recevingBranch);
             
 
             List<Dictionary<string, object>> dd1 = new List<Dictionary<string, object>>();
-            List<pnrLog> subbranchs = db.pnrLogs.Where(x => x.pnrNumber == pnr).ToList();
+            List<pnrLog> subbranchs = db.pnrLogs.Where(x => x.pnrNumber == pnr && x.idSubscription == idSubscription).ToList();
             subbranchs.ForEach(sbb =>{
 
                 Dictionary<string, object> d = new Dictionary<string, object>();
@@ -140,7 +141,7 @@ namespace UmarSeat.Controllers
                     total = sbb.receiveSeats;
                 }
                  d.Add("name", sbb.branchName+ " ("+total+")");
-                List<SeatConfirmation> children = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber != null && x.recevingBranch== sbb.branchName).ToList();
+                List<SeatConfirmation> children = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber != null && x.recevingBranch== sbb.branchName && x.id_Subscription == idSubscription).ToList();
                 children.ForEach(ch =>
                 {
                     Dictionary<string, object> d1 = generateTree2(ch.newPnrNumber);
@@ -148,7 +149,7 @@ namespace UmarSeat.Controllers
                     dd4.Add(d1);
                 });
                 List<Dictionary<string, object>> dd5 = new List<Dictionary<string, object>>();
-                List<StockTransfer> transferbrances = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.transferingBranch == sbb.branchName).ToList();
+                List<StockTransfer> transferbrances = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.transferingBranch == sbb.branchName && x.id_Subscription == idSubscription).ToList();
                 transferbrances.ForEach(tfb=> {
                     dd5.Add(new Dictionary<string, object>() { { "name",tfb.recevingBranch + " (" + (tfb.noOfSeats) + ")" } });
                 });
@@ -198,21 +199,21 @@ namespace UmarSeat.Controllers
 
         private Dictionary<string, object> generateTree(string pnr)
         {
-           
+            int idSubscription = Convert.ToInt32(Session["idSubscription"].ToString());
 
             Dictionary<string, object> tdata = new Dictionary<string, object>();
 
-            SeatConfirmation sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null).FirstOrDefault();
+            SeatConfirmation sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.id_Subscription == idSubscription).FirstOrDefault();
             if(sc == null)
             {
-                sc = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr).FirstOrDefault();
+                sc = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.id_Subscription == idSubscription).FirstOrDefault();
             }
             tdata.Add("name", pnr + " (" + sc.noOfSeats + ")");
             tdata.Add("branchName", sc.recevingBranch);
             
 
 
-            List<SeatConfirmation> children = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber != null).ToList();
+            List<SeatConfirmation> children = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber != null && x.id_Subscription == idSubscription).ToList();
             
             if(children.Count>0)
             {
@@ -346,29 +347,29 @@ namespace UmarSeat.Controllers
                 List<pnrLog> pnrList = new List<pnrLog>();
                 if (string.IsNullOrEmpty(br))
                 {
-                    pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year).ToList();
+                    pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year && x.idSubscription == idSubscription).ToList();
                 }
                 else
                 {
-                    pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year && x.branchName == br).ToList();
+                    pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year && x.branchName == br && x.idSubscription == idSubscription).ToList();
                 }
                 pnrList.ForEach(x => {
                     db = new ApplicationDbContext();
-                    x.sc = db.SeatConfirmation.Where(sc => sc.pnrNumber == x.pnrNumber && sc.newPnrNumber == null && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month).FirstOrDefault();
+                    x.sc = db.SeatConfirmation.Where(sc => sc.pnrNumber == x.pnrNumber && sc.newPnrNumber == null && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month && sc.id_Subscription == idSubscription).FirstOrDefault();
                     if (x.sc == null)
                     {
-                        x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month).FirstOrDefault();
+                        x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month && sc.id_Subscription == idSubscription).FirstOrDefault();
                         if (x.sc == null)
                         {
-                            x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber).FirstOrDefault();
+                            x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber && sc.id_Subscription == idSubscription).FirstOrDefault();
                             if (x.sc == null)
                             {
 
 
-                                StockTransfer skt = db.StockTransfer.Where(sx => sx.pnrNumber == x.pnrNumber && sx.recevingBranch == x.branchName).FirstOrDefault();
+                                StockTransfer skt = db.StockTransfer.Where(sx => sx.pnrNumber == x.pnrNumber && sx.recevingBranch == x.branchName && sx.id_Subscription == idSubscription).FirstOrDefault();
                                 if (skt != null)
                                 {
-                                    x.sc = db.SeatConfirmation.Where(scx => (scx.pnrNumber == x.pnrNumber || scx.newPnrNumber == x.pnrNumber) && scx.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                                    x.sc = db.SeatConfirmation.Where(scx => (scx.pnrNumber == x.pnrNumber || scx.newPnrNumber == x.pnrNumber) && scx.recevingBranch == skt.transferingBranch && scx.id_Subscription == idSubscription).FirstOrDefault();
                                     x.sc.noOfSeats = skt.noOfSeats;
                                     x.sc.cost = skt.sellingPrice;
                                     x.sc.recevingBranch = x.branchName;
@@ -460,21 +461,21 @@ namespace UmarSeat.Controllers
 
             model.ForEach(x => {
                 db = new ApplicationDbContext();
-                x.sc = db.SeatConfirmation.Where(sc => sc.pnrNumber == x.pnrNumber && sc.newPnrNumber == null && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month).FirstOrDefault();
+                x.sc = db.SeatConfirmation.Where(sc => sc.pnrNumber == x.pnrNumber && sc.newPnrNumber == null && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month && sc.id_Subscription == idSubcription).FirstOrDefault();
                 if (x.sc == null)
                 {
-                    x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month).FirstOrDefault();
+                    x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber && sc.recevingBranch == x.branchName && x.createdAt.Month == DateTime.Now.Month && sc.id_Subscription == idSubcription).FirstOrDefault();
                     if (x.sc == null)
                     {
-                        x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber).FirstOrDefault();
+                        x.sc = db.SeatConfirmation.Where(sc => sc.newPnrNumber == x.pnrNumber && sc.id_Subscription == idSubcription).FirstOrDefault();
                         if (x.sc == null)
                         {
 
 
-                            StockTransfer skt = db.StockTransfer.Where(sx => sx.pnrNumber == x.pnrNumber && sx.recevingBranch == x.branchName).FirstOrDefault();
+                            StockTransfer skt = db.StockTransfer.Where(sx => sx.pnrNumber == x.pnrNumber && sx.recevingBranch == x.branchName && sx.id_Subscription == idSubcription).FirstOrDefault();
                             if (skt != null)
                             {
-                                x.sc = db.SeatConfirmation.Where(scx => (scx.pnrNumber == x.pnrNumber || scx.newPnrNumber == x.pnrNumber) && scx.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                                x.sc = db.SeatConfirmation.Where(scx => (scx.pnrNumber == x.pnrNumber || scx.newPnrNumber == x.pnrNumber) && scx.recevingBranch == skt.transferingBranch && scx.id_Subscription == idSubcription).FirstOrDefault();
                                 x.sc.noOfSeats = skt.noOfSeats;
                                 x.sc.cost = skt.sellingPrice;
                                 x.sc.recevingBranch = x.branchName;
@@ -514,7 +515,7 @@ namespace UmarSeat.Controllers
 
             });
 
-            decimal count = Convert.ToDecimal(db.pnrLogs.ToList().Count.ToString());
+            decimal count = Convert.ToDecimal(db.pnrLogs.Where(x=>  x.idSubscription == idSubcription).ToList().Count.ToString());
             decimal pages = count / 10;
             ViewBag.pages = (int)Math.Ceiling(pages); 
             ViewBag.total = count;

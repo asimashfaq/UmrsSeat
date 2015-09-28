@@ -115,9 +115,18 @@ namespace UmarSeat.Controllers
                 ViewBag.end = end;
             }
 
-            ViewBag.allowedit = User.IsInRole(Role.UpdateBooking);
-            ViewBag.allowdelete = User.IsInRole(Role.DeleteBooking);
-            
+            ViewBag.allowedit = User.IsInRole(Role.Administrator);
+            ViewBag.allowdelete = User.IsInRole(Role.Administrator);
+            if (ViewBag.allowedit == false)
+            {
+                ViewBag.allowedit = User.IsInRole(Role.UpdateBooking);
+            }
+            if (ViewBag.allowdelete == false)
+            {
+                ViewBag.allowdelete = User.IsInRole(Role.DeleteBooking);
+            }
+
+
             return View(list);
         }
         [CheckSessionOut]
@@ -206,8 +215,17 @@ namespace UmarSeat.Controllers
                 ViewBag.current = 1;
                 ViewBag.length = 5;
             }
-            ViewBag.allowedit = User.IsInRole(Role.UpdateGroupSplit);
-            ViewBag.allowdelete = User.IsInRole(Role.DeleteGroupSplit);
+            ViewBag.allowedit = User.IsInRole(Role.Administrator);
+            ViewBag.allowdelete = User.IsInRole(Role.Administrator);
+            if (ViewBag.allowedit == false)
+            {
+                ViewBag.allowedit = User.IsInRole(Role.UpdateGroupSplit);
+            }
+            if (ViewBag.allowdelete == false)
+            {
+                ViewBag.allowdelete = User.IsInRole(Role.DeleteGroupSplit);
+            }
+
             return View(list);
         }
 
@@ -250,8 +268,17 @@ namespace UmarSeat.Controllers
             ViewBag.next = numPage +1;
             ViewBag.length = length;
             ViewBag.current = numPage;
-            ViewBag.allowedit = User.IsInRole(Role.UpdateBooking);
-            ViewBag.allowdelete = User.IsInRole(Role.DeleteBooking);
+            ViewBag.allowedit = User.IsInRole(Role.Administrator);
+            ViewBag.allowdelete = User.IsInRole(Role.Administrator);
+            if (ViewBag.allowedit == false)
+            {
+                ViewBag.allowedit = User.IsInRole(Role.UpdateBooking);
+            }
+            if (ViewBag.allowdelete == false)
+            {
+                ViewBag.allowdelete = User.IsInRole(Role.DeleteBooking);
+            }
+
             return PartialView("_sclist", model);
         }
         [HttpPost]
@@ -281,8 +308,17 @@ namespace UmarSeat.Controllers
             ViewBag.next = 1;
             ViewBag.length = count;
             ViewBag.current = 1;
-            ViewBag.allowedit = User.IsInRole(Role.UpdateBooking);
-            ViewBag.allowdelete = User.IsInRole(Role.DeleteBooking);
+            ViewBag.allowedit = User.IsInRole(Role.Administrator);
+            ViewBag.allowdelete = User.IsInRole(Role.Administrator);
+            if (ViewBag.allowedit == false)
+            {
+                ViewBag.allowedit = User.IsInRole(Role.UpdateBooking);
+            }
+            if (ViewBag.allowdelete == false)
+            {
+                ViewBag.allowdelete = User.IsInRole(Role.DeleteBooking);
+            }
+
             return PartialView("_sclist", ss);
         }
 
@@ -379,8 +415,17 @@ namespace UmarSeat.Controllers
             ViewBag.next = numPage + 1;
             ViewBag.length = length;
             ViewBag.current = numPage;
-            ViewBag.allowedit = User.IsInRole(Role.UpdateGroupSplit);
-            ViewBag.allowdelete = User.IsInRole(Role.DeleteGroupSplit);
+            ViewBag.allowedit = User.IsInRole(Role.Administrator);
+            ViewBag.allowdelete = User.IsInRole(Role.Administrator);
+            if (ViewBag.allowedit == false)
+            {
+                ViewBag.allowedit = User.IsInRole(Role.UpdateGroupSplit);
+            }
+            if (ViewBag.allowdelete == false)
+            {
+                ViewBag.allowdelete = User.IsInRole(Role.DeleteGroupSplit);
+            }
+
             return PartialView("_nsclist", model);
         }
         [HttpPost]
@@ -455,8 +500,17 @@ namespace UmarSeat.Controllers
             ViewBag.next = 1;
             ViewBag.length = count;
             ViewBag.current = 1;
-            ViewBag.allowedit = User.IsInRole(Role.UpdateGroupSplit);
-            ViewBag.allowdelete = User.IsInRole(Role.DeleteGroupSplit);
+            ViewBag.allowedit = User.IsInRole(Role.Administrator);
+            ViewBag.allowdelete = User.IsInRole(Role.Administrator);
+            if (ViewBag.allowedit == false)
+            {
+                ViewBag.allowedit = User.IsInRole(Role.UpdateGroupSplit);
+            }
+            if (ViewBag.allowdelete == false)
+            {
+                ViewBag.allowdelete = User.IsInRole(Role.DeleteGroupSplit);
+            }
+
             return PartialView("_nsclist", ss);
         }
         // GET: /Booking/Details/5
@@ -697,16 +751,16 @@ namespace UmarSeat.Controllers
 
                 
 
-                    SeatConfirmation st = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.recevingBranch == br).FirstOrDefault();
+                    SeatConfirmation st = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.recevingBranch == br && idSubcription == x.id_Subscription).FirstOrDefault();
                     if (st == null)
                     {
-                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
+                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.recevingBranch == br && idSubcription == x.id_Subscription).FirstOrDefault();
                         if (st == null)
                         {
-                            StockTransfer skt = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
+                            StockTransfer skt = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == br && idSubcription == x.id_Subscription).FirstOrDefault();
                             if (skt != null)
                             {
-                                st = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                                st = db.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch && idSubcription == x.id_Subscription).FirstOrDefault();
                                  st.noOfSeats = skt.noOfSeats;
                                   st.cost = skt.sellingPrice;
                             st.recevingBranch = br;
@@ -762,16 +816,16 @@ namespace UmarSeat.Controllers
 
 
 
-                    SeatConfirmation st = db1.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.recevingBranch == br).FirstOrDefault();
+                    SeatConfirmation st = db1.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber == null && x.recevingBranch == br && idSubcription == x.id_Subscription).FirstOrDefault();
                     if (st == null)
                     {
-                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
+                        st = db.SeatConfirmation.Where(x => x.newPnrNumber == pnr && x.recevingBranch == br && idSubcription == x.id_Subscription).FirstOrDefault();
                         if (st == null)
                         {
-                            StockTransfer skt = db1.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == br).FirstOrDefault();
+                            StockTransfer skt = db1.StockTransfer.Where(x => x.pnrNumber == pnr && x.recevingBranch == br && idSubcription == x.id_Subscription).FirstOrDefault();
                             if(skt != null)
                             {
-                                st = db1.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch).FirstOrDefault();
+                                st = db1.SeatConfirmation.Where(x => (x.pnrNumber == pnr || x.newPnrNumber == pnr) && x.recevingBranch == skt.transferingBranch && idSubcription == x.id_Subscription).FirstOrDefault();
                                 st.noOfSeats = skt.noOfSeats;
                                 st.cost = skt.sellingPrice;
                                 st.recevingBranch = br;
@@ -919,7 +973,7 @@ namespace UmarSeat.Controllers
                     if (seatconfirmation.pnrNumber != null && errors.Count ==0)
                     {
                         int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
-                            var sc = db.SeatConfirmation.Where(x=> x.pnrNumber == seatconfirmation.pnrNumber && x.newPnrNumber == null &&x.recevingBranch == seatconfirmation.recevingBranch).SingleOrDefault();
+                            var sc = db.SeatConfirmation.Where(x=> x.pnrNumber == seatconfirmation.pnrNumber && x.newPnrNumber == null &&x.recevingBranch == seatconfirmation.recevingBranch && idSubcription == x.id_Subscription).SingleOrDefault();
                         if(sc == null)
                             {
                                  seatconfirmation.CreatedAt = DateTime.Now;
@@ -1053,7 +1107,7 @@ namespace UmarSeat.Controllers
 
 
                                         var st = db.SeatConfirmation.Where(x => (x.pnrNumber == seatconfirmation.pnrNumber ||
-                                        x.newPnrNumber == seatconfirmation.pnrNumber) && x.recevingBranch == seatconfirmation.recevingBranch).SingleOrDefault();
+                                        x.newPnrNumber == seatconfirmation.pnrNumber) && x.recevingBranch == seatconfirmation.recevingBranch && idSubcription == x.id_Subscription).SingleOrDefault();
                                         if (st != null)
                                         {
                                             st.pnrStatus1 = st.pnrStatus = "Sold";
@@ -1644,7 +1698,7 @@ namespace UmarSeat.Controllers
                     sc.id_Subscription = idSubcription;
                     seatconfirmationList.Add(sc);
 
-                    SeatConfirmation sc2 = db.SeatConfirmation.Where(x=> x.pnrNumber.ToLower() == sc.pnrNumber.ToLower()).FirstOrDefault();
+                    SeatConfirmation sc2 = db.SeatConfirmation.Where(x=> x.pnrNumber.ToLower() == sc.pnrNumber.ToLower() && idSubcription == x.id_Subscription).FirstOrDefault();
                     if(sc2 == null)
                     {
                         List<Task> tasks = new List<Task>();
@@ -1653,11 +1707,11 @@ namespace UmarSeat.Controllers
                             try
                             {
                                 ApplicationDbContext db1 = new ApplicationDbContext();
-                            airLine Air_line = db1.Airline.Where(x => x.airlineName.ToLower() == sc.airLine.ToLower()).FirstOrDefault();
+                            airLine Air_line = db1.Airline.Where(x => x.airlineName.ToLower() == sc.airLine.ToLower() && idSubcription == x.id_Subscription).FirstOrDefault();
                             if (Air_line == null)
                             {
                               
-                                Air_line = new airLine() { airlineName = sc.airLine, id_Subscription = 1002, createdAt = DateTime.Now, };
+                                Air_line = new airLine() { airlineName = sc.airLine, id_Subscription = idSubcription, createdAt = DateTime.Now, };
                                 db1.Airline.Add(Air_line);
                                 db1.SaveChanges();
                                 db1.Dispose();

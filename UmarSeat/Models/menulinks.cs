@@ -40,7 +40,7 @@ namespace UmarSeat.Models
             menu.Add(new menulinks() { linkId = 11, url = "/booking/groupsplitlist", dtext = "Manage", thumbtext = "ma", parentId = 9, roleName = "ReadGroupSplit,UpdateGroupSplit,DeleteGroupSplit,CreateGroupSplit,Administrator" });
 
             menu.Add(new menulinks() { linkId = 12, url = "javascript:;", dtext = "Stock Selling", thumbtext = "Ss", parentId = 0, roleName = "ReadStockSell,UpdateStockSell,DeleteStockSell,CreatStockSell,Administrator" });
-            menu.Add(new menulinks() { linkId = 13, url = "/stock/sellingcreate", dtext = "Create", thumbtext = "sc", parentId = 12, roleName = "CreateStockSell" });
+            menu.Add(new menulinks() { linkId = 13, url = "/stock/sellingcreate", dtext = "Create", thumbtext = "sc", parentId = 12, roleName = "CreateStockSell,Administrator" });
             menu.Add(new menulinks() { linkId = 14, url = "/stock/selling", dtext = "Manage", thumbtext = "ma", parentId = 12, roleName = "ReadStockSell,UpdateStockSell,DeleteStockSell,CreatStockSell,Administrator" });
 
             menu.Add(new menulinks() { linkId = 15, url = "javascript:;", dtext = "Stock Transfer", thumbtext = "St", parentId = 0, roleName = "ReadStockTransfer,UpdateStockTransfer,DeleteStockTransfer,CreateStockTransfer,Administrator" });
