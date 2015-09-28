@@ -23,6 +23,7 @@ namespace UmarSeat.Controllers
         // GET: /Stock/
         [ActionName("Selling")]
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator,Role.ReadStockSell)]
         public async Task<ActionResult> Index(string pnr, string catalystinvoicenumber, string airline, string stockid, string agentid, string gdspnrnumber, string advancerange, string creationrange)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -107,11 +108,23 @@ namespace UmarSeat.Controllers
                 ViewBag.current = 1;
                 ViewBag.length = 5;
             }
+            ViewBag.allowedit = User.IsInRole(Role.Administrator);
+            ViewBag.allowdelete = User.IsInRole(Role.Administrator);
+            if(ViewBag.allowedit == false)
+            {
+                ViewBag.allowedit = User.IsInRole(Role.UpdateStockSell);
+            }
+            if(ViewBag.allowdelete == false)
+            {
+                ViewBag.allowdelete = User.IsInRole(Role.DeleteStockSell);
+            }
 
-          
+           
+           
             return View(list);
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.ReadStockTransfer,Role.Administrator)]
         public async Task<ActionResult> Transferlist(string pnr, string transferingbranch, string recevingbranch, string airline, string stockid, string creationrange)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -193,10 +206,20 @@ namespace UmarSeat.Controllers
                 ViewBag.current = 1;
                 ViewBag.length = 5;
             }
-           
+            ViewBag.allowedit = User.IsInRole(Role.Administrator);
+            ViewBag.allowdelete = User.IsInRole(Role.Administrator);
+            if (ViewBag.allowedit == false)
+            {
+                ViewBag.allowedit = User.IsInRole(Role.UpdateStockSell);
+            }
+            if (ViewBag.allowdelete == false)
+            {
+                ViewBag.allowdelete = User.IsInRole(Role.DeleteStockSell);
+            }
             return View(list);
         }
         [CheckSessionOut]
+        [AuthorizeRoles(Role.Administrator,Role.StockReceive)]
         public async Task<ActionResult> receive(string pnr, string transferingbranch, string recevingbranch, string airline, string stockid, string creationrange)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
@@ -278,6 +301,13 @@ namespace UmarSeat.Controllers
                 ViewBag.current = 1;
                 ViewBag.length = 5;
             }
+            ViewBag.allowrefund = User.IsInRole(Role.Administrator);
+          
+            if (ViewBag.allowrefund == false)
+            {
+                ViewBag.allowrefund = User.IsInRole(Role.RefundTransfer);
+            }
+           
 
             return View(list);
         }
@@ -294,11 +324,11 @@ namespace UmarSeat.Controllers
             string bn = Session["branchName"].ToString();
             if (string.IsNullOrEmpty(bn))
             {
-                model = await db.StockTransfer.Where(x => x.id_Subscription == idSubcription).OrderBy(x => x.id_StockTransfer).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
+                model = await db.StockTransfer.Where(x => x.id_Subscription == idSubcription && x.advanceDate.HasValue == true).OrderBy(x => x.id_StockTransfer).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
             }
             else
             {
-                model = await db.StockTransfer.Where(x => x.id_Subscription == idSubcription && x.transferingBranch ==bn).OrderBy(x => x.id_StockTransfer).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
+                model = await db.StockTransfer.Where(x => x.id_Subscription == idSubcription && x.transferingBranch ==bn && x.advanceDate.HasValue == true).OrderBy(x => x.id_StockTransfer).Skip(pageSize * (numPage - 1)).Take(pageSize).ToListAsync();
             }
 
             decimal count = Convert.ToDecimal(db.StockTransfer.ToList().Count.ToString());
@@ -319,6 +349,18 @@ namespace UmarSeat.Controllers
             ViewBag.next = numPage + 1;
             ViewBag.length = length;
             ViewBag.current = numPage;
+
+            ViewBag.allowedit = User.IsInRole(Role.Administrator);
+            ViewBag.allowdelete = User.IsInRole(Role.Administrator);
+            if (ViewBag.allowedit == false)
+            {
+                ViewBag.allowedit = User.IsInRole(Role.UpdateStockSell);
+            }
+            if (ViewBag.allowdelete == false)
+            {
+                ViewBag.allowdelete = User.IsInRole(Role.DeleteStockSell);
+            }
+
             return PartialView("_stlist", model);
         }
 

@@ -213,10 +213,21 @@
                         <input data-colum="12" type="checkbox" value="1" id="ctimelimit">
                         <label for="ctimelimit">Time Limit</label>
                     </div>
-                    <div class="checkbox check-primary checkbox-circle">
-                        <input data-colum="13" type="checkbox" checked="checked" value="1" id="caction">
-                        <label for="caction">Action</label>
-                    </div>
+                    @if (ViewBag.allowedit == true || ViewBag.allowdelete == true)
+                    {
+                        <div class="checkbox check-primary checkbox-circle">
+                            <input data-colum="13" type="checkbox" checked="checked" value="1" id="caction">
+                            <label for="caction">Action</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="checkbox check-primary checkbox-circle">
+                            <input data-colum="13" type="checkbox" value="1" id="caction">
+                            <label for="caction">Action</label>
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>

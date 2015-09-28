@@ -41,5 +41,6 @@ namespace UmarSeat.Helpers
         public const string ManageCategory = "ManageCategory";
         public const string ManageUsers = "ManageUsers";
         public const string ManageUserRoles = "ManageUserRoles";
+        public const string RefundTransfer = "RefundTransfer";
     }
 }

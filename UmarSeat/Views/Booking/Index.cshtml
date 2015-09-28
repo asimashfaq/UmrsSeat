@@ -127,7 +127,11 @@
                     <div class="pull-right">
                         
                         <div class="export-options-container pull-left" ></div>
-                        <button id="addexcel" type="button" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Import Excel</button>
+                        @if (User.IsInRole(UmarSeat.Helpers.Role.CreatBooking))
+                        {
+                            <button id="addexcel" type="button" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Import Excel</button>
+                        }
+                        
                         <a id="exv" download="somedata.xls" href="#"  class="btn btn-default"><i class="fa fa-file-excel-o"></i> Export to Excel</a>
                         <button type="button" class="btn btn-default"><i class="fa fa-file-excel-o"></i> Export All to Excel</button>
 
@@ -214,10 +218,22 @@
                         <input data-colum="12" type="checkbox"  value="1" id="ctimelimit">
                         <label for="ctimelimit">Time Limit</label>
                     </div>
-                    <div class="checkbox check-primary checkbox-circle">
-                        <input data-colum="13" type="checkbox" checked="checked" value="1" id="caction">
-                        <label for="caction">Action</label>
-                    </div>
+                    @if (ViewBag.allowedit == true || ViewBag.allowdelete == true)
+                    {
+                        <div class="checkbox check-primary checkbox-circle">
+                            <input data-colum="13" type="checkbox" checked="checked" value="1" id="caction">
+                            <label for="caction">Action</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="checkbox check-primary checkbox-circle">
+                            <input data-colum="13" type="checkbox" value="1" id="caction">
+                            <label for="caction">Action</label>
+                        </div>
+                    }
+
+
                 </div>
             </div>
         </div>

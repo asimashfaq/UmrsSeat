@@ -99,12 +99,23 @@
                         @Html.DisplayFor(modelItem => item.timeLimit)
                     </td>
                     <td class="action">
-                        <a key="@Html.Raw(item.pnrNumber)" href="/booking/groupsplitedit/@Html.Raw(item.id_SeatConfirmation)" class=" editbtn btn btn-complete">
-                            <i class="fa fa-edit"></i>
-                        </a>
-                        <a id="showLink" href="/booking/groupsplitdelete/@Html.Raw(item.id_SeatConfirmation)" class="btn btn-danger" data-toggle="modal" data-target="#modalSlideUp">
-                            <i class="fa fa-remove"></i>
-                        </a>
+
+                        @if (ViewBag.allowedit == true)
+                        {
+
+                            <a key="@Html.Raw(item.pnrNumber)" href="/booking/groupsplitedit/@Html.Raw(item.id_SeatConfirmation)" class=" editbtn btn btn-complete">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        }
+                        @if (ViewBag.allowdelete == true)
+                        {
+                            <a id="showLink" href="/booking/groupsplitdelete/@Html.Raw(item.id_SeatConfirmation)" class="btn btn-danger" data-toggle="modal" data-target="#modalSlideUp">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                        }
+
+                       
+                        
                         <p style="display:none" class="btn btn-danger">Locked</p>
 
 

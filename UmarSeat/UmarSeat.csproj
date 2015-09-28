@@ -1700,6 +1700,7 @@
     <Content Include="Scripts\dropzone\dropzone.js" />
     <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\dropzone\dropzone.min.js" />
+    <Content Include="Scripts\excellentexport.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -1852,6 +1853,7 @@
     <Content Include="Views\pnr\tree.cshtml" />
     <Content Include="Views\Excel\ImportBooking.cshtml" />
     <Content Include="Views\UserManagement\noRoleFound.cshtml" />
+    <Content Include="Scripts\phone-codes.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
