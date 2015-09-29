@@ -15,7 +15,7 @@ namespace UmarSeat.providers
 {
     public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
-        
+
         private UserManager<ApplicationUser> _userManager;
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
@@ -27,15 +27,15 @@ namespace UmarSeat.providers
             ApplicationUser user = null;
             using (AuthRepository _repo = new AuthRepository())
             {
-                 user = await _repo.FindUser(context.UserName, context.Password);
+                user = await _repo.FindUser(context.UserName, context.Password);
 
                 if (user == null)
                 {
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
-             
-               
+
+
             }
             ApplicationDbContext db = new ApplicationDbContext();
             var p = db.Persons.Where(x => x.userId == user.Id).FirstOrDefault();
@@ -157,6 +157,24 @@ namespace UmarSeat.providers
 
             return Task.FromResult<object>(null);
         }
+    }
+    public class QueryStringOAuthBearerProvider: OAuthBearerAuthenticationProvider
+    {
+        readonly string _name;
+        public QueryStringOAuthBearerProvider(string name)
+        {
+            _name = name;
+        }
+        public override Task RequestToken(OAuthRequestTokenContext context)
+        {
+            var value = context.Request.Query.Get(_name);
+            if(!string.IsNullOrEmpty(value))
+            {
+                context.Token = value;
+            }
+            return Task.FromResult<object>(null);
+        }
+
     }
 
 }

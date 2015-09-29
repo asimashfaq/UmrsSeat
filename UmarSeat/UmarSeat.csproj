@@ -273,6 +273,7 @@
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\StockIdController.cs" />
     <Compile Include="Controllers\SubscriptionPlanController.cs" />
+    <Compile Include="Controllers\TokenResponseModel.cs" />
     <Compile Include="Controllers\UserManagementController.cs" />
     <Compile Include="Controllers\UserRoleController.cs" />
     <Compile Include="Global.asax.cs">

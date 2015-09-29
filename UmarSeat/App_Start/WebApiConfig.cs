@@ -5,10 +5,11 @@ using System.Web.Http;
 
 using UmarSeat.Models;
 using System.Web.Http.Tracing;
-using System.Web.Http.OData.Builder;
+using System.Web.OData.Builder;
 using System.Web.OData.Extensions;
 using System.Net.Http.Formatting;
 using Newtonsoft.Json.Serialization;
+using UmarSeat.Controllers;
 
 namespace UmarSeat
 {
@@ -19,7 +20,7 @@ namespace UmarSeat
             // Web API configuration and services
 
             // Web API routes
-            config.EnableQuerySupport();
+            config.AddODataQueryFilter();
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
@@ -29,8 +30,10 @@ namespace UmarSeat
             );
 
             ODataModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet<Employee>("Employees");
-            config.Routes.MapODataRoute("Odata", "odata", builder.GetEdmModel());
+            builder.EntitySet<SeatConfirmation>("SeatConfirmation");
+           // config.Routes.MapODataRoute("Odata", "odata", builder.GetEdmModel());
+            config.MapODataServiceRoute("Odata", "odata",model: builder.GetEdmModel());
+            config.AddODataQueryFilter();
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }

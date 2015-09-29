@@ -5,24 +5,35 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
-
+using System.Web.OData;
+using System.Web.OData.Query;
+using UmarSeat.Models;
 namespace UmarSeat.Controllers
 {
-    [RoutePrefix("api/Orders")]
-    public class EmpController : ApiController
+   
+    public class SeatConfirmationController : ODataController
     {
+        ApplicationDbContext db = new ApplicationDbContext();
+        [EnableQuery(AllowedQueryOptions = AllowedQueryOptions.Skip |
+                               AllowedQueryOptions.Top | AllowedQueryOptions.Select | AllowedQueryOptions.Filter)]
         [Authorize]
-        [Route("")]
-        public IHttpActionResult Get()
+        public IQueryable<SeatConfirmation> Get()
         {
             ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
 
-            var Name = ClaimsPrincipal.Current.Identity.Name;
-             
-            var Name1 = User.Identity.Name;
-            var claims = principal.Claims.ToList();
+           
+            var identity = User.Identity as ClaimsIdentity;
 
-            return Ok(Order.CreateOrders());
+            var claims = from c in identity.Claims.Where(x=> x.Type=="idSubscription")
+                         select new
+                         {
+                             subject = c.Subject.Name,
+                             type = c.Type,
+                             value = c.Value
+                         };
+
+            int sub = Convert.ToInt32(claims.First().value);
+            return db.SeatConfirmation.Where(x=> x.id_Subscription==sub);
         }
 
     }
@@ -33,7 +44,7 @@ namespace UmarSeat.Controllers
         public string ShipperCity { get; set; }
         public Boolean IsShipped { get; set; }
 
-        public static List<Order> CreateOrders()
+        public static IQueryable<Order> CreateOrders()
         {
             List<Order> OrderList = new List<Order>
             {
@@ -44,7 +55,7 @@ namespace UmarSeat.Controllers
                 new Order {OrderID = 10252,CustomerName = "Yasmeen Rami", ShipperCity = "Kuwait", IsShipped = true}
             };
 
-            return OrderList;
+            return OrderList.AsQueryable();
         }
     }
 }

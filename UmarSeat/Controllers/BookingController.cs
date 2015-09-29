@@ -1342,7 +1342,7 @@ namespace UmarSeat.Controllers
                             sc.cost = seatconfirmation.cost;
                             sc.category = seatconfirmation.category;
                             sc.emdNumber = seatconfirmation.emdNumber;
-                            sc.newPnrNumber = seatconfirmation.newPnrNumber.ToUpper();
+                           
                             sc.pnrNumber = seatconfirmation.pnrNumber.ToUpper();
                             sc.timeLimit = seatconfirmation.timeLimit;
                             db.Entry(sc).State = EntityState.Modified;

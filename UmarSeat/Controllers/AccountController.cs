@@ -11,6 +11,11 @@ using Microsoft.Owin.Security;
 using UmarSeat.Models;
 using System.Data.Entity;
 using UmarSeat.Helpers;
+using Microsoft.Owin.Security.OAuth;
+using UmarSeat.providers;
+using Microsoft.Owin;
+using System.Net.Http;
+using System.Text;
 
 namespace UmarSeat.Controllers
 {
@@ -38,6 +43,27 @@ namespace UmarSeat.Controllers
             return View();
         }
 
+      
+
+        internal async Task<string> GetBearerToken(string siteUrl, string Username, string Password)
+        {
+            HttpClient client = new HttpClient();
+
+            client.BaseAddress = new Uri(siteUrl);
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            HttpContent requestContent = new StringContent("grant_type=password&username=" + Username + "&password=" + Password, Encoding.UTF8, "application/x-www-form-urlencoded");
+
+            HttpResponseMessage responseMessage = await client.PostAsync("Token", requestContent);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                TokenResponseModel response = await responseMessage.Content.ReadAsAsync<TokenResponseModel>();
+                return response.access_token;
+            }
+
+            return "";
+        }
         //
         // POST: /Account/Login
         [HttpPost]
@@ -45,6 +71,7 @@ namespace UmarSeat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            string dominanem = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
@@ -56,24 +83,34 @@ namespace UmarSeat.Controllers
                     Session["idSubscription"] = user.id_Subscription;
                     Session["branchName"] = user.PersonInfo.First().branchName;
                     Session["userId"] = user.Id;
-                    if (user.requiredLogout == true)
-                    {
-                        ApplicationDbContext db = new ApplicationDbContext();
-                        var u = db.Users.Where(x => x.Id == user.Id && x.requiredLogout == true).SingleOrDefault();
-                        if(u != null)
+                    List<Task> tt = new List<Task>();
+                    tt.Add(Task.Factory.StartNew(() => {
+                        if (user.requiredLogout == true)
                         {
-                            u.requiredLogout = false;
-                            db.Entry(u).State = System.Data.Entity.EntityState.Modified;
-                            await db.SaveChangesAsync();
+                            ApplicationDbContext db = new ApplicationDbContext();
+                            var u = db.Users.Where(x => x.Id == user.Id && x.requiredLogout == true).SingleOrDefault();
+                            if (u != null)
+                            {
+                                u.requiredLogout = false;
+                                db.Entry(u).State = System.Data.Entity.EntityState.Modified;
+                                 db.SaveChanges();
+                            }
+
+                            db.Dispose();
                         }
-                       
-                        db.Dispose();
-                    }
-                    if (Session["menulinks"] == null)
-                    {
-                        menuList ml = new menuList();
-                        Session["menulinks"] = ml.getLinks(user.Roles.ToList());
-                    }
+
+                    }));
+                    tt.Add(Task.Factory.StartNew(() => {
+                        if (Session["menulinks"] == null)
+                        {
+                            menuList ml = new menuList();
+                            Session["menulinks"] = ml.getLinks(user.Roles.ToList());
+                        }
+                    }));
+                    Session["access_token"] = await GetBearerToken(dominanem, model.UserName, model.Password);
+
+
+                    Task.WaitAll(tt.ToArray());
                     
                     return RedirectToLocal(returnUrl);
                 }
@@ -114,6 +151,7 @@ namespace UmarSeat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            string dominanem = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
             if (ModelState.IsValid)
             {
                 model.PersonInfo.createdAt = model.PersonInfo.updatedAt = DateTime.Now;
@@ -134,9 +172,8 @@ namespace UmarSeat.Controllers
 
                             string UserId = user.Id;
 
-
-                            await Task.Factory.StartNew(() =>
-                            {
+                            List<Task> tt = new List<Task>();
+                            tt.Add(Task.Factory.StartNew(() => {
                                 model.PersonInfo.userId = UserId;
                                 model.PersonInfo.branchName = "";
                                 db.Persons.Add(model.PersonInfo);
@@ -144,12 +181,9 @@ namespace UmarSeat.Controllers
 
                                 var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
                                 um.AddToRole(UserId, Role.Administrator);
+                            }));
+                            tt.Add(Task.Factory.StartNew(() => {
 
-                            });
-
-
-                            await Task.Factory.StartNew(() =>
-                            {
                                 subscriptionPlan sp = db.SubscriptionPlan.Where(x => x.id_SubscriptionPlan == id_SubscriptionPlan).SingleOrDefault();
                                 if (sp != null)
                                 {
@@ -183,18 +217,30 @@ namespace UmarSeat.Controllers
 
 
                                 }
-                            });
+
+
+
+                               
+                            }));
+                            tt.Add(Task.Factory.StartNew(() => {
+                                if (Session["menulinks"] == null)
+                                {
+                                    menuList ml = new menuList();
+                                    Session["menulinks"] = ml.getLinks(user.Roles.ToList());
+                                }
+                            }));
+
+
+                            Session["access_token"] = await GetBearerToken(dominanem, model.UserName, model.Password);
+
 
                             await SignInAsync(user, isPersistent: false);
-
+                            Task.WaitAll(tt.ToArray());
                             Session["idSubscription"] = user.id_Subscription;
                             Session["branchName"] = user.PersonInfo.First().branchName;
                             Session["userId"] = user.Id;
-                            if (Session["menulinks"] == null)
-                            {
-                                menuList ml = new menuList();
-                                Session["menulinks"] = ml.getLinks(user.Roles.ToList());
-                            }
+
+
                             return RedirectToAction("Index", "Home");
                         }
                         else

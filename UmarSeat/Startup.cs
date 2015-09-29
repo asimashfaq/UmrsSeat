@@ -1,4 +1,6 @@
-﻿using Microsoft.Owin;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
@@ -12,6 +14,7 @@ namespace UmarSeat
     {
         public void Configuration(IAppBuilder app)
         {
+           
             HttpConfiguration config = new HttpConfiguration();
 
             ConfigureOAuth(app);
@@ -19,7 +22,13 @@ namespace UmarSeat
             WebApiConfig.Register(config);
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/Account/Login")
+            });
             app.MapSignalR();
+
         }
         public void ConfigureOAuth(IAppBuilder app)
         {
@@ -36,7 +45,16 @@ namespace UmarSeat
             };
             // Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
-            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+            var oauthBearOptions = new OAuthBearerAuthenticationOptions();
+            oauthBearOptions.AccessTokenFormat = OAuthServerOptions.AccessTokenFormat;
+            oauthBearOptions.AccessTokenProvider = OAuthServerOptions.AccessTokenProvider;
+            oauthBearOptions.AuthenticationMode = OAuthServerOptions.AuthenticationMode;
+            oauthBearOptions.AuthenticationType = OAuthServerOptions.AuthenticationType;
+            oauthBearOptions.Description = OAuthServerOptions.Description;
+            oauthBearOptions.Provider = new QueryStringOAuthBearerProvider("access_token");
+
+
+            app.UseOAuthBearerAuthentication(oauthBearOptions);
 
         }
     }

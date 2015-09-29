@@ -1,6 +1,13 @@
 ﻿@model IEnumerable<UmarSeat.Models.SeatConfirmation>
 
-
+<div>
+   
+    @{ 
+        string dominanem = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+    }
+    <br />
+    <input class="col-sm-12" type="text" value="@Html.Raw(dominanem)/odata/SeatConfirmation?access_token=@Html.Raw(Session["access_token"])"/>
+</div>
 <div class="table-responsive">
     <table class="table table-hover table-condensed  table-detailed" id="detailedTable">
         <thead>
