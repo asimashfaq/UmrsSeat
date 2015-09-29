@@ -51,19 +51,21 @@ namespace UmarSeat.Models
 
             menu.Add(new menulinks() { linkId = 19, url = "/stockId/Index", dtext = "Stock Id", thumbtext = "Si", parentId = 0, roleName = "ManageStockId,Administrator" });
 
-            menu.Add(new menulinks() { linkId = 20, url = "/agents/Index", dtext = "Agents", thumbtext = "Ag", parentId = 0, roleName = "ManageAgents,Administrator" });
+            menu.Add(new menulinks() { linkId = 20, url = "/sector/Index", dtext = "Sectors", thumbtext = "Se", parentId = 0, roleName = "ManageSector,Administrator" });
 
-            menu.Add(new menulinks() { linkId = 21, url = "/airline/Index", dtext = "Airline", thumbtext = "Ar", parentId = 0, roleName = "ManageAirline,Administrator" });
+            menu.Add(new menulinks() { linkId = 21, url = "/agents/Index", dtext = "Agents", thumbtext = "Ag", parentId = 0, roleName = "ManageAgents,Administrator" });
 
-            menu.Add(new menulinks() { linkId = 22, url = "/branches/Index", dtext = "Branches", thumbtext = "Br", parentId = 0, roleName = "Managebranches,Administrator" });
+            menu.Add(new menulinks() { linkId = 22, url = "/airline/Index", dtext = "Airline", thumbtext = "Ar", parentId = 0, roleName = "ManageAirline,Administrator" });
 
-            menu.Add(new menulinks() { linkId = 23, url = "/category/Index", dtext = "Category", thumbtext = "Ca", parentId = 0, roleName = "ManageCategory,Administrator" });
+            menu.Add(new menulinks() { linkId = 23, url = "/branches/Index", dtext = "Branches", thumbtext = "Br", parentId = 0, roleName = "Managebranches,Administrator" });
 
-            menu.Add(new menulinks() { linkId = 24, url = "/usermanagement/Index", dtext = "User Management", thumbtext = "Um", parentId = 0, roleName = "ManageUsers,Administrator" });
+            menu.Add(new menulinks() { linkId = 24, url = "/category/Index", dtext = "Category", thumbtext = "Ca", parentId = 0, roleName = "ManageCategory,Administrator" });
 
-            menu.Add(new menulinks() { linkId = 25, url = "javascript:;", dtext = "User Roles", thumbtext = "Ur", parentId = 0, roleName = "ManageUserRoles,Administrator" });
-            menu.Add(new menulinks() { linkId = 26, url = "/userrole/create", dtext = "Add Roles", thumbtext = "ar", parentId = 25, roleName = "ManageUserRoles,Administrator" });
-            menu.Add(new menulinks() { linkId = 27, url = "/userrole/index", dtext = "Manage", thumbtext = "ma", parentId = 25, roleName = "ManageUserRoles,Administrator" });
+            menu.Add(new menulinks() { linkId = 25, url = "/usermanagement/Index", dtext = "User Management", thumbtext = "Um", parentId = 0, roleName = "ManageUsers,Administrator" });
+
+            menu.Add(new menulinks() { linkId = 26, url = "javascript:;", dtext = "User Roles", thumbtext = "Ur", parentId = 0, roleName = "ManageUserRoles,Administrator" });
+            menu.Add(new menulinks() { linkId = 27, url = "/userrole/create", dtext = "Add Roles", thumbtext = "ar", parentId = 26, roleName = "ManageUserRoles,Administrator" });
+            menu.Add(new menulinks() { linkId = 28, url = "/userrole/index", dtext = "Manage", thumbtext = "ma", parentId = 26, roleName = "ManageUserRoles,Administrator" });
 
 
             

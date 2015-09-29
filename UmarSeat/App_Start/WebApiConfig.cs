@@ -7,6 +7,8 @@ using UmarSeat.Models;
 using System.Web.Http.Tracing;
 using System.Web.Http.OData.Builder;
 using System.Web.OData.Extensions;
+using System.Net.Http.Formatting;
+using Newtonsoft.Json.Serialization;
 
 namespace UmarSeat
 {
@@ -29,7 +31,8 @@ namespace UmarSeat
             ODataModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Employee>("Employees");
             config.Routes.MapODataRoute("Odata", "odata", builder.GetEdmModel());
-            
+            var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
+            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }

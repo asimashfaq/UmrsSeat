@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
@@ -29,6 +31,42 @@ namespace UmarSeat.Models
         Deleted,
         Pending
     }
+    public class Client
+    {
+        [Key]
+        public string Id { get; set; }
+        [Required]
+        public string Secret { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string Name { get; set; }
+        public ApplicationTypes ApplicationType { get; set; }
+        public bool Active { get; set; }
+        public int RefreshTokenLifeTime { get; set; }
+        [MaxLength(100)]
+        public string AllowedOrigin { get; set; }
+    }
+    public enum ApplicationTypes
+    {
+        JavaScript = 0,
+        NativeConfidential = 1
+    };
+    public class RefreshToken
+    {
+        [Key]
+        public string Id { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string Subject { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string ClientId { get; set; }
+        public DateTime IssuedUtc { get; set; }
+        public DateTime ExpiresUtc { get; set; }
+        [Required]
+        public string ProtectedTicket { get; set; }
+    }
+
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -53,6 +91,9 @@ namespace UmarSeat.Models
 
         public DbSet<Stock> Stock { get; set; }
         public DbSet<pnrLog> pnrLogs { get; set; }
+
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public System.Data.Entity.DbSet<UmarSeat.Models.Employee> Employees { get; set; }
 
