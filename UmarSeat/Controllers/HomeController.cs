@@ -13,11 +13,12 @@ namespace UmarSeat.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
         [CheckSessionOut]
+        [Authorize]
         public ActionResult Index()
         {
             int idSubcription = 0;
             
-                 idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
+            idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
             
             ViewBag.latestRecord = db.SeatConfirmation.Where(x=>  x.id_Subscription == idSubcription).OrderByDescending(x => x.id_SeatConfirmation).Take(5).ToList();
             ViewBag.expriysoon = db.SeatConfirmation.Where(x => x.timeLimit >= DateTime.Now && x.id_Subscription == idSubcription).OrderBy(x => x.timeLimit).Take(5).ToList();

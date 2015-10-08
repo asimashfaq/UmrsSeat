@@ -369,7 +369,7 @@ namespace UmarSeat.Controllers
                                 StockTransfer skt = db.StockTransfer.Where(sx => sx.pnrNumber == x.pnrNumber && sx.recevingBranch == x.branchName && sx.id_Subscription == idSubscription).FirstOrDefault();
                                 if (skt != null)
                                 {
-                                    x.sc = db.SeatConfirmation.Where(scx => (scx.pnrNumber == x.pnrNumber || scx.newPnrNumber == x.pnrNumber) && scx.recevingBranch == skt.transferingBranch && scx.id_Subscription == idSubscription).FirstOrDefault();
+                                    x.sc = db.SeatConfirmation.Where(scx => (scx.pnrNumber == x.pnrNumber || scx.newPnrNumber == x.pnrNumber) && (scx.recevingBranch == skt.transferingBranch || scx.recevingBranch == skt.recevingBranch) && scx.id_Subscription == idSubscription).FirstOrDefault();
                                     x.sc.noOfSeats = skt.noOfSeats;
                                     x.sc.cost = skt.sellingPrice;
                                     x.sc.recevingBranch = x.branchName;
@@ -475,7 +475,7 @@ namespace UmarSeat.Controllers
                             StockTransfer skt = db.StockTransfer.Where(sx => sx.pnrNumber == x.pnrNumber && sx.recevingBranch == x.branchName && sx.id_Subscription == idSubcription).FirstOrDefault();
                             if (skt != null)
                             {
-                                x.sc = db.SeatConfirmation.Where(scx => (scx.pnrNumber == x.pnrNumber || scx.newPnrNumber == x.pnrNumber) && scx.recevingBranch == skt.transferingBranch && scx.id_Subscription == idSubcription).FirstOrDefault();
+                                x.sc = db.SeatConfirmation.Where(scx => (scx.pnrNumber == x.pnrNumber || scx.newPnrNumber == x.pnrNumber) && (scx.recevingBranch == skt.transferingBranch || scx.recevingBranch == skt.recevingBranch) && scx.id_Subscription == idSubcription).FirstOrDefault();
                                 x.sc.noOfSeats = skt.noOfSeats;
                                 x.sc.cost = skt.sellingPrice;
                                 x.sc.recevingBranch = x.branchName;
@@ -514,8 +514,16 @@ namespace UmarSeat.Controllers
 
 
             });
-
-            decimal count = Convert.ToDecimal(db.pnrLogs.Where(x=>  x.idSubscription == idSubcription).ToList().Count.ToString());
+            decimal count = 0;
+            if (string.IsNullOrEmpty(bn))
+            {
+                count = db.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year && x.idSubscription == idSubcription).ToList().Count;
+            }
+            else
+            {
+                count = db.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year && x.branchName == bn && x.idSubscription == idSubcription).ToList().Count;
+            }
+           
             decimal pages = count / 10;
             ViewBag.pages = (int)Math.Ceiling(pages); 
             ViewBag.total = count;

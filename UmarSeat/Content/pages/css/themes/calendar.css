@@ -8637,11 +8637,11 @@ Events / .event-container
   height: 43px;
   background-color: #fafafa;
   line-height: 43px;
-  padding-left: 60px;
+  padding-left: 0px;
 }
 .calendar .calendar-header > .drager {
-  width: calc(100% - 141px);
-  border-right: 1px solid rgba(0, 0, 0, 0.33);
+  width: calc(100%);
+  border-right: 0px solid rgba(0, 0, 0, 0.33);
   margin-top: 7px;
   line-height: 35px;
 }
@@ -8674,7 +8674,7 @@ Events / .event-container
   color: rgba(0, 0, 0, 0.44);
 }
 .calendar .options {
-  padding-left: 60px;
+  padding-left: 0px;
   margin-top: 15px;
 }
 .calendar .options .months {
@@ -8720,14 +8720,14 @@ Events / .event-container
   white-space: nowrap;
   padding-left: 10px;
   padding-bottom: 12px;
-  margin-left: -20px;
+  margin-left: 0px;
   margin-bottom: 5px;
 }
 .calendar .weeks-wrapper .week {
   display: inline-block;
   position: relative;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 .calendar .weeks-wrapper .week:first-child {
   padding-left: 0px;
@@ -8742,7 +8742,31 @@ Events / .event-container
   bottom: 6px;
   height: 20px;
   width: 20px;
-  border-left: 1px dotted rgba(0, 0, 0, 0.3);
+  border-left: 0px dotted rgba(0, 0, 0, 0.3);
+}
+
+
+.dateheader {
+    background: #efefef;
+    padding: 10px;
+    font-size: 14px;
+    color: #24444C;
+    border-right: 1px solid white;
+    width: 180px;
+    border-bottom: 1px solid #CCC;
+}
+.sectorNames{
+    font-size:12px;
+}
+.sectorVal, .sectorNames{
+    width:100%;
+    font-size:16px !important;
+}
+.sectorVal tr,.sectorNames tr{
+    border-bottom:1px solid #F3F3F3;
+}
+.sectorVal tr td,.sectorNames td{
+    padding:5px;
 }
 .calendar .weeks-wrapper .week.active .day-wrapper .week-date .day > a {
   color: rgba(0, 0, 0, 0.6);

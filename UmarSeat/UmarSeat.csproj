@@ -506,6 +506,7 @@
     <Compile Include="Models\StockTransfer.cs" />
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\subscriptionPlan.cs" />
+    <Compile Include="Models\TotalSeatsAirlineSector.cs" />
     <Compile Include="Models\UserRoles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="providers\SimpleAuthorizationServerProvider.cs" />
@@ -545,6 +546,7 @@
     <Content Include="Content\assets\img\profiles\avatar2x.jpg" />
     <Content Include="Content\assets\img\profiles\avatar_small.jpg" />
     <Content Include="Content\assets\img\profiles\avatar_small2x.jpg" />
+    <Content Include="Content\assets\js\pages.calendar.js" />
     <Content Include="Content\assets\js\scripts.js" />
     <Content Include="Content\assets\plugins\alerts\sweet-alert.css" />
     <Content Include="Content\assets\plugins\alerts\sweet-alert.js" />
