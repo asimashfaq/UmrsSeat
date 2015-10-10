@@ -91,13 +91,15 @@ namespace UmarSeat.Controllers
             int id_Subscription =1002;
 
 
-            Dictionary<string, object> totaldata = new Dictionary<string, object>();
+            List<object> totaldata = new List<object>();
             DateTime sdata = Convert.ToDateTime(startDate);
             DateTime endDate = Convert.ToDateTime(enddate);
             var sellRecord = db.StockTransfer.Where(x => x.createAt >= sdata && x.createAt<= endDate  && x.airLine == airlineName && x.sellingBranch != null)
                 .Select(x=> new { x.pnrNumber,x.sellingBranch,x.noOfSeats,x.sellingPrice,x.idAgent,x.cost,x.margin}).ToList();
             sellRecord.ForEach(x =>
             {
+                
+                 var sobject = x.ToDictionary();
                 var sc = db.SeatConfirmation.Where(s => (s.pnrNumber == x.pnrNumber || s.newPnrNumber == x.pnrNumber) && s.recevingBranch == x.sellingBranch)
                          .Select(_st => new { _st.pnrNumber, _st.newPnrNumber, _st.outBoundSector, _st.inBoundSector, _st.cost }).FirstOrDefault();
                 if(sc == null)
@@ -105,10 +107,27 @@ namespace UmarSeat.Controllers
                     sc = db.SeatConfirmation.Where(s => (s.pnrNumber == x.pnrNumber || s.newPnrNumber == x.pnrNumber))
                          .Select(_st => new { _st.pnrNumber, _st.newPnrNumber, _st.outBoundSector, _st.inBoundSector, _st.cost }).FirstOrDefault();
                 }
+                sobject.Add(new KeyValuePair<string, object>("sectorInfo",sc));
 
+
+                SeatConfirmation psc;
+                string pnr = x.pnrNumber;
+                do
+                {
+                    psc = db.SeatConfirmation.Where(px => px.newPnrNumber == pnr && px.id_Subscription == id_Subscription).FirstOrDefault();
+                    if (psc != null)
+                    {
+                        pnr = psc.pnrNumber;
+                    }
+                }
+                while (sc != null);
+                sobject.Add(new KeyValuePair<string, object>("BasePnr", pnr));
+                var agentInfo = db.Agent.Include(ag => ag.Person).Where(iag => iag.id_Agent == Convert.ToInt32(x.idAgent)).SingleOrDefault();
+                sobject.Add(new KeyValuePair<string, object>("agentinfo", agentInfo));
+                totaldata.Add(sobject);
             });
 
-            return JsonConvert.SerializeObject(sellRecord);
+            return JsonConvert.SerializeObject(totaldata);
         }
         public async Task<ActionResult> stockId()
         {

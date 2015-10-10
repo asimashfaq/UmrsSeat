@@ -284,6 +284,7 @@
     <Compile Include="Helpers\EntitySetControllerWithHub.cs" />
     <Compile Include="Helpers\JsonpResult.cs" />
     <Compile Include="Helpers\lowercase.cs" />
+    <Compile Include="Helpers\ObjectToDictionary.cs" />
     <Compile Include="Helpers\pnrCalculator.cs" />
     <Compile Include="Helpers\SessionExpire.cs" />
     <Compile Include="Hubs\BookingHub.cs" />
