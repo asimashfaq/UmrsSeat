@@ -546,7 +546,7 @@
     <Content Include="Content\assets\img\profiles\avatar2x.jpg" />
     <Content Include="Content\assets\img\profiles\avatar_small.jpg" />
     <Content Include="Content\assets\img\profiles\avatar_small2x.jpg" />
-    <Content Include="Content\assets\js\pages.calendar.js" />
+    <Content Include="Content\assets\js\pages.calendarSeatSelling.js" />
     <Content Include="Content\assets\js\scripts.js" />
     <Content Include="Content\assets\plugins\alerts\sweet-alert.css" />
     <Content Include="Content\assets\plugins\alerts\sweet-alert.js" />
@@ -1887,6 +1887,8 @@
     <Content Include="Views\Excel\ImportBooking.cshtml" />
     <Content Include="Views\UserManagement\noRoleFound.cshtml" />
     <Content Include="Scripts\phone-codes.json" />
+    <Content Include="Views\Reports\stockselling.cshtml" />
+    <Content Include="Views\Reports\seatselling.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

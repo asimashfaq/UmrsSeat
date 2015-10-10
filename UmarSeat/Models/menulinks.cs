@@ -30,6 +30,9 @@ namespace UmarSeat.Models
             menu.Add(new menulinks() { linkId = 3, url = "/pnr", dtext = "PNR", thumbtext = "pnr", parentId = 2, roleName = "PNR Reports,Administrator" });
             menu.Add(new menulinks() { linkId = 4, url = "/pnr/log", dtext = "PNR Log", thumbtext = "pl", parentId = 2, roleName = "PNR Reports,Administrator" });
             menu.Add(new menulinks() { linkId = 5, url = "/pnr/tree", dtext = "PNR Tree view", thumbtext = "pt", parentId = 2, roleName = "PNR Reports,Administrator" });
+            menu.Add(new menulinks() { linkId = 30, url = "/reports/outbounddate", dtext = "Airline Stock Summary", thumbtext = "ass", parentId = 2, roleName = "PNR Reports,Administrator" });
+            menu.Add(new menulinks() { linkId = 31, url = "/reports/stockselling", dtext = "Stock Selling Summary", thumbtext = "sss", parentId = 2, roleName = "PNR Reports,Administrator" });
+            menu.Add(new menulinks() { linkId = 32, url = "/reports/seatselling", dtext = "Seat Selling Summary", thumbtext = "sss", parentId = 2, roleName = "PNR Reports,Administrator" });
 
             menu.Add(new menulinks() { linkId = 6, url = "javascript:;", dtext = "Booking", thumbtext = "Bo", parentId = 0, roleName = "ReadBooking,UpdateBooking,DeleteBooking,CreatBooking,Administrator" });
             menu.Add(new menulinks() { linkId = 7, url = "/booking/entry", dtext = "Entry", thumbtext = "en", parentId = 6, roleName = "CreateBooking,Administrator" });

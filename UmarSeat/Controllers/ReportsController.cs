@@ -78,12 +78,37 @@ namespace UmarSeat.Controllers
                    
                     
                 });
-                //if(tsal1.Count>0)
+                if(tsal1.Count>0)
                 totaldata.Add(x.Key, tsal1);
             });
 
 
             return JsonConvert.SerializeObject(totaldata);
+        }
+        public async Task<string> seatsell(string startDate, string enddate, string airlineName)
+        {
+
+            int id_Subscription =1002;
+
+
+            Dictionary<string, object> totaldata = new Dictionary<string, object>();
+            DateTime sdata = Convert.ToDateTime(startDate);
+            DateTime endDate = Convert.ToDateTime(enddate);
+            var sellRecord = db.StockTransfer.Where(x => x.createAt >= sdata && x.createAt<= endDate  && x.airLine == airlineName && x.sellingBranch != null)
+                .Select(x=> new { x.pnrNumber,x.sellingBranch,x.noOfSeats,x.sellingPrice,x.idAgent,x.cost,x.margin}).ToList();
+            sellRecord.ForEach(x =>
+            {
+                var sc = db.SeatConfirmation.Where(s => (s.pnrNumber == x.pnrNumber || s.newPnrNumber == x.pnrNumber) && s.recevingBranch == x.sellingBranch)
+                         .Select(_st => new { _st.pnrNumber, _st.newPnrNumber, _st.outBoundSector, _st.inBoundSector, _st.cost }).FirstOrDefault();
+                if(sc == null)
+                {
+                    sc = db.SeatConfirmation.Where(s => (s.pnrNumber == x.pnrNumber || s.newPnrNumber == x.pnrNumber))
+                         .Select(_st => new { _st.pnrNumber, _st.newPnrNumber, _st.outBoundSector, _st.inBoundSector, _st.cost }).FirstOrDefault();
+                }
+
+            });
+
+            return JsonConvert.SerializeObject(sellRecord);
         }
         public async Task<ActionResult> stockId()
         {
@@ -105,6 +130,43 @@ namespace UmarSeat.Controllers
             ViewBag.selectedValue = ListAirline[0].Value;
             return View();
         }
+        public ActionResult stockselling()
+        {
+            ApplicationDbContext db1 = new ApplicationDbContext();
+            int id_Subscription = Convert.ToInt32(Session["idSubscription"].ToString());
+            List<airLine> airline = db1.Airline.Where(x => x.id_Subscription == id_Subscription).ToList();
+            db1.Dispose();
+            var ListAirline = new List<SelectListItem>();
+            airline.ForEach(x =>
+            {
+                ListAirline.Add(new SelectListItem { Text = x.airlineName, Value = x.airlineName.ToString() });
+            });
+
+            ViewBag.listAirline = ListAirline;
+            ViewBag.selectedValue = ListAirline[0].Value;
+            return View();
+        }
+
+        public ActionResult seatselling()
+        {
+            ApplicationDbContext db1 = new ApplicationDbContext();
+            int id_Subscription = Convert.ToInt32(Session["idSubscription"].ToString());
+            List<airLine> airline = db1.Airline.Where(x => x.id_Subscription == id_Subscription).ToList();
+            db1.Dispose();
+            var ListAirline = new List<SelectListItem>();
+            airline.ForEach(x =>
+            {
+                ListAirline.Add(new SelectListItem { Text = x.airlineName, Value = x.airlineName.ToString() });
+            });
+
+            ViewBag.listAirline = ListAirline;
+            ViewBag.selectedValue = ListAirline[0].Value;
+            return View();
+        }
+
+
+
+
         public async Task<ActionResult> outboundsector()
         {
             return View(await db.SeatConfirmation.ToListAsync());
