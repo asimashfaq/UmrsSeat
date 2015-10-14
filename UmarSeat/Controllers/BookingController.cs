@@ -1315,11 +1315,7 @@ namespace UmarSeat.Controllers
 
                         errors.Add(new ResponseRequest() { isSuccess = false, Element = "outboundate", ErrorMessage = "Outbound date " + seatconfirmation.outBoundDate + " cannot be less than Inbound date " + seatconfirmation.inBoundDate });
                     }
-                    if (seatconfirmation.inBoundSector == seatconfirmation.outBoundSector)
-                    {
-                        errors.Add(new ResponseRequest() { isSuccess = false, Element = "inbounder", ErrorMessage = "Outbound Sector " + seatconfirmation.outBoundSector + " cannot be same as Inbound Sector " + seatconfirmation.inBoundSector });
-                    }
-
+                  
 
 
 

@@ -67,7 +67,7 @@ namespace UmarSeat.Controllers
                 tsal.ForEach(child =>
                 {
                     
-                    generateTree4(child.pnrNumber, child.id_Subscription);
+                    generateTree4(child.pnrNumber, child.id_Subscription,child.airLine);
                     
                     child.data = pnrs;
 
@@ -94,8 +94,9 @@ namespace UmarSeat.Controllers
             List<object> totaldata = new List<object>();
             DateTime sdata = Convert.ToDateTime(startDate);
             DateTime endDate = Convert.ToDateTime(enddate);
+
             var sellRecord = db.StockTransfer.Where(x => x.createAt >= sdata && x.createAt<= endDate  && x.airLine == airlineName && x.sellingBranch != null)
-                .Select(x=> new { x.pnrNumber,x.sellingBranch,x.noOfSeats,x.sellingPrice,x.idAgent,x.cost,x.margin}).ToList();
+                .Select(x=> new { x.pnrNumber,x.sellingBranch,x.noOfSeats,x.sellingPrice,x.idAgent,x.cost,x.margin,x.airLine}).ToList();
             sellRecord.ForEach(x =>
             {
                 
@@ -107,26 +108,45 @@ namespace UmarSeat.Controllers
                     sc = db.SeatConfirmation.Where(s => (s.pnrNumber == x.pnrNumber || s.newPnrNumber == x.pnrNumber))
                          .Select(_st => new { _st.pnrNumber, _st.newPnrNumber, _st.outBoundSector, _st.inBoundSector, _st.cost }).FirstOrDefault();
                 }
-                sobject.Add(new KeyValuePair<string, object>("sectorInfo",sc));
+                sobject.Add(new KeyValuePair<string, object>("outboundSector",sc.outBoundSector));
+                sobject.Add(new KeyValuePair<string, object>("inboundSector", sc.inBoundSector));
 
 
                 SeatConfirmation psc;
                 string pnr = x.pnrNumber;
+                string bbranch = "";
+                int beseat = 0;
                 do
                 {
                     psc = db.SeatConfirmation.Where(px => px.newPnrNumber == pnr && px.id_Subscription == id_Subscription).FirstOrDefault();
                     if (psc != null)
                     {
                         pnr = psc.pnrNumber;
+                        bbranch = psc.recevingBranch;
+                        beseat = psc.noOfSeats;
+                    }
+                    else
+                    {
+                        psc = db.SeatConfirmation.Where(px => px.pnrNumber == pnr &&  px.newPnrNumber == null && px.id_Subscription == id_Subscription).FirstOrDefault();
+                        if (psc != null)
+                        {
+                            pnr = psc.pnrNumber;
+                            bbranch = psc.recevingBranch;
+                            beseat = psc.noOfSeats;
+                            psc = null;
+                        }
                     }
                 }
-                while (sc != null);
+                while (psc != null);
                 sobject.Add(new KeyValuePair<string, object>("BasePnr", pnr));
-                var agentInfo = db.Agent.Include(ag => ag.Person).Where(iag => iag.id_Agent == Convert.ToInt32(x.idAgent)).SingleOrDefault();
-                sobject.Add(new KeyValuePair<string, object>("agentinfo", agentInfo));
+                sobject.Add(new KeyValuePair<string, object>("BaseBranch", bbranch));
+                sobject.Add(new KeyValuePair<string, object>("TotalSeats", beseat));
+                int idag = Convert.ToInt32(x.idAgent);
+                var agentInfo = db.Agent.Include(ag => ag.Person).Where(iag => iag.id_Agent == idag).Select(ags =>new { ags.Person.firstName, ags.Person.lastName, ags.CompanyName }).SingleOrDefault();
+                sobject.Add(new KeyValuePair<string, object>("agentName", agentInfo.CompanyName + " (" + agentInfo.firstName+" "+agentInfo.lastName+")"));
                 totaldata.Add(sobject);
             });
-
+          
             return JsonConvert.SerializeObject(totaldata);
         }
         public async Task<ActionResult> stockId()
@@ -278,7 +298,7 @@ namespace UmarSeat.Controllers
         }
         List<Dictionary<string,object>> pnrs = new List<Dictionary<string, object>>();
 
-        private void generateTree4(string pnr, int idSubscription)
+        private void generateTree4(string pnr, int idSubscription,string airLine)
         {
             Dictionary<string, object> salesinfo = new Dictionary<string, object>();
             salesinfo.Add("pnr", pnr);
@@ -286,12 +306,12 @@ namespace UmarSeat.Controllers
             List<SeatConfirmation> sc = new List<Models.SeatConfirmation>();
             do
             {
-                sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber != null && x.id_Subscription == idSubscription).OrderByDescending(x=> x.id_SeatConfirmation).ToList();
+                sc = db.SeatConfirmation.Where(x => x.pnrNumber == pnr && x.newPnrNumber != null && x.id_Subscription == idSubscription && x.airLine == airLine).OrderByDescending(x=> x.id_SeatConfirmation).ToList();
                 if (sc != null)
                 {
                     sc.ForEach(x=> {
                         
-                        generateTree4(x.newPnrNumber, x.id_Subscription);
+                        generateTree4(x.newPnrNumber, x.id_Subscription,x.airLine);
                        
 
                     });
@@ -302,7 +322,7 @@ namespace UmarSeat.Controllers
                 
             }
             while (sc != null);
-            var stlist = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.id_Subscription == idSubscription && x.sellingBranch != null)
+            var stlist = db.StockTransfer.Where(x => x.pnrNumber == pnr && x.id_Subscription == idSubscription && x.sellingBranch != null && x.airLine == airLine)
                 .Select(x=> new {x.id_StockTransfer, x.pnrNumber,x.noOfSeats,x.createAt,x.id_Subscription}).OrderBy(x=> x.id_StockTransfer).ToList();
           
             salesinfo.Add("sale", stlist);

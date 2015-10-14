@@ -91,12 +91,7 @@
 
                 this.buildYears();
                 this.buildMonths();
-                this.buildCurrentDateHeader();
-                this.buildWeek();
-                this.buildWeekViewCalendar();
-
-                this.loadDatesToWeekView();
-                //  this.highlightActiveDay();
+               
                 $.fn.pagescalendar.settings.onViewRenderComplete.call(this);
                 this.bindEventHanders();
                 // this.loadEvents();
@@ -188,7 +183,7 @@
              * Display Date
              */
             buildCurrentDateHeader: function () {
-                $("#currentDate").text(moment([calendar.year, calendar.month, calendar.date]).format(settings.ui.date.format));
+              //  $("#currentDate").text(moment([calendar.year, calendar.month, calendar.date]).format(settings.ui.date.format));
             },
 
             /**
@@ -337,90 +332,8 @@
             /**
              * Render Week View
              */
-            buildWeekViewCalendar: function () {
-                var numberOfCells = 7;
-                var headerContent = '<div class="thead" ><div class="tcell"></div><div class="tcell"></div><div class="tcell"></div><div class="tcell"></div><div class="tcell"></div><div class="tcell"></div><div class="tcell"></div></div>';
-                if (window.innerWidth <= 1024 || settings.view == 'day') {
-                    settings.view = 'day';
-                    //Switch To single Cell on small screens
-                    numberOfCells = 1;
-                    headerContent = '<div class="thead" ><div class="tcell"></div></div>';
-                }
-                var container = '.calendar-container';
-                $(container).html("");
-                content = '';
-                content += '<div class="week-view">';
-                content += '<div class="allday-cell">';
-                content += '</div>';
-                content += '<div class="tble" id="weekViewTableHead">';
-                //START TABLE HEADER
-                content += headerContent;
-                content += '</div>';
-                content += '<div class="grid">';
-                content += '<div class="time-slot-wrapper" id="time-slots">';
-                content += '</div>';
+          
 
-                content += '<div class="tble" id="weekGrid">';
-                //START TABLE CONTENT
-                for (var i = settings.minTime; i < settings.maxTime; i++) {
-                    content += '<div class="trow" >';
-                    for (var j = 1; j <= numberOfCells; j++) {
-                        content += '<div class="tcell">';
-                        if (settings.slotDuration == '30') {
-                            content += '<div class="cell-inner" data-time-slot="' + i + ':00" ></div>';
-                            content += '<div class="cell-inner" data-time-slot=' + i + ':30" ></div>';
-                        } else {
-                            content += '<div class="cell-inner" data-time-slot="' + i + ':00" ></div>';
-                        }
-                        content += '</div>';
-                    }
-                    content += '</div>';
-                }
-                //END TABLE CONTENT
-                content += '</div>';
-                content += '</div>';
-                //END TABLE HEADER
-                content += '</div>';
-                $(container).append(content);
-                cellHeight = $('.tcell').innerHeight();
-                calendar.startOfWeekDate = moment([calendar.year, calendar.month, calendar.date]).startOf('week');
-                calendar.endOfWeek = moment([calendar.year, calendar.month, calendar.date]).endOf('week').format('D');
-            },
-
-            /**
-             * Render Time Slots
-             */
-
-
-            /**
-             * Load Dates To DOM Seperately
-             */
-            loadDatesToWeekView: function () {
-                if (window.innerWidth <= 1024) {
-                    var d = moment([calendar.year, calendar.month, calendar.date]);
-                    $("#weekViewTableHead").find(".thead .tcell:nth-child(1)")
-                        .html('<div class="weekdate">' + moment(d).format('D') + '</div><div class="weekday">' + moment(d).format('dddd') + '</div>')
-                        .attr('data-day', moment(d).format('YYYY-MM-DD'));
-                    return
-                }
-
-                var startOfWeek, endOfWeek;
-                startOfWeek = moment([calendar.year, calendar.month, calendar.date]).startOf('week');
-                endOfWeek = moment([calendar.year, calendar.month, calendar.date]);
-
-                $("#weekViewTableHead").find('.thead .tcell:nth-child(1)')
-                    .html('<div class="weekdate">' + moment(startOfWeek).format('D') + '</div><div class="weekday">' + moment(startOfWeek).format('dddd') + '</div>')
-                    .attr('data-day', moment(startOfWeek).format('YYYY-MM-DD'));
-
-                for (var i = 2; i <= 7; i++) {
-
-                    startOfWeek = moment(startOfWeek).add(1, 'days');
-                    $("#weekViewTableHead").find(".thead .tcell:nth-child(" + i + ")")
-                        .html('<div class="weekdate">' + moment(startOfWeek).format('D') + '</div><div class="weekday">' + moment(startOfWeek).format('dddd') + '</div>')
-                        .attr('data-day', moment(startOfWeek).format('YYYY-MM-DD'));
-                }
-                calendar.startOfWeekDate = moment([calendar.year, calendar.month, calendar.date]).startOf('week');
-            },
 
             /**
              * Higlight Active Week On Weekview/ view
@@ -667,7 +580,7 @@
              */
             weekDateChange: function (day, elem) {
                 calendar.date = day;
-                this.buildCurrentDateHeader();
+               // this.buildCurrentDateHeader();
                 this.highlightWeek(elem);
                 this.loadDatesToWeekView();
                 this.highlightActiveDay();
@@ -750,9 +663,7 @@
             },
             renderViewsOnDateChange: function () {
                 helpers.buildMonths();
-                helpers.buildWeek();
-                helpers.loadDatesToWeekView();
-                helpers.buildCurrentDateHeader();
+             
                 helpers.bindEventHanders
                 helpers.loadEvents();
             },

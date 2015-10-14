@@ -25,6 +25,9 @@
         border: 1px solid #ECECEC;
         margin-right: 10px;
     }
+    #ssr .rheader td {
+    background: #F1F1F1 !important;
+}
 </style>
 <link media="screen" type="text/css" rel="stylesheet" href="~/Content/assets/plugins/bootstrap-datepicker/css/datepicker3.css">
 
@@ -70,14 +73,33 @@
                     <div class="months-drager drager">
                         <div class="months" id="months"></div>
                     </div>
-                    <h4 class="semi-bold date" id="currentDate">&amp;</h4>
-                    <div class="drager week-dragger">
-                        <div class="weeks-wrapper" id="weeks-wrapper">
-                        </div>
-                    </div>
+                  
+                   
                 </div>
                 <!-- START CALENDAR GRID-->
                 <!-- END CALENDAR GRID-->
+            </div>
+            <div class="ssreport">
+                <table id="ssr" class="table table-detailed table-hover">
+                    <thead>
+                        <tr>
+                            <th>PNR #</th>
+                            <th>Branch Name</th>
+                            <th>Airline</th>
+                            <th>Outbound Sector</th>
+                            <th>InBound Sector</th>
+                           
+                            <th>Total Seats</th>
+                            <th>Seats Sold</th>
+                            <th>Selling Price</th>
+                            <th>C/o</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
             <div id="popups"></div>
 

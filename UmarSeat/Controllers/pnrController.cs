@@ -452,11 +452,13 @@ namespace UmarSeat.Controllers
              List<pnrLog> pnrList2 = new List<pnrLog>();
             if (string.IsNullOrEmpty(bn))
             {
-                model = db.pnrLogs.Where(x => x.idSubscription == idSubcription).OrderByDescending(x => x.pnrLogId).Skip(pageSize * (numPage - 1)).Take(pageSize).ToList();
+                model = db.pnrLogs.Where(x => x.idSubscription == idSubcription).OrderByDescending(x => x.pnrLogId).ToList();
+                model = model.Skip(pageSize * (numPage - 1)).Take(pageSize).ToList();
             }
             else
             {
-                model =  db.pnrLogs.Where(x => x.idSubscription == idSubcription ).OrderByDescending(x => x.pnrLogId).Skip(pageSize * (numPage - 1)).Take(pageSize).ToList();
+                model =  db.pnrLogs.Where(x => x.idSubscription == idSubcription ).OrderByDescending(x => x.pnrLogId).ToList();
+                model = model.Skip(pageSize * (numPage - 1)).Take(pageSize).ToList();
             }
 
             model.ForEach(x => {

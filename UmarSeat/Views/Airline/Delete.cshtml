@@ -20,7 +20,10 @@
             <div class="panel-title">
                 Do you Want to Delete @Html.Raw(Model.airlineName) ?
             </div>
-            <div class="export-options-container pull-right"></div>
+            <div class="pull-right">
+                <button data-dismiss="modal" type="button" class="btn btn-rounded btn-danger" onclick="clearall()"><i class="pg-close"></i> </button>
+
+            </div>
             <div class="clearfix"></div>
         </div>
         <div class="panel-body">
