@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 namespace UmarSeat.Controllers
 {
     [Authorize]
+   
     public class ReportsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -85,69 +86,80 @@ namespace UmarSeat.Controllers
 
             return JsonConvert.SerializeObject(totaldata);
         }
-        public async Task<string> seatsell(string startDate, string enddate, string airlineName)
+        [CheckSessionOut]
+        public string seatsell(string startDate, string enddate, string airlineName)
         {
 
-            int id_Subscription =1002;
-
-
-            List<object> totaldata = new List<object>();
-            DateTime sdata = Convert.ToDateTime(startDate);
-            DateTime endDate = Convert.ToDateTime(enddate);
-
-            var sellRecord = db.StockTransfer.Where(x => x.createAt >= sdata && x.createAt<= endDate  && x.airLine == airlineName && x.sellingBranch != null)
-                .Select(x=> new { x.pnrNumber,x.sellingBranch,x.noOfSeats,x.sellingPrice,x.idAgent,x.cost,x.margin,x.airLine}).ToList();
-            sellRecord.ForEach(x =>
+         
+            try
             {
-                
-                 var sobject = x.ToDictionary();
-                var sc = db.SeatConfirmation.Where(s => (s.pnrNumber == x.pnrNumber || s.newPnrNumber == x.pnrNumber) && s.recevingBranch == x.sellingBranch)
-                         .Select(_st => new { _st.pnrNumber, _st.newPnrNumber, _st.outBoundSector, _st.inBoundSector, _st.cost }).FirstOrDefault();
-                if(sc == null)
-                {
-                    sc = db.SeatConfirmation.Where(s => (s.pnrNumber == x.pnrNumber || s.newPnrNumber == x.pnrNumber))
-                         .Select(_st => new { _st.pnrNumber, _st.newPnrNumber, _st.outBoundSector, _st.inBoundSector, _st.cost }).FirstOrDefault();
-                }
-                sobject.Add(new KeyValuePair<string, object>("outboundSector",sc.outBoundSector));
-                sobject.Add(new KeyValuePair<string, object>("inboundSector", sc.inBoundSector));
+                int id_Subscription = Convert.ToInt32(Session["idSubscription"].ToString());
 
 
-                SeatConfirmation psc;
-                string pnr = x.pnrNumber;
-                string bbranch = "";
-                int beseat = 0;
-                do
+                List<object> totaldata = new List<object>();
+                DateTime sdata = Convert.ToDateTime(startDate);
+                DateTime endDate = Convert.ToDateTime(enddate);
+                var sellRecord = db.StockTransfer.Where(x => x.createAt >= sdata && x.createAt <= endDate && x.airLine == airlineName && x.sellingBranch != null)
+              .Select(x => new { x.pnrNumber, x.sellingBranch, x.noOfSeats, x.sellingPrice, x.idAgent, x.cost, x.margin, x.airLine }).ToList();
+                foreach (var x in sellRecord)
                 {
-                    psc = db.SeatConfirmation.Where(px => px.newPnrNumber == pnr && px.id_Subscription == id_Subscription).FirstOrDefault();
-                    if (psc != null)
+
+                    var sobject = x.ToDictionary();
+                    var sc = db.SeatConfirmation.Where(s => (s.pnrNumber == x.pnrNumber || s.newPnrNumber == x.pnrNumber) && s.recevingBranch == x.sellingBranch)
+                             .Select(_st => new { _st.pnrNumber, _st.newPnrNumber, _st.outBoundSector, _st.inBoundSector, _st.cost }).FirstOrDefault();
+                    if (sc == null)
                     {
-                        pnr = psc.pnrNumber;
-                        bbranch = psc.recevingBranch;
-                        beseat = psc.noOfSeats;
+                        sc = db.SeatConfirmation.Where(s => (s.pnrNumber == x.pnrNumber || s.newPnrNumber == x.pnrNumber))
+                             .Select(_st => new { _st.pnrNumber, _st.newPnrNumber, _st.outBoundSector, _st.inBoundSector, _st.cost }).FirstOrDefault();
                     }
-                    else
+                    sobject.Add(new KeyValuePair<string, object>("outboundSector", sc.outBoundSector));
+                    sobject.Add(new KeyValuePair<string, object>("inboundSector", sc.inBoundSector));
+                    SeatConfirmation psc;
+                    string pnr = x.pnrNumber;
+                    string bbranch = "";
+                    int beseat = 0;
+                    do
                     {
-                        psc = db.SeatConfirmation.Where(px => px.pnrNumber == pnr &&  px.newPnrNumber == null && px.id_Subscription == id_Subscription).FirstOrDefault();
+                        psc = db.SeatConfirmation.Where(px => px.newPnrNumber == pnr && px.id_Subscription == id_Subscription).FirstOrDefault();
                         if (psc != null)
                         {
                             pnr = psc.pnrNumber;
                             bbranch = psc.recevingBranch;
                             beseat = psc.noOfSeats;
-                            psc = null;
+                        }
+                        else
+                        {
+                            psc = db.SeatConfirmation.Where(px => px.pnrNumber == pnr && px.newPnrNumber == null && px.id_Subscription == id_Subscription).FirstOrDefault();
+                            if (psc != null)
+                            {
+                                pnr = psc.pnrNumber;
+                                bbranch = psc.recevingBranch;
+                                beseat = psc.noOfSeats;
+                                psc = null;
+                            }
                         }
                     }
+                    while (psc != null);
+                    sobject.Add(new KeyValuePair<string, object>("BasePnr", pnr));
+                    sobject.Add(new KeyValuePair<string, object>("BaseBranch", bbranch));
+                    sobject.Add(new KeyValuePair<string, object>("TotalSeats", beseat));
+
+                    int idag = Convert.ToInt32(x.idAgent);
+                    var agentInfo = db.Agent.Include(ag => ag.Person).Where(iag => iag.id_Agent == idag).Select(ags => new { ags.Person.firstName, ags.Person.lastName, ags.CompanyName }).SingleOrDefault();
+                    sobject.Add(new KeyValuePair<string, object>("agentName", agentInfo.CompanyName + " (" + agentInfo.firstName + " " + agentInfo.lastName + ")"));
+                    totaldata.Add(sobject);
+
                 }
-                while (psc != null);
-                sobject.Add(new KeyValuePair<string, object>("BasePnr", pnr));
-                sobject.Add(new KeyValuePair<string, object>("BaseBranch", bbranch));
-                sobject.Add(new KeyValuePair<string, object>("TotalSeats", beseat));
-                int idag = Convert.ToInt32(x.idAgent);
-                var agentInfo = db.Agent.Include(ag => ag.Person).Where(iag => iag.id_Agent == idag).Select(ags =>new { ags.Person.firstName, ags.Person.lastName, ags.CompanyName }).SingleOrDefault();
-                sobject.Add(new KeyValuePair<string, object>("agentName", agentInfo.CompanyName + " (" + agentInfo.firstName+" "+agentInfo.lastName+")"));
-                totaldata.Add(sobject);
-            });
-          
-            return JsonConvert.SerializeObject(totaldata);
+
+                return JsonConvert.SerializeObject(totaldata);
+            }
+            catch (Exception ex)
+            {
+
+                return ex.ToString() ;
+            }
+
+            return null;
         }
         public async Task<ActionResult> stockId()
         {

@@ -148,7 +148,7 @@ namespace UmarSeat.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+      
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             string dominanem = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
@@ -176,15 +176,17 @@ namespace UmarSeat.Controllers
                             tt.Add(Task.Factory.StartNew(() => {
                                 model.PersonInfo.userId = UserId;
                                 model.PersonInfo.branchName = "";
-                                db.Persons.Add(model.PersonInfo);
-                                db.SaveChanges();
+                                ApplicationDbContext db1 = new ApplicationDbContext();
+                                db1.Persons.Add(model.PersonInfo);
+                                db1.SaveChanges();
 
                                 var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
                                 um.AddToRole(UserId, Role.Administrator);
+                              
                             }));
                             tt.Add(Task.Factory.StartNew(() => {
-
-                                subscriptionPlan sp = db.SubscriptionPlan.Where(x => x.id_SubscriptionPlan == id_SubscriptionPlan).SingleOrDefault();
+                                ApplicationDbContext db1 = new ApplicationDbContext();
+                                subscriptionPlan sp = db1.SubscriptionPlan.Where(x => x.id_SubscriptionPlan == id_SubscriptionPlan).SingleOrDefault();
                                 if (sp != null)
                                 {
                                     DateTime startDate = DateTime.Now;
@@ -204,42 +206,40 @@ namespace UmarSeat.Controllers
                                     }
                                     sub.endDate = endDate;
                                     sub.SubscriptionStatus = SubscriptionStatus.Active;
-                                    db.Subscription.Add(sub);
-                                    db.SaveChanges();
+                                    db1.Subscription.Add(sub);
+                                    db1.SaveChanges();
 
-                                    user = db.Users.Where(x => x.Id == UserId).SingleOrDefault();
+                                    user = db1.Users.Where(x => x.Id == UserId).SingleOrDefault();
                                     if (user != null)
                                     {
                                         user.id_Subscription = sub.id_Subscription;
-                                        db.Entry(user).State = EntityState.Modified;
-                                        db.SaveChanges();
+                                        db1.Entry(user).State = EntityState.Modified;
+                                        db1.SaveChanges();
                                     }
 
-
+                                 
                                 }
 
 
 
                                
                             }));
-                            tt.Add(Task.Factory.StartNew(() => {
-                                if (Session["menulinks"] == null)
-                                {
-                                    menuList ml = new menuList();
-                                    Session["menulinks"] = ml.getLinks(user.Roles.ToList());
-                                }
-                            }));
-
-
-                            Session["access_token"] = await GetBearerToken(dominanem, model.UserName, model.Password);
-
+                        
+                          
 
                             await SignInAsync(user, isPersistent: false);
                             Task.WaitAll(tt.ToArray());
+
                             Session["idSubscription"] = user.id_Subscription;
                             Session["branchName"] = user.PersonInfo.First().branchName;
                             Session["userId"] = user.Id;
-
+                            if (Session["menulinks"] == null)
+                            {
+                                menuList ml = new menuList();
+                                Session["menulinks"] = ml.getLinks(user.Roles.ToList());
+                            }
+                            Session["access_token"] = await GetBearerToken(dominanem, model.UserName, model.Password);
+                            
 
                             return RedirectToAction("Index", "Home");
                         }
@@ -251,7 +251,8 @@ namespace UmarSeat.Controllers
                     catch (Exception ex)
                     {
 
-                        ModelState.AddModelError("UE", "Kindly Select Subscription Plan");
+                        throw ex;
+                        //ModelState.AddModelError("UE", "Kindly Select Subscription Plan");
                     }
                 }
                 else

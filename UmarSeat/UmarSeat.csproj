@@ -547,7 +547,13 @@
     <Content Include="Content\assets\img\profiles\avatar2x.jpg" />
     <Content Include="Content\assets\img\profiles\avatar_small.jpg" />
     <Content Include="Content\assets\img\profiles\avatar_small2x.jpg" />
+    <Content Include="Content\assets\js\calendar.js" />
+    <Content Include="Content\assets\js\calendarSeatSelling.js" />
+    <Content Include="Content\assets\js\calendarSeatSold.js" />
+    <Content Include="Content\assets\js\pages.calendar.js" />
+    <Content Include="Content\assets\js\pages.calendar.min.js" />
     <Content Include="Content\assets\js\pages.calendarSeatSelling.js" />
+    <Content Include="Content\assets\js\pages.calendarSeatsSold.js" />
     <Content Include="Content\assets\js\scripts.js" />
     <Content Include="Content\assets\plugins\alerts\sweet-alert.css" />
     <Content Include="Content\assets\plugins\alerts\sweet-alert.js" />
