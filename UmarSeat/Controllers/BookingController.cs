@@ -18,6 +18,8 @@ using System.Web.Script.Serialization;
 using System.Globalization;
 using System.Transactions;
 using System.Data.Entity.Infrastructure;
+using PagedList;
+using PagedList.Mvc;
 
 namespace UmarSeat.Controllers
 {
@@ -29,7 +31,7 @@ namespace UmarSeat.Controllers
         [CheckSessionOut]
         [AuthorizeRoles(Role.Administrator, Role.ReadBooking)]
         // GET: /Booking/
-        public async Task<ActionResult> Index(string pnr = "", string airline = "", string category = "", string recevingBranch = "", string stockId = "", string creationRange = "", string outboundRange = "", string timeLimitRange = "")
+        public async Task<ActionResult> Index(string pnr = "", string airline = "", string category = "", string recevingBranch = "", string stockId = "", string creationRange = "", string outboundRange = "", string timeLimitRange = "", int? page=1)
         {
             int idSubcription = Convert.ToInt32(Session["idSubscription"].ToString());
             SearchSeatModel sc = new SearchSeatModel();
@@ -41,22 +43,22 @@ namespace UmarSeat.Controllers
             sc.creationRange = creationRange;
             sc.outBoundRange = outboundRange;
             sc.timeLimitRange = timeLimitRange;
-            List<SeatConfirmation> list = null;
+            IPagedList<SeatConfirmation> list =null ;
 
             if(sc.pnrNumber !="" || sc.category != "" || sc.recevingBranch !="" || sc.stockId != "" || sc.creationRange !="" || sc.outBoundRange != "" || sc.timeLimitRange !="")
             {
                 if (string.IsNullOrEmpty(Session["branchName"].ToString()))
                 {
-                    list = filterdata(sc, db.SeatConfirmation.Where(x => x.newPnrNumber == null && idSubcription == x.id_Subscription).ToList());
+                    //list = filterdata(sc, db.SeatConfirmation.Where(x => x.newPnrNumber == null && idSubcription == x.id_Subscription).ToList());
                 }               
                 else
                 {
                     string sb = Session["branchName"].ToString();
-                    list = filterdata(sc, db.SeatConfirmation.Where(x => x.newPnrNumber == null && idSubcription == x.id_Subscription && x.recevingBranch == sb).ToList());
+                 //   list = filterdata(sc, db.SeatConfirmation.Where(x => x.newPnrNumber == null && idSubcription == x.id_Subscription && x.recevingBranch == sb).ToList());
                 }
-                decimal count = Convert.ToDecimal(list.Count.ToString());
+                decimal count = 0;// Convert.ToDecimal(list.Count.ToString());
                 decimal pages = 1;
-                ViewBag.pages = (int)Math.Ceiling(pages); ;
+                ViewBag.pages = 1;// (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
                 if (count > 0)
                 {
@@ -76,16 +78,16 @@ namespace UmarSeat.Controllers
             {
                 if (string.IsNullOrEmpty(Session["branchName"].ToString()))
                 {
-                    list = db.SeatConfirmation.Where(x => x.newPnrNumber == null && idSubcription == x.id_Subscription).ToList();
+                  list = db.SeatConfirmation.Where(x => x.newPnrNumber == null && idSubcription == x.id_Subscription).ToList().ToPagedList(page ?? 1, 5);
                 }
                 else
                 {
                     string sb = Session["branchName"].ToString();
-                    list =  db.SeatConfirmation.Where(x => x.newPnrNumber == null && idSubcription == x.id_Subscription && x.recevingBranch == sb).ToList();
+                   list =  db.SeatConfirmation.Where(x => x.newPnrNumber == null && idSubcription == x.id_Subscription && x.recevingBranch == sb).ToList().ToPagedList(page ?? 1, 5);
                 }
-                
-                decimal count = Convert.ToDecimal(list.ToList().Count.ToString());
-                list =  list.OrderByDescending(x => x.id_SeatConfirmation).Skip(5 * (1 - 1)).Take(5).ToList();
+
+                decimal count = 5;// Convert.ToDecimal(list.ToList().Count.ToString());
+              //  list =  list.OrderByDescending(x => x.id_SeatConfirmation).ToList().ToPagedList(page ?? 1,5);
                 decimal pages = count / 5;
                 ViewBag.pages = (int)Math.Ceiling(pages); ;
                 ViewBag.total = count;
@@ -956,10 +958,7 @@ namespace UmarSeat.Controllers
                         
                         errors.Add(new ResponseRequest() { isSuccess = false, Element = "outboundate", ErrorMessage = "Outbound date " + seatconfirmation.outBoundDate + " cannot be less than Inbound date " + seatconfirmation.inBoundDate });
                     }
-                    if(seatconfirmation.inBoundSector == seatconfirmation.outBoundSector)
-                    {
-                        errors.Add(new ResponseRequest() { isSuccess = false, Element = "inbounder", ErrorMessage = "Outbound Sector " + seatconfirmation.outBoundSector + " cannot be same as Inbound Sector " + seatconfirmation.inBoundSector });
-                    }
+                 
 
 
                     string br = Session["branchName"].ToString();

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<UmarSeat.Models.SeatConfirmation>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<UmarSeat.Models.SeatConfirmation>
 
 @{
     ViewBag.Title = "Index";
@@ -141,7 +143,10 @@
                 <div class="panel-body" id="dv1">
                     
                     @{Html.RenderPartial("_sclist", Model);}
-
+                    <div class="dataTables_wrapper  no-footer row">
+                        @Html.PagedListPager(Model, page => Url.Action("/Index", new { page }), new PagedListRenderOptions { UlElementClasses = null,  ContainerDivClasses = new List<String>() { "dataTables_paginate paging_bootstrap pagination" } })
+                    </div>
+                    
 
                 </div>
             </div>
