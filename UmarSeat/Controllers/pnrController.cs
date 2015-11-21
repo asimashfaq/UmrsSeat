@@ -347,11 +347,11 @@ namespace UmarSeat.Controllers
                 List<pnrLog> pnrList = new List<pnrLog>();
                 if (string.IsNullOrEmpty(br))
                 {
-                    pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year && x.idSubscription == idSubscription).ToList();
+                    pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year && x.idSubscription == idSubscription).OrderByDescending(x => x.pnrLogId).Take(10).ToList();
                 }
                 else
                 {
-                    pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year && x.branchName == br && x.idSubscription == idSubscription).ToList();
+                    pnrList = db1.pnrLogs.Where(x => x.createdAt.Year == DateTime.Now.Year && x.branchName == br && x.idSubscription == idSubscription).OrderByDescending(x => x.pnrLogId).Take(10).ToList();
                 }
                 pnrList.ForEach(x => {
                     db = new ApplicationDbContext();

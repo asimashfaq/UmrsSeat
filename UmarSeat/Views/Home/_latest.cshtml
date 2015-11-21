@@ -36,7 +36,8 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                        
+                        @String.Format("{0:yyyy-MM-dd hh:mm tt}", item.CreatedAt)
                     </td>
 
                 </tr>

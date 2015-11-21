@@ -97,55 +97,7 @@
 
     </table>
 </div>
-<div class="dataTables_wrapper form-inline no-footer">
-<div class="row">
-    <div class="dataTables_paginate paging_bootstrap pagination" id="table_paginate">
-        <ul>
 
-
-            @{
-                if (1 == int.Parse(ViewBag.current.ToString()))
-                {
-                    <li class="prev disabled"><a href="/pnr/getlog?length=@Html.Raw(ViewBag.length)&pagenum=1"><i class="pg-arrow_left"></i></a></li>
-                }
-                else
-                {
-                    <li class="prev"><a href="/pnr/getlog?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(ViewBag.prev)"><i class="pg-arrow_left"></i></a></li>
-                }
-                int pages = int.Parse(ViewBag.pages.ToString());
-                int st = 1;
-                while (st <= pages)
-                {
-                    if (st == int.Parse(ViewBag.current.ToString()))
-                    {
-                        <li class="active"><a href="/pnr/getlog?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(st)">@Html.Raw(st)</a></li>
-                    }
-                    else
-                    {
-                        <li><a href="/pnr/getlog?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(st)">@Html.Raw(st)</a></li>
-                    }
-
-                    st++;
-                }
-                if (pages == int.Parse(ViewBag.current.ToString()))
-                {
-                    <li class="next disabled"><a href="/pnr/getlog?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(pages)"><i class="pg-arrow_right"></i></a></li>
-                }
-                else
-                {
-                    <li class="next"><a href="/pnr/getlog?length=@Html.Raw(ViewBag.length)&pagenum=@Html.Raw(ViewBag.next)"><i class="pg-arrow_right"></i></a></li>
-                }
-
-            }
-
-
-        </ul>
-    </div>
-    <div class="dataTables_info" id="tableWithSearch_info" role="status" aria-live="polite">
-        Showing <b>@Html.Raw(ViewBag.start) to @Html.Raw(ViewBag.end)</b> of @Html.Raw(ViewBag.total) entries
-    </div>
-</div>
-</div>
 <div data-refresh="true" class="modal fade slide-up disable-scroll" id="modalSlideUp" tabindex="-1" role="dialog" aria-labelledby="modalSlideUpLabel" aria-hidden="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content-wrapper">

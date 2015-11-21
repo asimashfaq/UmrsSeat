@@ -608,7 +608,12 @@
        // $('#reportrange span,#reportrange2 span,#reportrange3 span,#reportrange4 span,#reportrange5 span').html("");
        // $('#outboundrange,#timelimitrange,#creationrange,#creationrange1,#daterange').val('');
 
-        $('.timet tr td:nth-child(4)').each(function (i) { var t = ($(this).text()); $(this).text(moment(t).fromNow()) })
+        $('.timet tr td:nth-child(4)').each(function (i) {
+            var t = ($(this).text());
+            var d = new Date(t);
+            t = moment(d);  
+            $(this).text(t.fromNow()) 
+        })
     });
 </script>
 

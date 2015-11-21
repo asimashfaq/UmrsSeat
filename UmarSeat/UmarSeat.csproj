@@ -494,6 +494,10 @@
     <Compile Include="Migrations\201509290451416_clientandrefresh.Designer.cs">
       <DependentUpon>201509290451416_clientandrefresh.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511130747236_syncdatabase.cs" />
+    <Compile Include="Migrations\201511130747236_syncdatabase.Designer.cs">
+      <DependentUpon>201511130747236_syncdatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Agents.cs" />
@@ -2061,6 +2065,9 @@
     <EmbeddedResource Include="Migrations\201509290451416_clientandrefresh.resx">
       <DependentUpon>201509290451416_clientandrefresh.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511130747236_syncdatabase.resx">
+      <DependentUpon>201511130747236_syncdatabase.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -2072,6 +2079,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\</OutputPath>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Optimize>true</Optimize>
+    <ErrorReport>none</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
